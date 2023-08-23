@@ -52,7 +52,7 @@ class PurchaseOrderController extends Controller
         $po->id_purchase_order = 'PO' . $kd;
         $po->id_mitra = $user;
         $po->tanggal = $request->tanggal;
-        $po->status = $request->status;
+        $po->status = 0;
 
         if ($request->hasFile('spk')) {
             $spk = $request->file('spk');

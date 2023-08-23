@@ -62,7 +62,7 @@ class MitraController extends Controller
             'alamat' => $request->alamat,
             'koordinat' => $request->koordinat,
             'logo' => $request->logo,
-            'status' => $request->status,
+            'status' => 0,
         ]);
 
         // dd($request);

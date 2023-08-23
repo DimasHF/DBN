@@ -27,7 +27,7 @@
                                 <th>
                                     <center>No</center>
                                 </th>
-                                <th style="display: none;">
+                                <th >
                                     <center>ID Pelanggan</center>
                                 </th>
                                 <th>
@@ -50,7 +50,7 @@
                                     <td>
                                         <center>{{ $no++ }}</center>
                                     </td>
-                                    <td style="display: none;">
+                                    <td >
                                         <center>{{ $t->id_pelanggan }}</center>
                                     </td>
                                     <td>
@@ -70,7 +70,7 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="/pelanggan/formedit/{{$t->id_pelanggan}}"
+                                            <a href="{{ route('edit.pelanggan', $t->id_pelanggan) }}"
                                                 class="btn btn-sm btn-info btn-icon-text edit">
                                                 Edit
                                                 <i class="ti-file btn-icon-append"></i>

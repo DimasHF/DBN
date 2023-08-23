@@ -55,7 +55,7 @@ class BarangController extends Controller
                 $barang->id_barang = $request->id_barang;
                 $barang->nama = $request->nama;
                 $barang->stok = $request->stok;
-                $barang->status = $request->status;
+                $barang->status = 1;
                 $barang->foto = 'images/' . $filename;
                 $barang->save();
 

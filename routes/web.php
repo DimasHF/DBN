@@ -40,6 +40,9 @@ Route::prefix('mitra')->group(function(){
     Route::get('/pelanggan', [App\Http\Controllers\PelangganController::class, 'index'])->name('mitra.pelanggan');
     Route::get('/pelanggan/add', [App\Http\Controllers\PelangganController::class, 'formadd'])->name('form.pelanggan');
     Route::post('/pelanggan/add', [App\Http\Controllers\PelangganController::class, 'add'])->name('tambah.pelanggan');
+    Route::get('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'show'])->name('edit.pelanggan');
+    Route::post('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'edit'])->name('proses.edit');
+
 });
 
 Route::prefix('staff')->group(function(){

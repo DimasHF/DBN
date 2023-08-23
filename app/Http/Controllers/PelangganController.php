@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function Laravel\Prompts\alert;
+
 class PelangganController extends Controller
 {
     //View Pelanggan
@@ -16,7 +18,7 @@ class PelangganController extends Controller
 
         if (Auth::guard('mitra')->check()) {
 
-            $pelanggan = Pelanggan::where('id_mitra', $mitra)->where('status', '=', '1')->get();
+            $pelanggan = Pelanggan::where('id_mitra', $mitra)->get();
         } elseif (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
 
             $pelanggan = Pelanggan::get();
@@ -66,13 +68,13 @@ class PelangganController extends Controller
         $pel->email = $request->email;
         $pel->nik = $request->nik;
         $pel->npwp = $request->npwp;
-        $pel->status = $request->status;
+        $pel->status = 1;
         $pel->save();
 
         //dd($pel);
 
         //View Alert
-        return redirect('/mitra/pelanggan')->with('alert', 'Produk Baru Berhasil Ditambahkan');
+        return redirect('/mitra/pelanggan')->with('alert', 'Pelanggan Baru Berhasil Ditambahkan');
     }
 
     //View Data Pelanggan Semua Mitra
@@ -93,20 +95,24 @@ class PelangganController extends Controller
     //View Edit
     public function show($id_pelanggan)
     {
-        $pelanggan = Pelanggan::find($id_pelanggan);
-        return response()->json($pelanggan);
+        //dd($id_pelanggan);
+        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->get();
+        return view('Pelanggan.edit', ['pelanggan' => $pelanggan]);
     }
 
     //Edit Pelanggan
-    public function edit(Request $request)
+    public function edit(Request $request, $id_pelanggan)
     {
-        //Update
-        Pelanggan::updateOrCreate(
-            ['id_pelanggan' => $request->id_pelanggan],
-            ['id_layanan' => $request->id_layanan, 'nama' => $request->nama, 'alamat' => $request->alamat, 'no_telp' => $request->no_telp, 'email' => $request->email, 'nik' => $request->nik, 'npwp' => $request->npwp]
-        );
+        Pelanggan::where('id_pelanggan', $id_pelanggan)->update([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'no_telp' => $request->no_telp,
+            'email' => $request->email,
+            'nik' => $request->nik,
+            'npwp' => $request->npwp,
+        ]);
 
-        return response()->json(['success' => true, 'message' => 'Data Pelanggan Diubah'], 200);
+        return redirect('/mitra/pelanggan')->with('alert', 'Pelanggan Berhasil Diupdate');
     }
 
     //Status Pelanggan

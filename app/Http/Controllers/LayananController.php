@@ -49,7 +49,7 @@ class LayananController extends Controller
                 $layanan->nama = $request->nama;
                 $layanan->harga = $request->harga;
                 $layanan->badwidth = $request->badwidth;
-                $layanan->status = $request->status;
+                $layanan->status = 1;
                 $layanan->save();
 
                 //View Alert

@@ -98,7 +98,7 @@ class LaypelController extends Controller
             $lay->id_layanan = $request->id_layanan;
             $lay->tanggal = $request->tanggal;
             $lay->pajak = $request->pajak;
-            $lay->status = $request->status;
+            $lay->status = 0;
             //dd($lay);
             $lay->save();
 

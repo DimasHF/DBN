@@ -45,10 +45,10 @@ class StaffController extends Controller
             'nama' => $request->nama,
             'username' => $request->username,
             'password' => bcrypt($request->password),
-            // 'email' => $request->email,
-            // 'alamat' => $request->alamat,
-            // 'no_telp' => $request->no_telp,
-            // 'status' => $request->status,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'no_telp' => $request->no_telp,
+            'status' => 1,
         ]);
 
         return redirect('/staff')->with('alert', 'Registrasi Berhasil');

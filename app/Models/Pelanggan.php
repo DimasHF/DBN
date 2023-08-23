@@ -22,6 +22,7 @@ class Pelanggan extends Model
     ];
 
     protected $primaryKey = 'id_pelanggan';
+    public $incrementing = false;
 
     public function mitra()
     {

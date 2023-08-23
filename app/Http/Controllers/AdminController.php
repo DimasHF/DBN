@@ -46,8 +46,8 @@ class AdminController extends Controller
             'nama' => $request->nama,
             'username' => $request->username,
             'password' => bcrypt($request->password),
-            // 'email' => $request->email,
-            // 'status' => $request->status,
+            'email' => $request->email,
+            'status' => 1,
         ]);
 
         return redirect('/admin')->with('alert', 'Registrasi Berhasil');
