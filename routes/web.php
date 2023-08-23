@@ -43,6 +43,17 @@ Route::prefix('mitra')->group(function(){
     Route::get('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'show'])->name('edit.pelanggan');
     Route::post('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'edit'])->name('proses.edit');
 
+    Route::get('/barang', [App\Http\Controllers\BarangController::class, 'index'])->name('mitra.barang');
+    Route::get('/barang/add', [App\Http\Controllers\BarangController::class, 'formadd'])->name('form.barang');
+
+    Route::get('/po', [App\Http\Controllers\PurchaseOrderController::class, 'po'])->name('mitra.po');
+
+    Route::get('/pinjaman', [App\Http\Controllers\PinjamanController::class, 'index'])->name('mitra.pinjaman');
+
+    Route::get('/layanan', [App\Http\Controllers\LayananController::class, 'index'])->name('mitra.layanan');
+    Route::get('/layanan/add', [App\Http\Controllers\LayananController::class, 'formadd'])->name('form.layanan');
+    Route::post('/layanan/add', [App\Http\Controllers\LayananController::class, 'add'])->name('tambah.layanan');
+
 });
 
 Route::prefix('staff')->group(function(){
