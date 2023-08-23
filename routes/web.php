@@ -58,6 +58,8 @@ Route::prefix('mitra')->group(function(){
     Route::get('/layanan/add', [App\Http\Controllers\LayananController::class, 'formadd'])->name('mitra.form.layanan');
     Route::post('/layanan/add', [App\Http\Controllers\LayananController::class, 'add'])->name('mitra.tambah.layanan');
 
+    Route::get('/laypel', [App\Http\Controllers\LaypelController::class, 'index'])->name('mitra.laypel');
+
 });
 
 Route::prefix('staff')->group(function(){
