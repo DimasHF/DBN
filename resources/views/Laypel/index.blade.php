@@ -3,26 +3,25 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tambah Layanan Baru</h4>
+                <h4 class="card-title">Tambah Layanan</h4>
                 <p class="card-description">
-                    Form Layanan Baru
+                    Form Produk Baru
                 </p>
-                <form class="forms-sample" method="post" action="{{route('mitra.tambah.layanan')}}" enctype="multipart/form-data">
+                <form class="forms-sample" method="post" action="{{route('mitra.tambah.pelanggan')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="nama">Nama Layanan</label>
-                        <input type="text" class="form-control" id="nama" name="nama"
-                            placeholder="Nama Pelanggan">
+                        <label for="nama">Pilih Layanan</label>
+                        <select class="form-control form-control-sm" aria-label="Default select example" id="nama" name="nama">
+                            <option selected disabled>Pilih</option>
+                            <option value="1">Layanan 1</option>
+                            <option value="2">Layanan 2</option>
+                            <option value="3">Layanan 3</option>
+                          </select>
                     </div>
                     <div class="form-group">
-                        <label for="bandwidth">Bandwidth</label>
-                        <input type="text" class="form-control" id="bandwidth" name="bandwidth"
-                            placeholder="Bandwidth">
-                    </div>
-                    <div class="form-group">
-                        <label for="harga">Harga</label>
-                        <input type="text" class="form-control" id="harga" name="harga"
-                            placeholder="Harga">
+                        <label for="deskripsi">Deskripsi</label>
+                        <input type="text" class="form-control form-control-lg" id="deskripsi" name="deskripsi"
+                            placeholder="Deskripsi layanan">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <input type="reset" class="btn btn-light" value="Reset">

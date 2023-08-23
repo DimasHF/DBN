@@ -160,7 +160,7 @@
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item"> <a class="nav-link" href="{{ route('mitra.pelanggan') }}">List Pelanggan</a>
                                     </li>
-                                    <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a>
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('mitra.layanan') }}">List Layanan</a>
                                     </li>
                                 </ul>
                             </div>
