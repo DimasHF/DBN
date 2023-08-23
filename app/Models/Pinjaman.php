@@ -17,6 +17,7 @@ class Pinjaman extends Model
     ];
 
     protected $primaryKey = 'id_pinjaman';
+    public $incrementing = false;
 
     public function mitra()
     {

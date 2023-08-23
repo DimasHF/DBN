@@ -24,22 +24,28 @@ class PelangganController extends Controller
             $pelanggan = Pelanggan::get();
         }
 
-        $autoId = DB::table('pelanggans')->select(DB::raw('MAX(RIGHT(id_pelanggan,5)) as autoId'));
-        $kd = "";
-        if ($autoId->count() > 0) {
-            foreach ($autoId->get() as $a) {
-                $tmp = ((int)$a->autoId) + 1;
-                $kd = sprintf("%05s", $tmp);
-            }
-        } else {
-            $kd = "00001";
+        return view('Pelanggan.index', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
+    }
+
+    //View Pelanggan
+    public function aktif()
+    {
+        $mitra = Auth::guard('mitra')->user()->id_mitra;
+
+        if (Auth::guard('mitra')->check()) {
+
+            $pelanggan = Pelanggan::where('id_mitra', $mitra)->get();
+        } elseif (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
+
+            $pelanggan = Pelanggan::get();
         }
 
-        return view('Pelanggan.index', ['pelanggan' => $pelanggan, 'kd' => $kd, 'mitra' => $mitra]);
+        return view('Pelanggan.aktif', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
     }
 
     //Form Add
-    public function formadd(){
+    public function formadd()
+    {
         return view('Pelanggan.tambah');
     }
 

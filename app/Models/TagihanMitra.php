@@ -17,5 +17,6 @@ class TagihanMitra extends Model
     ];
 
     protected $primaryKey = 'id_tagmit';
+    public $incrementing = false;
 
 }

@@ -17,5 +17,6 @@ class Barang extends Model
     ];
 
     protected $primaryKey = 'id_barang';
+    public $incrementing = false;
     
 }

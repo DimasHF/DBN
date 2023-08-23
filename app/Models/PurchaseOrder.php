@@ -20,6 +20,7 @@ class PurchaseOrder extends Model
     ];
 
     protected $primaryKey = 'id_purchase_order';
+    public $incrementing = false;
 
     public function mitra()
     {

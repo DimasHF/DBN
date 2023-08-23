@@ -19,4 +19,6 @@ class Layanan extends Model
     ];
 
     protected $primaryKey = 'id_layanan';
+    public $incrementing = false;
+
 }

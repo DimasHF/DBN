@@ -19,7 +19,8 @@ class Laypel extends Model
     ];
 
     protected $primaryKey = 'id_laypel';
-
+    public $incrementing = false;
+    
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id_pelanggan');

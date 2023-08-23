@@ -7,8 +7,13 @@
                 <p class="card-description">
                     Form Barang Baru
                 </p>
-                <form class="forms-sample" method="post" action="#" enctype="multipart/form-data">
+                <form class="forms-sample" method="post" action="{{route('admin.tambah.barang')}}" enctype="multipart/form-data">
                     @csrf
+                    <div class="form-group">
+                        <label for="nama">ID Barang</label>
+                        <input type="text" class="form-control" id="id_barang" name="id_barang"
+                            placeholder="Nama Pelanggan" value="{{'B'.$kd}}">
+                    </div>
                     <div class="form-group">
                         <label for="nama">Nama Barang</label>
                         <input type="text" class="form-control" id="nama" name="nama"

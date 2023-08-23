@@ -114,6 +114,12 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.barang')}}">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Kelola Barang</span>
+                        </a>
+                    </li>
                     @elseif(auth()->guard('mitra')->check())
                     <li class="nav-header">Mitra</li>
                     <li class="nav-item">
@@ -138,7 +144,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/po">
+                            <a class="nav-link" href="{{route('mitra.pinjaman')}}">
                                 <i class="icon-layout menu-icon"></i>
                                 <span class="menu-title">Peminjaman Barang</span>
                             </a>

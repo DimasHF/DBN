@@ -9,7 +9,7 @@
                     </div>
                     <!--Button Modal-->
                     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" class="btn btn-primary" href="{{ route('form.barang') }}">Tambahkan Barang</a>
+                        <a type="button" class="btn btn-primary" href="{{ route('admin.form.barang') }}">Tambahkan Barang</a>
                     </div>
                 </div>
             </div>

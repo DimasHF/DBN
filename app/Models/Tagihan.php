@@ -18,6 +18,7 @@ class Tagihan extends Model
     ];
 
     protected $primaryKey = 'id_tagihan';
+    public $incrementing = false;
 
     public function laypel()
     {

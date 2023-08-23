@@ -9,7 +9,8 @@
                     </div>
                     <!--Button Modal-->
                     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" class="btn btn-primary" href="{{ route('mitra.form.pelanggan') }}">Tambahkan Pelanggan</a>
+                        <a type="button" class="btn btn-primary" href="{{ route('mitra.form.pelanggan') }}">Tambahkan
+                            Pelanggan</a>
                     </div>
                 </div>
             </div>
@@ -27,14 +28,14 @@
                                 <th>
                                     <center>No</center>
                                 </th>
-                                <th style="display: none;">
+                                <th>
                                     <center>ID Pelanggan</center>
                                 </th>
                                 <th>
                                     <center>Nama Pelanggan</center>
                                 </th>
                                 <th>
-                                    <center>Status</center>
+                                    <center>Kirim Pesan</center>
                                 </th>
                                 <th>
                                     <center>Action</center>
@@ -50,7 +51,7 @@
                                     <td>
                                         <center>{{ $no++ }}</center>
                                     </td>
-                                    <td style="display: none;">
+                                    <td>
                                         <center>{{ $t->id_pelanggan }}</center>
                                     </td>
                                     <td>
@@ -58,14 +59,9 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 1)
-                                                <a href="/status/0/{{ $t->id_pelanggan }}">
-                                                    <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
-                                                </a>
-                                            @elseif ($t->status == 0)
-                                                <a href=" /status/1/{{ $t->id_pelanggan }}"><span
-                                                        class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
-                                            @endif
+                                            <a href="https://api.whatsapp.com/send?phone={{$t->no_telp}}&text=Halo%20ada%20yang%20bisa%20saya%20bantu?" target="_blank">
+                                                <span class="btn btn-sm btn-success btn-icon-text">Pesan</span>
+                                            </a>
                                         </center>
                                     </td>
                                     <td>

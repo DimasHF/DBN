@@ -16,6 +16,7 @@ class Rekap extends Model
     ];
 
     protected $primaryKey = 'id_rekap';
+    public $incrementing = false;
 
     public function tagihan()
     {

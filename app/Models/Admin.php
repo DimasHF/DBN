@@ -23,4 +23,6 @@ class Admin extends Authenticatable
     ];
 
     protected $primaryKey = 'id_admin';
+    public $incrementing = false;
+
 }

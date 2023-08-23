@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Email">
+                                        placeholder="Email" name="email">
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">

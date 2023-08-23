@@ -29,6 +29,7 @@ class Mitra extends Authenticatable
     ];
 
     protected $primaryKey = 'id_mitra';
+    public $incrementing = false;
 
     public function pelanggan()
     {

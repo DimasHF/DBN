@@ -37,7 +37,7 @@
                                     <center>Bandwidth</center>
                                 </th>
                                 <th>
-                                    <center>harga</center>
+                                    <center>Harga</center>
                                 </th>
                                 <th>
                                     <center>Status</center>

@@ -24,4 +24,6 @@ class Staff extends Authenticatable
     ];
 
     protected $primaryKey = 'id_staff';
+    public $incrementing = false;
+    
 }

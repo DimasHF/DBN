@@ -40,9 +40,20 @@ class AdminController extends Controller
     //Register Admin
     public function regadmin(Request $request)
     {
+        $autoId = DB::table('admins')->select(DB::raw('MAX(RIGHT(id_admin,2)) as autoId'));
+        $kd = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kd = sprintf("%02s", $tmp);
+            }
+        } else {
+            $kd = "01";
+        }
+
         //Create Table
         Admin::create([
-            'id_admin' => $request->id_admin,
+            'id_admin' => 'A'.$kd,
             'nama' => $request->nama,
             'username' => $request->username,
             'password' => bcrypt($request->password),

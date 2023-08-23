@@ -38,7 +38,7 @@ class PinjamanController extends Controller
 
         $response = array();
         foreach ($cari as $suppli) {
-            $response[] = array("value" => $suppli->nama, "id_barang" => $suppli->id_barang, "stok" => $suppli->stok, "status" => $suppli->status);
+            $response[] = array("value" => $suppli->nama, "label1" => $suppli->id_barang, "label2" => $suppli->stok, "status" => $suppli->status);
         }
 
         return response()->json($response);
@@ -47,7 +47,7 @@ class PinjamanController extends Controller
     //View Data Barang Untuk Dipinjam
     public function pinjam(Request $request)
     {
-        $autoId = DB::table('pinjamans')->select(DB::raw('MAX(RIGHT(id_pinjaman,4)) as autoId'));
+        $autoId = DB::table('pinjamen')->select(DB::raw('MAX(RIGHT(id_pinjaman,4)) as autoId'));
         $kd = "";
         if ($autoId->count() > 0) {
             foreach ($autoId->get() as $a) {
@@ -66,17 +66,10 @@ class PinjamanController extends Controller
         } else {
             //Berhasil
             $count = count($request->nomor);
-            
-            $pinjam = new Pinjaman;
-            $pinjam->id_pinjaman = 'PIN'.$kd;
-            $pinjam->id_mitra = $user;
-            $pinjam->tanggal = $request->tanggal;
-            //dd($pinjam);
-            $pinjam->save();
 
             for ($i = 0; $i < $count; $i++) {
                 $detail = new DetailPinjam;
-                $detail->id_pinjaman = 'PIN'.$kd[$i];
+                $detail->id_pinjaman = ('PIN' . $kd);
                 $detail->id_barang = $request->id_barang[$i];
                 $detail->jumlah = $request->jumlah[$i];
 
@@ -85,14 +78,22 @@ class PinjamanController extends Controller
 
                 $find = $detail->id_barang;
                 $barang = Barang::where('id_barang', $find)->first();
-                $jumlahin = ((float)($barang->stok)) + ((float)($detail->jumlah));
+                $jumlahin = ((float)($barang->stok)) -  ((float)($detail->jumlah));
                 $barang->stok = $jumlahin;
 
                 //dd($jumlahin);
                 $barang->save();
             }
+
+            $pinjam = new Pinjaman;
+            $pinjam->id_pinjaman = ('PIN' . $kd);
+            $pinjam->id_mitra = $user;
+            $pinjam->tanggal = $request->tanggal;
+            $pinjam->status = '0';
+            //dd($pinjam);
+            $pinjam->save();
         }
 
-        return view('Barang.pinjam');
+        return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
     }
 }

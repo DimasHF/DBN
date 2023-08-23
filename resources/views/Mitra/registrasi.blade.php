@@ -51,11 +51,11 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="no_telp" class="form-control form-control-lg" id="no_telp"
-                                        placeholder="Masukkan No. Telp">
+                                        placeholder="Masukkan No. Telp" onkeypress="return hanyaAngka(event)">
                                 </div>
                                 <div class="form-group">
                                     <input type="nik" class="form-control form-control-lg" id="nik"
-                                        placeholder="Masukkan NIK">
+                                        placeholder="Masukkan NIK" onkeypress="return hanyaAngka(event)">
                                 </div>
                                 <div class="form-group">
                                     <input type="npwp" class="form-control form-control-lg" id="npwp"
@@ -112,6 +112,15 @@
     <script src="{{ asset('assets/js/settings.js') }}"></script>
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     <!-- endinject -->
+    <script>
+        function hanyaAngka(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+
+                return false;
+            return true;
+        }
+    </script>
 </body>
 
 </html>

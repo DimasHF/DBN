@@ -11,6 +11,13 @@ class BarangController extends Controller
     //View Barang
     public function index()
     {
+        $barang = Barang::all();
+        return view('Barang.index', ['barang' => $barang]);
+    }
+
+    //Form Add
+    public function formadd()
+    {
         $autoId = DB::table('barangs')->select(DB::raw('MAX(RIGHT(id_barang,3)) as autoId'));
         $kd = "";
         if ($autoId->count() > 0) {
@@ -22,52 +29,33 @@ class BarangController extends Controller
             $kd = "001";
         }
 
-        $barang = Barang::all();
-        return view('Barang.index', ['barang' => $barang, 'kd' => $kd]);
-    }
-
-    //Form Add
-    public function formadd(){
-        return view('Barang.tambah');
+        return view('Barang.tambah', ['kd' => $kd]);
     }
 
     //Tambah Barang
     public function add(Request $request)
     {
-        //Validasi
-        if ($request->ajax()) {
-            $validator = Validator($request->all(), [
-                'id_barang' => 'required|unique', 'nama' => 'required', 'stok' => 'required', 'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
-            //Gagal
-            if ($validator->fails()) {
-                return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
-            }
-            //Berhasil
-            else {
 
-                // Get the uploaded image
-                $image = $request->file('foto');
+        // // Get the uploaded image
+        // $image = $request->file('foto');
 
-                // Generate a unique file name for the image
-                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        // // Generate a unique file name for the image
+        // $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
 
-                // Move the uploaded image to the desired location
-                $image->move(('images'), $filename);
+        // // Move the uploaded image to the desired location
+        // $image->move(('images'), $filename);
 
-                //Save
-                $barang = new Barang;
-                $barang->id_barang = $request->id_barang;
-                $barang->nama = $request->nama;
-                $barang->stok = $request->stok;
-                $barang->status = 1;
-                $barang->foto = 'images/' . $filename;
-                $barang->save();
+        //Save
+        $barang = new Barang;
+        $barang->id_barang = $request->id_barang;
+        $barang->nama = $request->nama;
+        $barang->stok = $request->stok;
+        $barang->status = 1;
+        // $barang->foto = 'images/' . $filename;
+        $barang->save();
 
-                //View Alert
-                return response()->json(['success' => true, 'message' => 'Barang Baru Telah Ditambahkan'], 200);
-            }
-        }
+        //View Alert
+        return redirect('/admin/barang')->with('alert', 'Barang Baru Berhasil Ditambahkan');
     }
 
     //View Edit
