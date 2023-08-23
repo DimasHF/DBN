@@ -70,7 +70,7 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <a onclick="javascript:void(0)" data-id="{{ $t->id_pelanggan }}"
+                                            <a href="/pelanggan/formedit/{{$t->id_pelanggan}}"
                                                 class="btn btn-sm btn-info btn-icon-text edit">
                                                 Edit
                                                 <i class="ti-file btn-icon-append"></i>
@@ -97,63 +97,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#modal').click(function() {
-                    $('#addTodoModal').modal('show');
-                    $('#ver').val("0");
-                });
-                $('#tambah').click(function() {
-
-                    let nama = $('#nama').val();
-                    let alamat = $('#alamat').val();
-                    let email = $('#email').val();
-                    let npwp = $('#npwp').val();
-                    let nik = $('#nik').val();
-                    var ver = $('#ver').val();
-
-                    if (nama != "" && alamat != "" && email != "" && npwp != "" && nik != "" && ver ==
-                        "0") {
-                        $.ajax({
-                            url: "/mitra/pelanggan/add",
-                            type: "POST",
-                            data: {
-                                _token: $("#csrf").val(),
-                                nama: nama,
-                                alamat: alamat,
-                                email: email,
-                                npwp: npwp,
-                                nik: nik,
-                            },
-                            success: function(data) {
-                                if (data)
-                                    alert(data.message);
-                                window.location = "/mitra";
-
-                                $('#nama').val("");
-                                $('#alamat').val("");
-                                $('#email').val("");
-                                $('#npwp').val("");
-                                $('#nik').val("");
-
-
-                            },
-                            error: function(response) {
-                                let data = response.responseJSON.error;
-                                $.each(data, function(key, value) {
-                                    alert(key.message);
-                                });
-                                // alert(request.message);
-                            }
-                        });
-                    } else {
-                        alert('Lengkapi isian data !');
-                    }
-                });
-
-            });
-        </script>
-
         <script>
             function hanyaAngka(event) {
                 var angka = (event.which) ? event.which : event.keyCode

@@ -90,7 +90,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.pelanggan')}}">
+                        <a class="nav-link" href="/">
                             <i class="icon-layout menu-icon"></i>
                             <span class="menu-title">Pelanggan Aktif</span>
                         </a>
@@ -99,7 +99,7 @@
                         <a class="nav-link" data-toggle="collapse" href="#list" aria-expanded="false"
                             aria-controls="list">
                             <i class="icon-columns menu-icon"></i>
-                            <span class="menu-title">Data</span>
+                            <span class="menu-title">List</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="list">
@@ -138,15 +138,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#list" aria-expanded="false"
-                            aria-controls="list">
+                        <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
+                            aria-controls="mitra">
                             <i class="icon-columns menu-icon"></i>
                             <span class="menu-title">Data</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="list">
+                        <div class="collapse" id="mitra">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{route('mitra.pelanggan')}}">List Pelanggan</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="/">List Pelanggan</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a></li>
                             </ul>
                         </div>
@@ -160,15 +160,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#list" aria-expanded="false"
-                            aria-controls="list">
+                        <a class="nav-link" data-toggle="collapse" href="#staff" aria-expanded="false"
+                            aria-controls="staff">
                             <i class="icon-columns menu-icon"></i>
                             <span class="menu-title">Data</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="list">
+                        <div class="collapse" id="staff">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{route('staff.pelanggan')}}">List Pelanggan</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="/">List Pelanggan</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
                             </ul>
