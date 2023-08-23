@@ -18,6 +18,11 @@ class LayananController extends Controller
         return view('Layanan.index', ['layanan' => $layanan]);
     }
 
+    //Form Add
+    public function formadd(){
+        return view('Layanan.tambah');
+    }
+
     //Tambah Layanan
     public function add(Request $request)
     {

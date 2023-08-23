@@ -26,6 +26,11 @@ class BarangController extends Controller
         return view('Barang.index', ['barang' => $barang, 'kd' => $kd]);
     }
 
+    //Form Add
+    public function formadd(){
+        return view('Barang.tambah');
+    }
+
     //Tambah Barang
     public function add(Request $request)
     {
