@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group">
                         <label for="harga">Harga</label>
-                        <input type="text" class="form-control" id="harga" name="harga"
+                        <input type="number" class="form-control" id="harga" name="harga"
                             placeholder="Harga">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>

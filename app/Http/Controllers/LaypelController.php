@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laypel;
+use App\Models\Tagihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -93,7 +94,7 @@ class LaypelController extends Controller
         } else {
             //Berhasil
             $lay = new Laypel;
-            $lay->id_laypel = 'LP' . date('Y-m-d') . $kd;
+            $lay->id_laypel = ('LP' . date('Y-m-d') . $kd);
             $lay->id_pelanggan = $request->id_pelanggan;
             $lay->id_layanan = $request->id_layanan;
             $lay->tanggal = $request->tanggal;
@@ -101,6 +102,18 @@ class LaypelController extends Controller
             $lay->status = 0;
             //dd($lay);
             $lay->save();
+
+            //Tagihan
+            $tagihan = new Tagihan;
+            $tagihan->id_tagihan = 'TAG' . date('Y-m-d') . $kd;
+            $tagihan->id_laypel = $lay->id_laypel;
+            $tagihan->tanggal = $request->tanggal;
+            $tagihan->pajak = $request->pajak;
+            $tagihan->status = 0;
+            $tagihan->save();
+
+            //View Alert
+            return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Ditambahkan');
         }
 
         return view('Laypel.index');

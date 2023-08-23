@@ -19,7 +19,8 @@ class LayananController extends Controller
     }
 
     //Form Add
-    public function formadd(){
+    public function formadd()
+    {
         return view('Layanan.tambah');
     }
 
@@ -39,28 +40,17 @@ class LayananController extends Controller
 
         $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-        //Validasi
-        if ($request->ajax()) {
-            $validator = Validator($request->all(), ['id_layanan' => 'required|unique', 'nama' => 'required', 'harga' => 'required', 'badwidth' => 'required']);
-            //Gagal
-            if ($validator->fails()) {
-                return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
-            }
-            //Berhasil
-            else {
-                $layanan = new Layanan;
-                $layanan->id_layanan = 'LY'.$kd;
-                $layanan->id_mitra = $mitra;
-                $layanan->nama = $request->nama;
-                $layanan->harga = $request->harga;
-                $layanan->badwidth = $request->badwidth;
-                $layanan->status = 1;
-                $layanan->save();
+        $layanan = new Layanan;
+        $layanan->id_layanan = ('LY' . $kd);
+        $layanan->id_mitra = $mitra;
+        $layanan->nama = $request->nama;
+        $layanan->harga = $request->harga;
+        $layanan->bandwidth = $request->bandwidth;
+        $layanan->status = 1;
+        $layanan->save();
 
-                //View Alert
-                return response()->json(['success' => true, 'message' => 'Layanan Baru Telah Ditambahkan'], 200);
-            }
-        }
+        //View Alert
+        return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Ditambahkan');
     }
 
     //View Edit
