@@ -7,7 +7,7 @@
                 <p class="card-description">
                     Form Produk Baru
                 </p>
-                <form class="forms-sample" method="post" action="{{route('tambah.pelanggan')}}" enctype="multipart/form-data">
+                <form class="forms-sample" method="post" action="{{route('mitra.tambah.pelanggan')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="nama">Nama Pelanggan</label>

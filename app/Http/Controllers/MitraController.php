@@ -67,7 +67,7 @@ class MitraController extends Controller
 
         // dd($request);
         //Return Views
-        return redirect('/mitra')->with('alert', 'Akun Mitra Berhasil Dibuat');
+        return redirect('/mitra/login')->with('alert', 'Akun Mitra Berhasil Dibuat');
     }
 
     //View login Mitra

@@ -16,35 +16,6 @@ class LaypelController extends Controller
     }
 
     //Layanan Pelanggan
-    public function layanan(Request $request)
-    {
-        $mitra = Auth::guard('mitra')->user()->id_mitra;
-        $search = $request->search;
-
-        if ($search == '') {
-            $cari = DB::table('layanans')->orderBy('nama', 'asc')
-                ->select('layanans')
-                ->where('id_mitra', '=', $mitra)
-                ->where('status', '=', '1')
-                ->get();
-        } else {
-            $cari = DB::table('layanans')->orderBy('nama', 'asc')
-                ->select('id_barang', 'nama', 'stok', 'status')
-                ->where('id_mitra', '=', $mitra)
-                ->where('status', '=', '1')
-                ->where('nama', 'like', '%' . $search . '%')
-                ->get();
-        }
-
-        $response = array();
-        foreach ($cari as $layanan) {
-            $response[] = array("layanan" => $layanan->layanan);
-        }
-
-        return response()->json($response);
-    }
-
-    //Search Pelanggan
     public function pelanggan(Request $request)
     {
         $mitra = Auth::guard('mitra')->user()->id_mitra;
@@ -52,13 +23,42 @@ class LaypelController extends Controller
 
         if ($search == '') {
             $cari = DB::table('pelanggans')->orderBy('nama', 'asc')
-                ->select('*')
+                ->select('pelanggans.*')
                 ->where('id_mitra', '=', $mitra)
                 ->where('status', '=', '1')
                 ->get();
         } else {
             $cari = DB::table('pelanggans')->orderBy('nama', 'asc')
-                ->select('*')
+                ->select('pelanggans.*')
+                ->where('id_mitra', '=', $mitra)
+                ->where('status', '=', '1')
+                ->where('nama', 'like', '%' . $search . '%')
+                ->get();
+        }
+
+        $response = array();
+        foreach ($cari as $pelanggan) {
+            $response[] = array("pelanggan" => $pelanggan->pelanggan);
+        }
+
+        return response()->json($response);
+    }
+
+    //Search Layanan
+    public function layanan(Request $request)
+    {
+        $mitra = Auth::guard('mitra')->user()->id_mitra;
+        $search = $request->search;
+
+        if ($search == '') {
+            $cari = DB::table('layanans')->orderBy('nama', 'asc')
+                ->select('layanans.*')
+                ->where('id_mitra', '=', $mitra)
+                ->where('status', '=', '1')
+                ->get();
+        } else {
+            $cari = DB::table('layanans')->orderBy('nama', 'asc')
+                ->select('layanans.*')
                 ->where('id_mitra', '=', $mitra)
                 ->where('status', '=', '1')
                 ->where('nama', 'like', '%' . $search . '%')
@@ -67,14 +67,14 @@ class LaypelController extends Controller
 
         $response = array();
         foreach ($cari as $suppli) {
-            $response[] = array("value" => $suppli->nama, "id_barang" => $suppli->id_barang, "stok" => $suppli->stok, "status" => $suppli->status);
+            $response[] = array("value" => $suppli->nama, "id_layanan" => $suppli->id_layanan, "harga" => $suppli->harga, "bandwidth" => $suppli->bandwidth);
         }
 
         return response()->json($response);
     }
 
     //View Data Barang Untuk Dipinjam
-    public function pinjam(Request $request)
+    public function laypel(Request $request)
     {
         $autoId = DB::table('laypels')->select(DB::raw('MAX(RIGHT(id_laypel,4)) as autoId'));
         $kd = "";
@@ -101,7 +101,6 @@ class LaypelController extends Controller
             $lay->status = 0;
             //dd($lay);
             $lay->save();
-
         }
 
         return view('Laypel.index');

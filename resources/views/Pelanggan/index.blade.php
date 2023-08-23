@@ -9,7 +9,7 @@
                     </div>
                     <!--Button Modal-->
                     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" class="btn btn-primary" href="{{ route('form.pelanggan') }}">Tambahkan Pelanggan</a>
+                        <a type="button" class="btn btn-primary" href="{{ route('mitra.form.pelanggan') }}">Tambahkan Pelanggan</a>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="{{ route('edit.pelanggan', $t->id_pelanggan) }}"
+                                            <a href="{{ route('mitra.edit.pelanggan', $t->id_pelanggan) }}"
                                                 class="btn btn-sm btn-info btn-icon-text edit">
                                                 Edit
                                                 <i class="ti-file btn-icon-append"></i>

@@ -8,7 +8,7 @@
                     Form Edit Pelanggan
                 </p>
                 @foreach ($pelanggan as $p)
-                    <form class="forms-sample" method="post" action="{{route('proses.edit', $p->id_pelanggan)}}">
+                    <form class="forms-sample" method="post" action="{{route('mitra.proses.edit', $p->id_pelanggan)}}">
                         @csrf
                         <div class="form-group">
                             <label for="id_Pelanggan">ID Pelanggan</label>

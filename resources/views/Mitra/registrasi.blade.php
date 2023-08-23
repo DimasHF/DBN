@@ -31,47 +31,47 @@
                             </div>
                             <h4>New here?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                            <form class="pt-3" action="{{route('mitra.regmitra')}}" method="POST">
+                            <form class="pt-3" action="{{ route('mitra.regmitra') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
-                                        id="nama" placeholder="nama">
+                                        id="nama" placeholder="Masukkan Nama">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="username"
-                                        id="username" placeholder="Username">
+                                        id="username" placeholder="Masukkan Username">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password"
-                                        id="password" placeholder="password">
+                                        id="password" placeholder="Masukkan Password">
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Email">
+                                        placeholder="Masukkan Email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="no_telp" class="form-control form-control-lg"
-                                        id="no_telp" placeholder="no_telp">
+                                    <input type="no_telp" class="form-control form-control-lg" id="no_telp"
+                                        placeholder="Masukkan No. Telp">
                                 </div>
                                 <div class="form-group">
-                                    <input type="nik" class="form-control form-control-lg"
-                                        id="nik" placeholder="nik">
+                                    <input type="nik" class="form-control form-control-lg" id="nik"
+                                        placeholder="Masukkan NIK">
                                 </div>
                                 <div class="form-group">
-                                    <input type="npwp" class="form-control form-control-lg"
-                                        id="npwp" placeholder="npwp">
+                                    <input type="npwp" class="form-control form-control-lg" id="npwp"
+                                        placeholder="Masukkan NPWP">
                                 </div>
                                 <div class="form-group">
-                                    <input type="alamat" class="form-control form-control-lg"
-                                        id="alamat" placeholder="alamat">
+                                    <input type="alamat" class="form-control form-control-lg" id="alamat"
+                                        placeholder="Masukkan Alamat">
                                 </div>
                                 <div class="form-group">
-                                    <input type="koordinat" class="form-control form-control-lg"
-                                        id="koordinat" placeholder="koordinat">
+                                    <input type="koordinat" class="form-control form-control-lg" id="koordinat"
+                                        placeholder="koordinat">
                                 </div>
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-lg"
-                                        id="logo" placeholder="logo">
+                                    <input type="file" class="form-control form-control-lg" id="logo"
+                                        placeholder="logo">
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">
@@ -82,10 +82,13 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN UP</button>
+                                    <button type="submit"
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN
+                                        UP</button>
                                 </div>
                                 <div class="text-center mt-4 font-weight-light">
-                                    Already have an account? <a href="{{route('mitra.login')}}" class="text-primary">Login</a>
+                                    Already have an account? <a href="{{ route('mitra.login') }}"
+                                        class="text-primary">Login</a>
                                 </div>
                             </form>
                         </div>
