@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laypel;
 use App\Models\Tagihan;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class LaypelController extends Controller
 
         $response = array();
         foreach ($cari as $pelanggan) {
-            $response[] = array("pelanggan" => $pelanggan->pelanggan);
+            $response[] = array("value" => $pelanggan->nama, "label1" => $pelanggan->id_pelanggan);
         }
 
         return response()->json($response);
@@ -68,7 +69,7 @@ class LaypelController extends Controller
 
         $response = array();
         foreach ($cari as $suppli) {
-            $response[] = array("value" => $suppli->nama, "id_layanan" => $suppli->id_layanan, "harga" => $suppli->harga, "bandwidth" => $suppli->bandwidth);
+            $response[] = array("value" => $suppli->nama, "id_layanan" => $suppli->id_layanan, "layanan" => $suppli->nama, "harga" => $suppli->harga, "bandwidth" => $suppli->bandwidth);
         }
 
         return response()->json($response);
@@ -88,32 +89,49 @@ class LaypelController extends Controller
             $kd = "0001";
         }
 
+        $autoId = DB::table('transaksis')->select(DB::raw('MAX(RIGHT(id_transaksi,4)) as autoId'));
+        $kds = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kds = sprintf("%04s", $tmp);
+            }
+        } else {
+            $kds = "0001";
+        }
+
         if ($request->nomor == null) {
             //Gagal
             dd($request);
         } else {
-            //Berhasil
-            $lay = new Laypel;
-            $lay->id_laypel = ('LP' . date('Y-m-d') . $kd);
-            $lay->id_pelanggan = $request->id_pelanggan;
-            $lay->id_layanan = $request->id_layanan;
-            $lay->tanggal = $request->tanggal;
-            $lay->pajak = $request->pajak;
-            $lay->status = 0;
-            //dd($lay);
-            $lay->save();
+            $count_barang = count($request->nomor);
+            for ($i = 0; $i < $count_barang; $i++) {
 
-            //Tagihan
-            $tagihan = new Tagihan;
-            $tagihan->id_tagihan = 'TAG' . date('Y-m-d') . $kd;
-            $tagihan->id_laypel = $lay->id_laypel;
-            $tagihan->tanggal = $request->tanggal;
-            $tagihan->pajak = $request->pajak;
-            $tagihan->status = 0;
-            $tagihan->save();
+                //Berhasil
+                $lay = new Laypel;
+                $lay->id_transaksi = ("TR-" . $kds);
+                $lay->id_laypel = ("LP-" . $kd);
+                $lay->id_pelanggan = $request->id_pelanggan[$i];
+                $lay->id_layanan = $request->id_layanan[$i];
+                $lay->pajak = $request->pajak[$i];
+                $lay->biaya = $request->subtotalpajak[$i];
+                $lay->status = 1;
+                //dd($lay);
+                $lay->save();
+
+            }
+
+            //transaksi
+            $transaksi = new Transaksi;
+            $transaksi->id_transaksi = ("TR-" . $kds);
+            $transaksi->tanggal = $request->tanggal;
+            $transaksi->total = $request->totalpajak;
+            $transaksi->status = 1;
+            //dd($transaksi);
+            $transaksi->save();
 
             //View Alert
-            return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Ditambahkan');
+            return redirect()->route('mitra.pelanggan.aktif')->with('alert', 'Layanan Berhasil Ditambahkan');
         }
 
         return view('Laypel.index');

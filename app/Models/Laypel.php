@@ -10,17 +10,19 @@ class Laypel extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_transasksi',
         'id_laypel',
         'id_pelanggan',
         'id_layanan',
-        'tanggal',
         'pajak',
+        'biaya',
         'status',
     ];
-
-    protected $primaryKey = 'id_laypel';
-    public $incrementing = false;
     
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id_transaksi');
+    }
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id_pelanggan');

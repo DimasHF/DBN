@@ -16,6 +16,8 @@
     {{-- DATATABLES --}}
     <link rel="stylesheet" href="{{ asset('assets/table/DataTables-1.13.1/css/jquery.dataTables.min.css') }}" />
     <link href="{{ asset('assets/jqueryui/jquery-ui.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/dashboard.css') }}">
+
     @php
         use App\Models\PurchaseOrder;
     @endphp
@@ -40,25 +42,14 @@
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             <i class="icon-head mx-0"></i>
                         </a>
-                        @auth
-                            {{-- Logout --}}
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                                aria-labelledby="profileDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="ti-arrow-circle-down text-primary"></i>
-                                    Log Out
-                                </a>
-                            </div>
-                        @else
-                            {{-- Login --}}
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                                aria-labelledby="profileDropdown">
-                                <a class="dropdown-item" href="/login">
-                                    <i class="ti-arrow-circle-down text-primary"></i>
-                                    Log In
-                                </a>
-                            </div>
-                        @endauth
+                        {{-- Logout --}}
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                            aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="ti-arrow-circle-down text-primary"></i>
+                                Log Out
+                            </a>
+                        </div>
                     </li>
                     {{-- Responsive --}}
                     <li class="nav-item nav-settings d-none d-lg-flex">
@@ -79,137 +70,150 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     @if (auth()->guard('admin')->check())
-                    <li class="nav-header">Admin</li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.index') }}">
-                            <i class="ti-home menu-icon"></i>
-                            <span class="menu-title">Dashboard Admin</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="route('po')">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Purchase Order</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Pelanggan Aktif</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#list" aria-expanded="false"
-                            aria-controls="list">
-                            <i class="icon-columns menu-icon"></i>
-                            <span class="menu-title">List</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="list">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="/">List Pelanggan</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">List Mitra</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.barang')}}">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Kelola Barang</span>
-                        </a>
-                    </li>
-                    @elseif(auth()->guard('mitra')->check())
-                    <li class="nav-header">Mitra</li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('mitra.index') }}">
-                            <i class="ti-home menu-icon"></i>
-                            <span class="menu-title">Dashboard Mitra</span>
-                        </a>
-                    </li>
-                    @if (auth()->guard('mitra')->user()->status == 1)
+                        <li class="nav-header">Admin</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.index') }}">
+                                <i class="ti-home menu-icon"></i>
+                                <span class="menu-title">Dashboard Admin</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/">
                                 <i class="icon-layout menu-icon"></i>
                                 <span class="menu-title">Purchase Order</span>
                             </a>
                         </li>
-                    @endif
-                    {{-- @if (PurchaseOrder::where('status', 1)->where('id_mitra', auth()->guard('mitra')->user()->id_mitra)->exists()) --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('mitra.pelanggan.aktif') }}">
+                            <a class="nav-link" href="{{ route('admin.pelanggan.aktif') }}">
                                 <i class="icon-layout menu-icon"></i>
                                 <span class="menu-title">Pelanggan Aktif</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('mitra.pinjaman')}}">
+                            <a class="nav-link" data-toggle="collapse" href="#list" aria-expanded="false"
+                                aria-controls="list">
+                                <i class="icon-columns menu-icon"></i>
+                                <span class="menu-title">List</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="list">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.pelanggan') }}">List Pelanggan</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.layanan')}}">List Layanan</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.mitra') }}">List
+                                            Mitra</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.barang') }}">
                                 <i class="icon-layout menu-icon"></i>
-                                <span class="menu-title">Peminjaman Barang</span>
+                                <span class="menu-title">Kelola Barang</span>
+                            </a>
+                        </li>
+                    @elseif(auth()->guard('mitra')->check())
+                        <li class="nav-header">Mitra</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('mitra.index') }}">
+                                <i class="ti-home menu-icon"></i>
+                                <span class="menu-title">Dashboard Mitra</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
-                                aria-controls="mitra">
+                            <a class="nav-link" href="{{ route('mitra.profil') }}">
+                                <i class="ti-home menu-icon"></i>
+                                <span class="menu-title">Profil Mitra</span>
+                            </a>
+                        </li>
+                        @if (auth()->guard('mitra')->user()->status == 1)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('mitra.po')}}">
+                                    <i class="icon-layout menu-icon"></i>
+                                    <span class="menu-title">Purchase Order</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (PurchaseOrder::where('status', 1)->where(
+                                    'id_mitra',
+                                    auth()->guard('mitra')->user()->id_mitra)->exists())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('mitra.pelanggan.aktif') }}">
+                                    <i class="icon-layout menu-icon"></i>
+                                    <span class="menu-title">Pelanggan Aktif</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('mitra.pinjaman') }}">
+                                    <i class="icon-layout menu-icon"></i>
+                                    <span class="menu-title">Peminjaman Barang</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
+                                    aria-controls="mitra">
+                                    <i class="icon-columns menu-icon"></i>
+                                    <span class="menu-title">Data</span>
+                                    <i class="menu-arrow"></i>
+                                </a>
+                                <div class="collapse" id="mitra">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item"> <a class="nav-link"
+                                                href="{{ route('mitra.pelanggan') }}">List Pelanggan</a>
+                                        </li>
+                                        <li class="nav-item"> <a class="nav-link"
+                                                href="{{ route('mitra.layanan') }}">List Layanan</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        @endif
+                    @elseif(auth()->guard('staff')->check())
+                        <li class="nav-header">Staff</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('staff.index') }}">
+                                <i class="ti-home menu-icon"></i>
+                                <span class="menu-title">Dashboard Staff</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#staff" aria-expanded="false"
+                                aria-controls="staff">
                                 <i class="icon-columns menu-icon"></i>
                                 <span class="menu-title">Data</span>
                                 <i class="menu-arrow"></i>
                             </a>
-                            <div class="collapse" id="mitra">
+                            <div class="collapse" id="staff">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" href="{{ route('mitra.pelanggan') }}">List Pelanggan</a>
+                                    <li class="nav-item"> <a class="nav-link" href="/">List Pelanggan</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="icon-layout menu-icon"></i>
+                                <span class="menu-title">Kelola Barang</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#laporan" aria-expanded="false"
+                                aria-controls="laporan">
+                                <i class="icon-paper menu-icon"></i>
+                                <span class="menu-title">Laporan</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="laporan">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="/">Tagihan Pelanggan</a>
                                     </li>
-                                    <li class="nav-item"> <a class="nav-link" href="{{ route('mitra.layanan') }}">List Layanan</a>
+                                    <li class="nav-item"> <a class="nav-link" href="/">Tagihan Mitra</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="/">Peminjaman Barang</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                    {{-- @endif --}}
-                    @elseif(auth()->guard('staff')->check())
-                    <li class="nav-header">Staff</li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('staff.index') }}">
-                            <i class="ti-home menu-icon"></i>
-                            <span class="menu-title">Dashboard Staff</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#staff" aria-expanded="false"
-                            aria-controls="staff">
-                            <i class="icon-columns menu-icon"></i>
-                            <span class="menu-title">Data</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="staff">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="/">List Pelanggan</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Kelola Barang</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#laporan" aria-expanded="false"
-                            aria-controls="laporan">
-                            <i class="icon-paper menu-icon"></i>
-                            <span class="menu-title">Laporan</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="laporan">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="/">Tagihan Pelanggan</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">Tagihan Mitra</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/">Peminjaman Barang</a></li>
-                            </ul>
-                        </div>
-                    </li>
                     @endif
                     {{-- @guest
                     <li class="nav-item">
@@ -245,11 +249,25 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Are You Sure To Logout?</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/logout">Logout</a>
-                </div>
+                @if (auth()->guard('admin')->check())
+                    <div class="modal-body">Are You Sure To Logout?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ route('admin.logout') }}">Logout</a>
+                    </div>
+                @elseif(auth()->guard('mitra')->check())
+                    <div class="modal-body">Are You Sure To Logout?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ route('mitra.logout') }}">Logout</a>
+                    </div>
+                @elseif(auth()->guard('staff')->check())
+                    <div class="modal-body">Are You Sure To Logout?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ route('staff.logout') }}">Logout</a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -263,6 +281,11 @@
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     <script src="{{ asset('assets/jqueryui/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/table/DataTables-1.13.1/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/file-upload.js') }}"></script>
+    <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+
+
     <!-- JS MODAL -->
     @stack('page-script')
     <script>

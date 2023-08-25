@@ -19041,9 +19041,12 @@ a.text-dark:hover, a.text-dark:focus {
   h3 {
     page-break-after: avoid;
   }
+
   @page {
-    size: a3;
+    size: a4;
+    margin: 2cm;
   }
+
   body {
     min-width: 992px !important;
   }

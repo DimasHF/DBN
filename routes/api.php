@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/mitra/konfimasi/{status}/{id_mitra}', [App\Http\Controllers\AdminController::class, 'konfirmasi'])->name('mitra.konfimasi');

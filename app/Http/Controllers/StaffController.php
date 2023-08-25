@@ -51,7 +51,7 @@ class StaffController extends Controller
             'status' => 1,
         ]);
 
-        return redirect('/staff')->with('alert', 'Registrasi Berhasil');
+        return redirect('/staff/login')->with('alert', 'Registrasi Berhasil');
     }
 
     //View Login Staff
@@ -84,7 +84,7 @@ class StaffController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('alert', 'Logout Berhasil');
+        return redirect('/staff/login')->with('alert', 'Logout Berhasil');
     }
 
     //View Data Mitra

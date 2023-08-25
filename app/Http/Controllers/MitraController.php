@@ -21,18 +21,8 @@ class MitraController extends Controller
     //View Register Mitra
     public function register()
     {
-        $autoId = DB::table('mitras')->select(DB::raw('MAX(RIGHT(id_mitra,4)) as autoId'));
-        $kd = "";
-        if ($autoId->count() > 0) {
-            foreach ($autoId->get() as $a) {
-                $tmp = ((int)$a->autoId) + 1;
-                $kd = sprintf("%04s", $tmp);
-            }
-        } else {
-            $kd = "0001";
-        }
 
-        return view('Mitra.registrasi', ['kd' => $kd]);
+        return view('Mitra.registrasi');
     }
 
     //Register Mitra
@@ -49,21 +39,32 @@ class MitraController extends Controller
             $kd = "0001";
         }
 
+        //dd($request);
+
+        // Get the uploaded image
+        $logo = $request->file('logo');
+
+        // Generate a unique file name for the logo
+        $filename = time() . '_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+
+        // Move the uploaded logo to the desired location
+        $logo->move(('logo'), $filename);
+
         //Create Table
-        Mitra::create([
-            'id_mitra' => $kd,
-            'nama' => $request->nama,
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'no_telp' => $request->no_telp,
-            'nik' => $request->nik,
-            'npwp' => $request->npwp,
-            'alamat' => $request->alamat,
-            'koordinat' => $request->koordinat,
-            'logo' => $request->logo,
-            'status' => 0,
-        ]);
+        $mitra = new Mitra;
+        $mitra->id_mitra = ("MIT".$kd);
+        $mitra->nama = $request->nama;
+        $mitra->username = $request->username;
+        $mitra->password = bcrypt($request->password);
+        $mitra->email = $request->email;
+        $mitra->no_telp = $request->no_telp;
+        $mitra->nik = $request->nik;
+        $mitra->npwp = $request->npwp;
+        $mitra->alamat = $request->alamat;
+        $mitra->koordinat = $request->koordinat;
+        $mitra->logo = 'logo/' . $filename;
+        $mitra->status = 0;
+        $mitra->save();
 
         // dd($request);
         //Return Views
@@ -101,7 +102,7 @@ class MitraController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/mitra')->with('alert', 'Logout Berhasil');
+        return redirect('/mitra/login')->with('alert', 'Logout Berhasil');
     }
 
     //View Data Profil Mitra
@@ -109,9 +110,9 @@ class MitraController extends Controller
     {
         $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-        $profil = Mitra::where('id_mitra', $mitra)->first();
+        $mitra = Mitra::where('id_mitra', $mitra)->first();
 
-        return view('Mitra.profil', ['profil' => $profil]);
+        return view('Mitra.detail', ['mitra' => $mitra]);
     }
 
     //Update Data Profil Mitra
@@ -134,5 +135,4 @@ class MitraController extends Controller
 
         return redirect('/mitra/profil')->with('alert', 'Data Berhasil Diubah');
     }
-    
 }

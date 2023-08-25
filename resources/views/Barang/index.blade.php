@@ -51,7 +51,7 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @forelse ($barang as $t)
+                            @foreach ($barang as $t)
                                 <tr>
                                     <td>
                                         <center>{{ $no++ }}</center>
@@ -66,7 +66,7 @@
                                         <center>{{ $t->stok }}</center>
                                     </td>
                                     <td>
-                                        <center><img src="images/" alt=""></center>
+                                        <center><img src="{{asset($t->foto)}}" alt=""></center>
                                     </td>
                                     <td>
                                         <center>
@@ -90,13 +90,7 @@
                                         </center>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6">
-                                        <center>Belum Ada Data</center>
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div><br>

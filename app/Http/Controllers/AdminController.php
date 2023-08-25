@@ -17,7 +17,9 @@ class AdminController extends Controller
     {
         $admin = Auth::guard('admin')->check();
 
-        return view('Admin.index', ['admin' => $admin]);
+        $mitra = Mitra::where('status', 0)->paginate(10);
+
+        return view('Admin.index', ['admin' => $admin, 'mitra' => $mitra]);
     }
 
     //View Register Admin
@@ -53,7 +55,7 @@ class AdminController extends Controller
 
         //Create Table
         Admin::create([
-            'id_admin' => 'A'.$kd,
+            'id_admin' => ('A' . $kd),
             'nama' => $request->nama,
             'username' => $request->username,
             'password' => bcrypt($request->password),
@@ -61,7 +63,7 @@ class AdminController extends Controller
             'status' => 1,
         ]);
 
-        return redirect('/admin')->with('alert', 'Registrasi Berhasil');
+        return redirect('/admin/login')->with('alert', 'Registrasi Berhasil');
     }
 
     //View Login Admin
@@ -77,13 +79,13 @@ class AdminController extends Controller
             'username' => ['required'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
- 
-            return redirect()->intended('/');
+
+            return redirect()->intended('/admin');
         }
- 
+
         return back()->with('alert', 'Login Gagal');
     }
 
@@ -94,7 +96,7 @@ class AdminController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('alert', 'Logout Berhasil');
+        return redirect('/admin/login')->with('alert', 'Logout Berhasil');
     }
 
     //View Data Mitra
@@ -102,7 +104,7 @@ class AdminController extends Controller
     {
         $mitra = Mitra::all();
 
-        return view('Admin.mitra', ['mitra' => $mitra]);
+        return view('Mitra.list', ['mitra' => $mitra]);
     }
 
     //Konfirmasi Mitra
@@ -112,18 +114,46 @@ class AdminController extends Controller
         $model->status = $status;
 
         //dd($model);
+
+        $apikey = "c334dfca6ce6e04338dc0a34f833ab10dea42f87";
+        $tujuan = $model->no_telp; //atau $tujuan="Group Chat Name";
+        $pesan = "Testttttttttttt";
+        $filePath="C:\Users\USER\Downloads\logo.jpeg";
+        
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://starsender.online/api/sendFilesUpload?message='.rawurlencode($pesan).'&tujuan='.rawurlencode($tujuan.'@s.whatsapp.net'),
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10, 
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => array('file'=> curl_file_create($filePath)),
+          CURLOPT_HTTPHEADER => array(
+            'apikey: '.$apikey
+          ),
+        ));
+        
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        echo $response;
+        
         if ($model->save()) {
 
             $notice = ['alert' => 'Status Telah Diganti'];
         }
+        
         return redirect()->back()->with($notice);
     }
 
     //View Data Detail Mitra
     public function detail($id_mitra)
     {
-        $mitra = Mitra::find($id_mitra);
-        return response()->json($mitra);
+        $mitra = Mitra::where('id_mitra', $id_mitra)->first();
+        return view('Mitra.detail', ['mitra' => $mitra]);
     }
-    
 }

@@ -5,12 +5,20 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
-                        <h3 class="font-weight-bold">List Pelanggan</h3>
+                        @if (auth()->guard('admin')->check() ||
+                                auth()->guard('staff')->check())
+                            <h3 class="font-weight-bold">List Pelanggan Semua Mitra</h3>
+                        @elseif(auth()->guard('mitra')->check())
+                            <h3 class="font-weight-bold">List Pelanggan</h3>
+                        @endif
                     </div>
-                    <!--Button Modal-->
-                    <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" class="btn btn-primary" href="{{ route('mitra.form.pelanggan') }}">Tambahkan Pelanggan</a>
-                    </div>
+                    @if (auth()->guard('mitra')->check())
+                        <!--Button Modal-->
+                        <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a type="button" class="btn btn-primary" href="{{ route('mitra.form.pelanggan') }}">Tambahkan
+                                Pelanggan</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -27,7 +35,7 @@
                                 <th>
                                     <center>No</center>
                                 </th>
-                                <th >
+                                <th>
                                     <center>ID Pelanggan</center>
                                 </th>
                                 <th>
@@ -45,12 +53,12 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @forelse ($pelanggan as $t)
+                            @foreach ($pelanggan as $t)
                                 <tr>
                                     <td>
                                         <center>{{ $no++ }}</center>
                                     </td>
-                                    <td >
+                                    <td>
                                         <center>{{ $t->id_pelanggan }}</center>
                                     </td>
                                     <td>
@@ -78,13 +86,7 @@
                                         </center>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4">
-                                        <center>Belum Ada Data</center>
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div><br>

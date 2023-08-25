@@ -5,12 +5,20 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
-                        <h3 class="font-weight-bold">Layanan</h3>
+                        @if (auth()->guard('admin')->check() ||
+                                auth()->guard('staff')->check())
+                            <h3 class="font-weight-bold">List Layanan Semua Mitra</h3>
+                        @elseif(auth()->guard('mitra')->check())
+                            <h3 class="font-weight-bold">List Layanan</h3>
+                        @endif
                     </div>
-                    <!--Button Modal-->
-                    <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" class="btn btn-primary" href="{{ route('mitra.form.layanan') }}">Tambahkan Layanan</a>
-                    </div>
+                    @if (auth()->guard('mitra')->check())
+                        <!--Button Modal-->
+                        <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a type="button" class="btn btn-primary" href="{{ route('mitra.form.layanan') }}">Tambahkan
+                                Layanan</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -51,7 +59,7 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @forelse ($layanan as $t)
+                            @foreach ($layanan as $t)
                                 <tr>
                                     <td>
                                         <center>{{ $no++ }}</center>
@@ -67,9 +75,6 @@
                                     </td>
                                     <td>
                                         <center>{{ $t->harga }}</center>
-                                    </td>
-                                    <td>
-                                        <center><img src="images/" alt=""></center>
                                     </td>
                                     <td>
                                         <center>
@@ -93,13 +98,7 @@
                                         </center>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6">
-                                        <center>Belum Ada Data</center>
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div><br>

@@ -21,13 +21,18 @@
                     </div>
                     <div class="form-group">
                         <label for="stok">Stok</label>
-                        <input type="text" class="form-control" id="stok" name="stok"
+                        <input type="number" class="form-control" id="stok" name="stok"
                             placeholder="Stok Barang">
                     </div>
                     <div class="form-group">
-                        <label for="foto">Foto</label>
-                        <input type="file" class="form-control" id="foto" name="foto"
-                            placeholder="Foto">
+                        <label>Foto</label>
+                        <input type="file" name="foto" id="foto" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Foto">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                            </span>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <input type="reset" class="btn btn-light" value="Reset">
@@ -37,16 +42,6 @@
     </div>
 
     @push('page-script')
-        <script>
-            function hanyaAngka(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-
-                    return false;
-                return true;
-            }
-        </script>
-
         <script>
             var msg = '{{ Session::get('alert') }}';
             var exist = '{{ Session::has('alert') }}';

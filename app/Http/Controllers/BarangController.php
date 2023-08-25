@@ -36,14 +36,14 @@ class BarangController extends Controller
     public function add(Request $request)
     {
 
-        // // Get the uploaded image
-        // $image = $request->file('foto');
+        // Get the uploaded image
+        $image = $request->file('foto');
 
-        // // Generate a unique file name for the image
-        // $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+        // Generate a unique file name for the image
+        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
 
-        // // Move the uploaded image to the desired location
-        // $image->move(('images'), $filename);
+        // Move the uploaded image to the desired location
+        $image->move(('barang'), $filename);
 
         //Save
         $barang = new Barang;
@@ -51,7 +51,7 @@ class BarangController extends Controller
         $barang->nama = $request->nama;
         $barang->stok = $request->stok;
         $barang->status = 1;
-        // $barang->foto = 'images/' . $filename;
+        $barang->foto = 'barang/' . $filename;
         $barang->save();
 
         //View Alert

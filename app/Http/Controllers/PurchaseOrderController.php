@@ -36,8 +36,6 @@ class PurchaseOrderController extends Controller
 
         // Validasi data yang diterima
         $validator = Validator::make($request->all(), [
-            'id_purchase_order' => 'required|unique',
-            'tanggal' => 'required',
             'spk' => 'required|file|mimes:pdf,doc,docx|max:2048',
             'ba' => 'required|file|mimes:pdf,doc,docx|max:2048',
         ]);
@@ -49,7 +47,7 @@ class PurchaseOrderController extends Controller
 
         // Jika validasi berhasil
         $po = new PurchaseOrder;
-        $po->id_purchase_order = 'PO' . $kd;
+        $po->id_purchase_order = ('PO' . $kd);
         $po->id_mitra = $user;
         $po->tanggal = $request->tanggal;
         $po->status = 0;
@@ -57,7 +55,7 @@ class PurchaseOrderController extends Controller
         if ($request->hasFile('spk')) {
             $spk = $request->file('spk');
             $filename = Str::uuid() . '_' . $spk->getClientOriginalName();
-            $spk->storeAs('spks', $filename, 'public');
+            $spk->storeAs('spks', $filename, 'public');  
             $po->spk = $filename;
         }
 
@@ -70,6 +68,6 @@ class PurchaseOrderController extends Controller
 
         $po->save();
 
-        return response()->json(['success' => true, 'message' => 'Purchase Order Baru Telah Diajukan'], 200);
+        return redirect('/mitra')->with('alert', 'Purchase Order Berhasil Dikirim');
     }
 }

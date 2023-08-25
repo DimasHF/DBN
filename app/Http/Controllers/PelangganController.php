@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Laypel;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,33 +15,42 @@ class PelangganController extends Controller
     //View Pelanggan
     public function index()
     {
-        $mitra = Auth::guard('mitra')->user()->id_mitra;
 
         if (Auth::guard('mitra')->check()) {
 
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+
             $pelanggan = Pelanggan::where('id_mitra', $mitra)->get();
+            return view('Pelanggan.index', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
         } elseif (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
 
             $pelanggan = Pelanggan::get();
+            return view('Pelanggan.index', ['pelanggan' => $pelanggan]);
         }
-
-        return view('Pelanggan.index', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
     }
 
     //View Pelanggan
     public function aktif()
     {
-        $mitra = Auth::guard('mitra')->user()->id_mitra;
 
         if (Auth::guard('mitra')->check()) {
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-            $pelanggan = Pelanggan::where('id_mitra', $mitra)->get();
+            $pelanggan = Laypel::join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+                ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
+                ->select('laypels.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->where('pelanggans.id_mitra', $mitra)->get();
+
+            return view('Pelanggan.aktif', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
         } elseif (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
 
-            $pelanggan = Pelanggan::get();
-        }
+            $pelanggan = Laypel::join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+                ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
+                ->select('laypels.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->get();
 
-        return view('Pelanggan.aktif', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
+            return view('Pelanggan.aktif', ['pelanggan' => $pelanggan]);
+        }
     }
 
     //Form Add
@@ -66,7 +76,7 @@ class PelangganController extends Controller
         }
 
         $pel = new Pelanggan;
-        $pel->id_pelanggan = 'PEL' . date('Y-m-d') . $kd;
+        $pel->id_pelanggan = ('PEL' . date('Y-m-d') . $kd);
         $pel->id_mitra = $mitra;
         $pel->nama = $request->nama;
         $pel->alamat = $request->alamat;

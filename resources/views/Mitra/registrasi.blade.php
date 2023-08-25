@@ -31,7 +31,7 @@
                             </div>
                             <h4>New here?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                            <form class="pt-3" action="{{ route('mitra.regmitra') }}" method="POST">
+                            <form class="pt-3" action="{{ route('mitra.regmitra') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
@@ -46,32 +46,37 @@
                                         id="password" placeholder="Masukkan Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
+                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="email"
                                         placeholder="Masukkan Email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="no_telp" class="form-control form-control-lg" id="no_telp"
+                                    <input type="no_telp" class="form-control form-control-lg" id="no_telp" name="no_telp"
                                         placeholder="Masukkan No. Telp" onkeypress="return hanyaAngka(event)">
                                 </div>
                                 <div class="form-group">
-                                    <input type="nik" class="form-control form-control-lg" id="nik"
+                                    <input type="nik" class="form-control form-control-lg" id="nik" name="nik"
                                         placeholder="Masukkan NIK" onkeypress="return hanyaAngka(event)">
                                 </div>
                                 <div class="form-group">
-                                    <input type="npwp" class="form-control form-control-lg" id="npwp"
+                                    <input type="npwp" class="form-control form-control-lg" id="npwp" name="npwp"
                                         placeholder="Masukkan NPWP">
                                 </div>
                                 <div class="form-group">
-                                    <input type="alamat" class="form-control form-control-lg" id="alamat"
+                                    <input type="alamat" class="form-control form-control-lg" id="alamat" name="alamat"
                                         placeholder="Masukkan Alamat">
                                 </div>
                                 <div class="form-group">
-                                    <input type="koordinat" class="form-control form-control-lg" id="koordinat"
+                                    <input type="koordinat" class="form-control form-control-lg" id="koordinat" name="koordinat"
                                         placeholder="koordinat">
                                 </div>
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-lg" id="logo"
-                                        placeholder="logo">
+                                    <input type="file" name="logo" id="logo" class="file-upload-default">
+                                    <div class="input-group col-xs-12">
+                                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Logo">
+                                        <span class="input-group-append">
+                                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">
@@ -111,6 +116,8 @@
     <script src="{{ asset('assets/js/template.js') }}"></script>
     <script src="{{ asset('assets/js/settings.js') }}"></script>
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
+    <script src="{{ asset('assets/js/file-upload.js') }}"></script>
+
     <!-- endinject -->
     <script>
         function hanyaAngka(evt) {

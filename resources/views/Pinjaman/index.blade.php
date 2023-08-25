@@ -43,7 +43,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Terima</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="tanggal" id="tanggal"
+                                        <input type="date" class="form-control" name="tanggal" id="tanggal"
                                             value="{{ date('d-m-y') }}" readonly/>
                                     </div>
                                 </div>
@@ -104,8 +104,6 @@
                 </div>
             </div>
         </div>
-
-
     </form>
 
     @push('page-script')
@@ -139,7 +137,13 @@
                         // Set selection
                         $('#caribarang').val(ui.item.value);
                         $('#id_barang').val(ui.item.label1);
-                        $('#stok').val(ui.item.label2);
+                        if (ui.item.label2 <= 0) {
+                            $('#stok').val("Stok Habis!");
+                            document.getElementById("keranjang").disabled = true;
+                            alert('Stok habis!');
+                        } else {
+                            $('#stok').val(ui.item.label2);
+                        }
 
                         return false;
                     }
@@ -152,8 +156,7 @@
                     let id_pinjam = $("#id_pinjam").val();
                     let id_barang = $("#id_barang").val();
                     let jumlah = $("#jumlah").val();
-                    let total = parseInt($("#stok_barang").val()) + parseInt($("#jumlah").val());
-                    let kode_supplier = $("#kode_supplier").val();
+                    let total = parseInt($("#stok_barang").val()) - parseInt($("#jumlah").val());
                     let tanggal = $("#tanggal").val();
 
                     let new_row = row - 1;

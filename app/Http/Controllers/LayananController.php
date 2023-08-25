@@ -12,10 +12,16 @@ class LayananController extends Controller
     //View Layanan
     public function index()
     {
-        $mitra = Auth::guard('mitra')->user()->id_mitra;
-        $layanan = Layanan::where('id_mitra', '=', $mitra)->orderBy('nama', 'asc')->get();
+        if (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
 
-        return view('Layanan.index', ['layanan' => $layanan]);
+            $layanan = Layanan::orderBy('nama', 'asc')->get();
+            return view('Layanan.index', ['layanan' => $layanan]);
+        } else {
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+            $layanan = Layanan::where('id_mitra', '=', $mitra)->orderBy('nama', 'asc')->get();
+
+            return view('Layanan.index', ['layanan' => $layanan]);
+        }
     }
 
     //Form Add

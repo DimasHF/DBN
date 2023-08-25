@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('id_barang')->unique();
             $table->string('nama');
             $table->integer('stok');
+            $table->string('foto');
             $table->tinyInteger('status')->default(1)->nullable();
             $table->timestamps();
         });

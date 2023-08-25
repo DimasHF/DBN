@@ -1,5 +1,8 @@
 @extends('index')
 @section('content')
+    @php
+        use App\Models\PurchaseOrder;
+    @endphp
     {{-- Tittle --}}
     <div class="col-md-12 grid-margin">
         <div class="row">
@@ -62,28 +65,63 @@
         </div>
     </div>
 
-    <div class="col-md-12 grid-margin transparent">
-        <div class="row">
-            <div class="col-md-6 mb-4 stretch-card transparent">
-                <div class="card card-tale">
-                    <div class="card-body">
-                        <h3 class="mb-4">Jumlah Pelanggan</h3>
-                        <p class="fs-30 mb-2">10</p>
-                        <p>Mitra</p>
+    @if (PurchaseOrder::where('status', 1)->where(
+                'id_mitra',
+                auth()->guard('mitra')->user()->id_mitra)->exists())
+        {{-- Card Informasi --}}
+        <div class="col-md-12 grid-margin transparent">
+            <div class="row">
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                        <div class="card-body">
+                            <h3 class="mb-4">Jumlah Pelanggan</h3>
+                            <p class="fs-30 mb-2">10</p>
+                            <p>Mitra</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 mb-4 stretch-card transparent">
-                <div class="card card-dark-blue">
-                    <div class="card-body">
-                        <h3 class="mb-4">Jumlah Layanan</h3>
-                        <p class="fs-30 mb-2">1111</p>
-                        <p>Pelanggan</p>
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-dark-blue">
+                        <div class="card-body">
+                            <h3 class="mb-4">Jumlah Layanan</h3>
+                            <p class="fs-30 mb-2">1111</p>
+                            <p>Pelanggan</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @elseif (auth()->guard('mitra')->user()->status == 1)
+        <div class="col-md-12 grid-margin transparent">
+            <div class="row">
+                <div class="col-md-12 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                        <div class="card-body">
+                            <h3 class="mb-4">Informasi</h3>
+                            <p class="fs-30 mb-2" style="font-size: 20px">Akun Mitra Telah Disetujui, Silahkan Melakukan
+                                Proses Dengan Mengirimkan Dokumen Yang Kami Berikan Pada Menu Purchase Order</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @elseif (auth()->guard('mitra')->user()->status == 0)
+        <div class="col-md-12 grid-margin transparent">
+            <div class="row">
+                <div class="col-md-12 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                        <div class="card-body">
+                            <h3 class="mb-4">Informasi</h3>
+                            <p class="fs-30 mb-2" style="font-size: 20px">Akun Mitra Dalam Proses Pemeriksaan, Kami Akan
+                                Menghubungi Melalui Nomer WhatsApp Yang Diberikan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- Card Layanan --}}
 
     <!--JS Jam & Tanggal-->
     <script type="text/javascript">
