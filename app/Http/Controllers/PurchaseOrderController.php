@@ -45,29 +45,56 @@ class PurchaseOrderController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
+        // Get the uploaded image
+        $spk = $request->file('spk');
+
+        // Generate a unique file name for the spk
+        $filespk = time() . '_' . uniqid() . '.' . $spk->getClientOriginalExtension();
+
+        // Move the uploaded spk to the desired location
+        $spk->move(('spks'), $filespk);
+
+        // Get the uploaded image
+        $ba = $request->file('ba');
+
+        // Generate a unique file name for the ba
+        $fileba = time() . '_' . uniqid() . '.' . $ba->getClientOriginalExtension();
+
+        // Move the uploaded ba to the desired location
+        $ba->move(('bas'), $fileba);
+
         // Jika validasi berhasil
         $po = new PurchaseOrder;
         $po->id_purchase_order = ('PO' . $kd);
         $po->id_mitra = $user;
         $po->tanggal = $request->tanggal;
+        $po->spk = $filespk;
+        $po->ba = $fileba;
         $po->status = 0;
-
-        if ($request->hasFile('spk')) {
-            $spk = $request->file('spk');
-            $filename = Str::uuid() . '_' . $spk->getClientOriginalName();
-            $spk->storeAs('spks', $filename, 'public');  
-            $po->spk = $filename;
-        }
-
-        if ($request->hasFile('ba')) {
-            $ba = $request->file('ba');
-            $filename = Str::uuid() . '_' . $ba->getClientOriginalName();
-            $ba->storeAs('bas', $filename, 'public');
-            $po->ba = $filename;
-        }
 
         $po->save();
 
         return redirect('/mitra')->with('alert', 'Purchase Order Berhasil Dikirim');
+    }
+
+    //View Purchase Order Admin
+    public function index()
+    {
+        $po = PurchaseOrder::all();
+        return view('Purchase.list', ['po' => $po]);
+    }
+
+    public function downloadspk($id_purchase_order)
+    {
+        $document = PurchaseOrder::where('id_purchase_order', $id_purchase_order)->first();
+        $download = $document->spk;
+        return response()->download(public_path('/spks/' . $download));
+    }
+
+    public function downloadba($id_purchase_order)
+    {
+        $document = PurchaseOrder::where('id_purchase_order', $id_purchase_order)->first();
+        $download = $document->ba;
+        return response()->download(public_path('/bas/' . $download));
     }
 }

@@ -17,6 +17,23 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link href="{{ asset('assets/jqueryui/jquery-ui.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css" />
+    <script src="https://unpkg.com/leaflet-geosearch@3.1.0/dist/geosearch.umd.js"></script>
+    <style>
+        #leafletMap-registration {
+            height: 400px;
+            width: 800px;
+            /* The height is 400 pixels */
+        }
+    </style>
+
 </head>
 
 <body>
@@ -30,8 +47,9 @@
                                 <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
                             </div>
                             <h4>New here?</h4>
-                            <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                            <form class="pt-3" action="{{ route('mitra.regmitra') }}" method="POST" enctype="multipart/form-data">
+                            <h6 class="font-weight-light">Menjadi Mitra is easy. It only takes a few steps</h6>
+                            <form class="pt-3" action="{{ route('mitra.regmitra') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
@@ -46,35 +64,41 @@
                                         id="password" placeholder="Masukkan Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="email"
-                                        placeholder="Masukkan Email">
+                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
+                                        name="email" placeholder="Masukkan Email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="no_telp" class="form-control form-control-lg" id="no_telp" name="no_telp"
-                                        placeholder="Masukkan No. Telp" onkeypress="return hanyaAngka(event)">
+                                    <input type="number" class="form-control form-control-lg" id="no_telp"
+                                        name="no_telp" placeholder="Masukkan No. Telp">
                                 </div>
                                 <div class="form-group">
-                                    <input type="nik" class="form-control form-control-lg" id="nik" name="nik"
-                                        placeholder="Masukkan NIK" onkeypress="return hanyaAngka(event)">
+                                    <input type="number" class="form-control form-control-lg" id="nik"
+                                        name="nik" placeholder="Masukkan NIK">
                                 </div>
                                 <div class="form-group">
-                                    <input type="npwp" class="form-control form-control-lg" id="npwp" name="npwp"
-                                        placeholder="Masukkan NPWP">
+                                    <input type="npwp" class="form-control form-control-lg" id="npwp"
+                                        name="npwp" placeholder="Masukkan NPWP">
                                 </div>
                                 <div class="form-group">
-                                    <input type="alamat" class="form-control form-control-lg" id="alamat" name="alamat"
-                                        placeholder="Masukkan Alamat">
+                                    <input type="alamat" class="form-control form-control-lg" id="alamat"
+                                        name="alamat" placeholder="Masukkan Alamat">
                                 </div>
                                 <div class="form-group">
-                                    <input type="koordinat" class="form-control form-control-lg" id="koordinat" name="koordinat"
-                                        placeholder="koordinat">
+                                    <input type="number" class="form-control form-control-lg" id="latitude"
+                                        name="latitude" placeholder="latitude">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control form-control-lg" id="longitude"
+                                        name="longitude" placeholder="longtitude">
                                 </div>
                                 <div class="form-group">
                                     <input type="file" name="logo" id="logo" class="file-upload-default">
                                     <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Logo">
+                                        <input type="text" class="form-control file-upload-info" disabled
+                                            placeholder="Upload Logo">
                                         <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                            <button class="file-upload-browse btn btn-primary"
+                                                type="button">Upload</button>
                                         </span>
                                     </div>
                                 </div>
@@ -105,6 +129,7 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+
     <!-- plugins:js -->
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
@@ -117,17 +142,20 @@
     <script src="{{ asset('assets/js/settings.js') }}"></script>
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     <script src="{{ asset('assets/js/file-upload.js') }}"></script>
+    <script src="{{ asset('assets/jqueryui/jquery-ui.js') }}"></script>
 
-    <!-- endinject -->
     <script>
-        function hanyaAngka(evt) {
-            var charCode = (evt.which) ? evt.which : event.keyCode
-            if (charCode > 31 && (charCode < 48 || charCode > 57))
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const latitude = urlParams.get('latitude');
+            const longitude = urlParams.get('longitude');
 
-                return false;
-            return true;
-        }
+            // Menampilkan nilai latitude dan longitude dalam elemen
+            document.getElementById("latitude").value = latitude || 'Tidak ada data';
+            document.getElementById("longitude").value = longitude || 'Tidak ada data';
+        });
     </script>
+
 </body>
 
 </html>

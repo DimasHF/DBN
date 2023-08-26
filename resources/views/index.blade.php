@@ -78,7 +78,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/">
+                            <a class="nav-link" href="{{route('admin.purchase')}}">
                                 <i class="icon-layout menu-icon"></i>
                                 <span class="menu-title">Purchase Order</span>
                             </a>
@@ -133,6 +133,12 @@
                                     <span class="menu-title">Purchase Order</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('mitra.spk')}}">
+                                    <i class="icon-layout menu-icon"></i>
+                                    <span class="menu-title">SPK</span>
+                                </a>
+                            </li>
                         @endif
                         @if (PurchaseOrder::where('status', 1)->where(
                                     'id_mitra',
@@ -164,6 +170,9 @@
                                         <li class="nav-item"> <a class="nav-link"
                                                 href="{{ route('mitra.layanan') }}">List Layanan</a>
                                         </li>
+                                        <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('mitra.barang') }}">List Barang</a>
+                                    </li>
                                     </ul>
                                 </div>
                             </li>
@@ -284,7 +293,6 @@
     <script src="{{ asset('assets/js/file-upload.js') }}"></script>
     <script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
-
 
     <!-- JS MODAL -->
     @stack('page-script')

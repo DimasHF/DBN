@@ -6,6 +6,7 @@ use App\Models\Mitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class MitraController extends Controller
 {
@@ -52,7 +53,7 @@ class MitraController extends Controller
 
         //Create Table
         $mitra = new Mitra;
-        $mitra->id_mitra = ("MIT".$kd);
+        $mitra->id_mitra = ("MIT" . $kd);
         $mitra->nama = $request->nama;
         $mitra->username = $request->username;
         $mitra->password = bcrypt($request->password);
@@ -134,5 +135,27 @@ class MitraController extends Controller
         $model->save();
 
         return redirect('/mitra/profil')->with('alert', 'Data Berhasil Diubah');
+    }
+
+    //View SPK Mitra
+    public function spk()
+    {
+        $mitra = Auth::guard('mitra')->user()->id_mitra;
+
+        $po = DB::table('purchase_orders')
+            ->join('mitras', 'purchase_orders.id_mitra', '=', 'mitras.id_mitra')
+            ->select('purchase_orders.*', 'mitras.nama')
+            ->where('purchase_orders.id_mitra', $mitra)
+            ->first();
+
+        $today = Carbon::now();
+
+        $day = $today->dayName;
+        $tanggal = $today->day; // Tanggal (hari)
+        $bulan = $today->monthName;   // Bulan
+        $tahun = $today->year;  // Tahun
+        $jamSekarang = $today->format('H:i:s'); // Jam
+
+        return view('Dokumen.spk', ['po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
     }
 }

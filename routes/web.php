@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    return view('Tiny.spk');
+    return view('Mitra.map');
 });
 
 Route::prefix('admin')->group(function(){
@@ -38,7 +38,11 @@ Route::prefix('admin')->group(function(){
     Route::get('/mitra/{id_mitra}', [App\Http\Controllers\AdminController::class, 'detail'])->name('admin.mitra.detail');
 
     Route::get('/layanan', [App\Http\Controllers\LayananController::class, 'index'])->name('admin.layanan');
-    
+
+    Route::get('/purchase', [App\Http\Controllers\PurchaseOrderController::class, 'index'])->name('admin.purchase');
+    Route::get('/download/spk/{id_purchase_order}', [App\Http\Controllers\PurchaseOrderController::class, 'downloadspk'])->name('admin.downloadspk');
+    Route::get('/download/ba/{id_purchase_order}', [App\Http\Controllers\PurchaseOrderController::class, 'downloadba'])->name('admin.downloadba');
+
 });
 
 Route::prefix('mitra')->group(function(){
@@ -64,6 +68,8 @@ Route::prefix('mitra')->group(function(){
     Route::post('/pinjaman/add', [App\Http\Controllers\PinjamanController::class, 'search'])->name('mitra.pinjam');
     Route::post('/pinjaman/barang', [App\Http\Controllers\PinjamanController::class, 'pinjam'])->name('mitra.pinjam.barang');
 
+    Route::get('/barang', [App\Http\Controllers\BarangController::class, 'daftar'])->name('mitra.barang');
+
     Route::get('/layanan', [App\Http\Controllers\LayananController::class, 'index'])->name('mitra.layanan');
     Route::get('/layanan/add', [App\Http\Controllers\LayananController::class, 'formadd'])->name('mitra.form.layanan');
     Route::post('/layanan/add', [App\Http\Controllers\LayananController::class, 'add'])->name('mitra.tambah.layanan');
@@ -72,6 +78,8 @@ Route::prefix('mitra')->group(function(){
     Route::post('/pelanggan/search', [App\Http\Controllers\LaypelController::class, 'pelanggan'])->name('mitra.search.pelanggan');
     Route::post('/layanan/search', [App\Http\Controllers\LaypelController::class, 'layanan'])->name('mitra.search.layanan');
     Route::post('/laypel/add', [App\Http\Controllers\LaypelController::class, 'laypel'])->name('mitra.tambah.laypel');
+
+    Route::get('/spk', [App\Http\Controllers\MitraController::class, 'spk'])->name('mitra.spk');
 
 });
 
@@ -82,6 +90,7 @@ Route::prefix('staff')->group(function(){
     Route::post('/register', [App\Http\Controllers\StaffController::class, 'regstaff'])->name('staff.regstaff');
     Route::get('/logout', [App\Http\Controllers\StaffController::class, 'logout'])->name('staff.logout');
     Route::get('/', [App\Http\Controllers\StaffController::class, 'index'])->name('staff.index');
+
     Route::get('/pelanggan', [App\Http\Controllers\PelangganController::class, 'index'])->name('staff.pelanggan');
     Route::get('/pelangggan/{id_mitra}', [App\Http\Controllers\PelangganController::class, 'pelanggan'])->name('staff.perpel');
     Route::get('/pelanggan/detail/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'detail'])->name('detail.pelanggan.staff');

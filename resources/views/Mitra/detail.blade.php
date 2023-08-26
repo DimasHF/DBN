@@ -2,6 +2,17 @@
 @section('content')
     <!--Info Detail-->
     <div class="row">
+        <div class="col-lg-12 grid-margin">
+            <div class="row">
+                <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
+                    <h3 class="font-weight-bold">Profil Mitra</h3>
+                </div>
+                <!--Button Modal-->
+                <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary" id="modal">Update Profil</button>
+                </div>
+            </div>
+        </div>
         <div class="col-md-6 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">
@@ -92,5 +103,6 @@
                 </div>
             </div>
         </div>
+        
     </div>
 @endsection

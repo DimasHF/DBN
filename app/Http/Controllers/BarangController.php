@@ -90,4 +90,11 @@ class BarangController extends Controller
         }
         return redirect()->back()->with($notice);
     }
+
+    //View Barang Katalog
+    public function daftar()
+    {
+        $barang = Barang::all();
+        return view('Barang.daftar', ['barang' => $barang]);
+    }
 }

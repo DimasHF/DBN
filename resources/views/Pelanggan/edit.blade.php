@@ -32,8 +32,8 @@
                         </div>
                         <div class="form-group">
                             <label for="no_telp">No Telp Pelanggan</label>
-                            <input type="text" class="form-control" id="no_telp" name="no_telp"
-                                placeholder="No Telp Pelanggan" onkeypress="return hanyaAngka(event)"
+                            <input type="number" class="form-control" id="no_telp" name="no_telp"
+                                placeholder="No Telp Pelanggan"
                                 value="{{ $p->no_telp }}">
                         </div>
                         <div class="form-group">
@@ -43,8 +43,8 @@
                         </div>
                         <div class="form-group">
                             <label for="nik">NIK Pelanggan</label>
-                            <input type="text" class="form-control" id="nik" name="nik"
-                                placeholder="NIK Pelanggan" onkeypress="return hanyaAngka(event)"
+                            <input type="number" class="form-control" id="nik" name="nik"
+                                placeholder="NIK Pelanggan"
                                 value="{{ $p->nik }}">
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>

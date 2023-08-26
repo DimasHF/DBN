@@ -5,20 +5,24 @@
             <div class="card-body">
                 <p class="card-title">SPK</p>
                 <form id="save" method="POST">
+                    @if (auth()->guard('admin')->check())
                     <textarea id="myTextarea">
+                    @elseif(auth()->guard('mitra')->check())
+                    <textarea>
+                    @endif
                         <div style="text-align: center; line-height: 1.5;"><strong>MEMORANDUM OF UNDERSTANDING </strong></div>
                         <div style="text-align: center; line-height: 1.5;"><strong>(NOTA KESEPAKATAN)</strong></div>
                         <div style="text-align: center; line-height: 1.5;">&nbsp;</div>
                         <div style="text-align: center; line-height: 1.5;"><strong>ANTARA </strong></div>
                         <div style="text-align: center; line-height: 1.5;">PT. DATA BUANA NUSANTARA&nbsp;<strong><br>&nbsp;<br></strong></div>
                         <div style="text-align: center; line-height: 1.5;"><strong>DENGAN</strong></div>
-                        <div style="text-align: center; line-height: 1.5;">AHMAD SO&rsquo;EM</div>
+                        <div style="text-align: center; line-height: 1.5;">{{$po->nama}}</div>
                         <div style="text-align: center; line-height: 1.5;">&nbsp;</div>
-                        <div style="line-height: 1.5; text-align: justify;">Pada Hari ini <strong>KAMIS</strong>, tanggal <strong>15 bulan Juni</strong> tahun <strong>2023 </strong>bertempat di Blitar, PARA PIHAK yang&nbsp;bertanda tangan dibawah ini :</div>
+                        <div style="line-height: 1.5; text-align: justify;">Pada Hari ini <strong>{{ $day }}</strong>, tanggal <strong>{{$tanggal}} bulan {{$bulan}}</strong> tahun <strong>{{$tahun}} </strong>bertempat di Blitar, PARA PIHAK yang&nbsp;bertanda tangan dibawah ini :</div>
                         <div style="line-height: 1.5;">
                         <ol style="text-align: justify;">
                         <li style="text-align: justify; line-height: 1.5;"><strong>Muhamad Khotib</strong>, Direktur Utama dalam hal ini bertindak untuk dan atas nama PT. Data Buana Nusantara, yang berkedudukan di Ds Tawangrejo, Kecamatan Wonodadi, Kabupaten Blitar, Jawa Timur, untuk selanjutnya disebut sebagai <strong>PIHAK PERTAMA</strong></li>
-                        <li style="text-align: justify; line-height: 1.5;"><strong>AHMAD SO&rsquo;EM</strong> dalam hal ini bertindak untuk dan atas nama AHMAD SO&rsquo;EM, yang berkedudukan di Dsn. Kunci Rt.006 Rw.002 Pamongan Kecamatan Mojo Kab.Kediri, pribadi untuk selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong>.</li>
+                        <li style="text-align: justify; line-height: 1.5;"><strong>{{$po->nama}}</strong> dalam hal ini bertindak untuk dan atas nama AHMAD SO&rsquo;EM, yang berkedudukan di Dsn. Kunci Rt.006 Rw.002 Pamongan Kecamatan Mojo Kab.Kediri, pribadi untuk selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong>.</li>
                         </ol>
                         </div>
                         <div style="text-align: justify; line-height: 1.5;">PARA PIHAK tetap bertindak sebagaimana tersebut di atas dengan ini menerangkan terlebih dahulu hal-hal sebagai berikut :</div>
@@ -217,6 +221,7 @@
 
     @push('page-script')
 
+    @if (auth()->guard('admin')->check())
         <script>
             tinymce.init({
                 selector: '#myTextarea',
@@ -239,6 +244,7 @@
                 content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}'
             });
         </script>
+    @endif
 
         <script>
             $(document).ready(function() {
