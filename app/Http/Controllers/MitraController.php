@@ -40,17 +40,6 @@ class MitraController extends Controller
             $kd = "0001";
         }
 
-        //dd($request);
-
-        // Get the uploaded image
-        $logo = $request->file('logo');
-
-        // Generate a unique file name for the logo
-        $filename = time() . '_' . uniqid() . '.' . $logo->getClientOriginalExtension();
-
-        // Move the uploaded logo to the desired location
-        $logo->move(('logo'), $filename);
-
         //Create Table
         $mitra = new Mitra;
         $mitra->id_mitra = ("MIT" . $kd);
@@ -59,11 +48,6 @@ class MitraController extends Controller
         $mitra->password = bcrypt($request->password);
         $mitra->email = $request->email;
         $mitra->no_telp = $request->no_telp;
-        $mitra->nik = $request->nik;
-        $mitra->npwp = $request->npwp;
-        $mitra->alamat = $request->alamat;
-        $mitra->koordinat = $request->koordinat;
-        $mitra->logo = 'logo/' . $filename;
         $mitra->status = 0;
         $mitra->save();
 
@@ -116,23 +100,33 @@ class MitraController extends Controller
         return view('Mitra.detail', ['mitra' => $mitra]);
     }
 
+    //View Edit Data Profil Mitra
+    public function edit($id_mitra)
+    {
+        $mitra = Mitra::where('id_mitra', $id_mitra)->first();
+
+        return view('Mitra.edit', ['mitra' => $mitra]);
+    }
+
     //Update Data Profil Mitra
     public function update(Request $request, $id_mitra)
     {
-        $model = Mitra::findOrFail($id_mitra);
-        $model->nama = $request->nama;
-        $model->username = $request->username;
-        $model->password = bcrypt($request->password);
-        $model->email = $request->email;
-        $model->no_telp = $request->no_telp;
-        $model->nik = $request->nik;
-        $model->npwp = $request->npwp;
-        $model->alamat = $request->alamat;
-        $model->koordinat = $request->koordinat;
-        $model->logo = $request->logo;
-        $model->status = $request->status;
+        //dd($request);
 
-        $model->save();
+        $data = $request->except(['_token', '_method']);
+
+        if ($request->hasFile('logo')) {
+            // Get the uploaded image
+            $logo = $request->file('logo');
+            // Generate a unique file name for the logo
+            $filename = time() . '_' . uniqid() . '.' . $logo->getClientOriginalExtension();
+            // Move the uploaded logo to the desired location
+            $logo->move(public_path('logo'), $filename);
+            $data['logo'] = $filename;
+
+        }
+
+        Mitra::where('id_mitra', $id_mitra)->update($data);
 
         return redirect('/mitra/profil')->with('alert', 'Data Berhasil Diubah');
     }
@@ -140,13 +134,24 @@ class MitraController extends Controller
     //View SPK Mitra
     public function spk()
     {
-        $mitra = Auth::guard('mitra')->user()->id_mitra;
+        if (Auth::guard('mitra')->check()) {
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-        $po = DB::table('purchase_orders')
-            ->join('mitras', 'purchase_orders.id_mitra', '=', 'mitras.id_mitra')
-            ->select('purchase_orders.*', 'mitras.nama')
-            ->where('purchase_orders.id_mitra', $mitra)
-            ->first();
+            $po = DB::table('purchase_orders')
+                ->join('mitras', 'purchase_orders.id_mitra', '=', 'mitras.id_mitra')
+                ->select('purchase_orders.*', 'mitras.nama')
+                ->where('purchase_orders.id_mitra', $mitra)
+                ->first();
+
+            $today = Carbon::now();
+
+            $day = $today->dayName;
+            $tanggal = $today->day; // Tanggal (hari)
+            $bulan = $today->monthName;   // Bulan
+            $tahun = $today->year;  // Tahun
+            $jamSekarang = $today->format('H:i:s'); // Jam
+            return view('Dokumen.spk', ['po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
+        }
 
         $today = Carbon::now();
 
@@ -156,6 +161,6 @@ class MitraController extends Controller
         $tahun = $today->year;  // Tahun
         $jamSekarang = $today->format('H:i:s'); // Jam
 
-        return view('Dokumen.spk', ['po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
+        return view('Dokumen.spk', ['day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
     }
 }

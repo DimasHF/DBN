@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rekaps', function (Blueprint $table) {
             $table->id();
-            $table->string('id_rekap')->unique();
+            $table->string('id_rekap');
             $table->string('id_tagihan');
             $table->string('status')->default('0')->nullable();
             $table->timestamps();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pinjamen', function (Blueprint $table) {
             $table->id();
-            $table->string('id_pinjaman')->unique();
+            $table->string('id_pinjaman');
             $table->string('id_mitra');
             $table->date('tanggal');
             $table->tinyInteger('status')->default(0)->nullable();

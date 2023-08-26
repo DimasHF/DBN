@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    return view('Mitra.map');
+    return view('Mitra.edit');
 });
 
 Route::prefix('admin')->group(function(){
@@ -53,6 +53,8 @@ Route::prefix('mitra')->group(function(){
     Route::get('/logout', [App\Http\Controllers\MitraController::class, 'logout'])->name('mitra.logout');
     Route::get('/', [App\Http\Controllers\MitraController::class, 'index'])->name('mitra.index');
     Route::get('/profil', [App\Http\Controllers\MitraController::class, 'profil'])->name('mitra.profil');
+    Route::get('/edit/{id_mitra}', [App\Http\Controllers\MitraController::class, 'edit'])->name('mitra.edit.form');
+    Route::post('/edit/{id_mitra}', [App\Http\Controllers\MitraController::class, 'update'])->name('mitra.edit.proses');
     
     Route::get('/pelanggan', [App\Http\Controllers\PelangganController::class, 'index'])->name('mitra.pelanggan');
     Route::get('/pelanggan/aktif', [App\Http\Controllers\PelangganController::class, 'aktif'])->name('mitra.pelanggan.aktif');

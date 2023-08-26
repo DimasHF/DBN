@@ -9,7 +9,7 @@
                 </div>
                 <!--Button Modal-->
                 <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-primary" id="modal">Update Profil</button>
+                    <a href="{{route('mitra.edit.form', $mitra->id_mitra)}}" class="btn btn-primary">Update Profil</a>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
                 <div class="card-body">
                     <p class="card-title">Logo Mitra</p>
                     <center>
-                        <img src="{{ asset($mitra->logo) }}" alt="image" style="max-width: 100%; max-heigth: 100%;"
+                        <img src="{{ asset('logo/'. $mitra->logo) }}" alt="image" style="max-width: 100%; max-heigth: 100%;"
                             class="mx-auto">
                     </center>
                 </div>

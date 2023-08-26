@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('nik')->nullable();
             $table->string('npwp')->nullable();
             $table->string('alamat')->nullable();
-            $table->string('koordinat')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             $table->string('logo')->nullable();
             $table->tinyInteger('status')->default(0)->nullable();
             $table->timestamps();

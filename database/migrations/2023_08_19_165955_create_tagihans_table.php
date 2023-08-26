@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tagihans', function (Blueprint $table) {
             $table->id();
-            $table->string('id_tagihan')->unique();
+            $table->string('id_tagihan');
             $table->string('id_laypel');
             $table->string('pajak')->nullable();
             $table->string('total')->nullable();

@@ -68,38 +68,11 @@
                                         name="email" placeholder="Masukkan Email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="number" class="form-control form-control-lg" id="no_telp"
-                                        name="no_telp" placeholder="Masukkan No. Telp">
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" class="form-control form-control-lg" id="nik"
-                                        name="nik" placeholder="Masukkan NIK">
-                                </div>
-                                <div class="form-group">
-                                    <input type="npwp" class="form-control form-control-lg" id="npwp"
-                                        name="npwp" placeholder="Masukkan NPWP">
-                                </div>
-                                <div class="form-group">
-                                    <input type="alamat" class="form-control form-control-lg" id="alamat"
-                                        name="alamat" placeholder="Masukkan Alamat">
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" class="form-control form-control-lg" id="latitude"
-                                        name="latitude" placeholder="latitude">
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" class="form-control form-control-lg" id="longitude"
-                                        name="longitude" placeholder="longtitude">
-                                </div>
-                                <div class="form-group">
-                                    <input type="file" name="logo" id="logo" class="file-upload-default">
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled
-                                            placeholder="Upload Logo">
-                                        <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-primary"
-                                                type="button">Upload</button>
-                                        </span>
+                                        <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">+62</span>
+                                        </div>
+                                        <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp">
                                     </div>
                                 </div>
                                 <div class="mb-4">
@@ -133,8 +106,6 @@
     <!-- plugins:js -->
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
