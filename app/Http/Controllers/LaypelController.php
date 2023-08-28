@@ -78,16 +78,6 @@ class LaypelController extends Controller
     //View Data Barang Untuk Dipinjam
     public function laypel(Request $request)
     {
-        $autoId = DB::table('laypels')->select(DB::raw('MAX(RIGHT(id_laypel,4)) as autoId'));
-        $kd = "";
-        if ($autoId->count() > 0) {
-            foreach ($autoId->get() as $a) {
-                $tmp = ((int)$a->autoId) + 1;
-                $kd = sprintf("%04s", $tmp);
-            }
-        } else {
-            $kd = "0001";
-        }
 
         $autoId = DB::table('transaksis')->select(DB::raw('MAX(RIGHT(id_transaksi,4)) as autoId'));
         $kds = "";
@@ -102,7 +92,7 @@ class LaypelController extends Controller
 
         if ($request->nomor == null) {
             //Gagal
-            dd($request);
+            // dd($request);
         } else {
             $count_barang = count($request->nomor);
             for ($i = 0; $i < $count_barang; $i++) {
@@ -110,7 +100,6 @@ class LaypelController extends Controller
                 //Berhasil
                 $lay = new Laypel;
                 $lay->id_transaksi = ("TR-" . $kds);
-                $lay->id_laypel = ("LP-" . $kd);
                 $lay->id_pelanggan = $request->id_pelanggan[$i];
                 $lay->id_layanan = $request->id_layanan[$i];
                 $lay->pajak = $request->pajak[$i];
@@ -135,5 +124,19 @@ class LaypelController extends Controller
         }
 
         return view('Laypel.index');
+    }
+
+    //Detail Layanan Pelanggan
+    public function detail($id_transaksi)
+    {
+        $detail = new Transaksi();
+        $detail = $detail->where('id_transaksi', $id_transaksi)->first();
+        $detail2 = new Laypel();
+        $detaillayanan = $detail2->where('id_transaksi', $id_transaksi)->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')->get();
+        $detailpelanggan = $detail2->where('id_transaksi', $id_transaksi)->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+                                ->join('mitras', 'pelanggans.id_mitra', '=', 'mitras.id_mitra')->select('pelanggans.*', 'mitras.nama as nama_mitra')
+                                ->first();
+
+        return view('Laypel.detail', compact('detail', 'detaillayanan', 'detailpelanggan'));
     }
 }

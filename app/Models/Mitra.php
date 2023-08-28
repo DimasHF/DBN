@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Mitra extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'id_mitra',
@@ -23,7 +23,8 @@ class Mitra extends Authenticatable
         'nik',
         'npwp',
         'alamat',
-        'koordinat',
+        'longitude',
+        'latitude',
         'logo',
         'status',
     ];

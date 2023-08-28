@@ -53,26 +53,26 @@
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
-                                        id="nama" placeholder="Masukkan Nama">
+                                        id="nama" placeholder="Masukkan Nama" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="username"
-                                        id="username" placeholder="Masukkan Username">
+                                        id="username" placeholder="Masukkan Username" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password"
-                                        id="password" placeholder="Masukkan Password">
+                                        id="password" placeholder="Masukkan Password" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        name="email" placeholder="Masukkan Email">
+                                        name="email" placeholder="Masukkan Email" required>
                                 </div>
                                 <div class="form-group">
                                         <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">+62</span>
                                         </div>
-                                        <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp">
+                                        <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp" required>
                                     </div>
                                 </div>
                                 <div class="mb-4">

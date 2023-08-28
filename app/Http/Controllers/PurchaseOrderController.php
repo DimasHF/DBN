@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mitra;
 use App\Models\PurchaseOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,5 +98,39 @@ class PurchaseOrderController extends Controller
         $document = PurchaseOrder::where('id_purchase_order', $id_purchase_order)->first();
         $download = $document->ba;
         return response()->download(public_path('/bas/' . $download));
+    }
+
+    //SPK
+    public function spk(Request $request)
+    {
+        if (Auth::guard('mitra')->check()) {
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+
+            $po = DB::table('mitras')
+                ->select('mitras.*')
+                ->where('mitras.id_mitra', $mitra)
+                ->first();
+
+            $today = Carbon::now();
+
+            $day = $today->dayName;
+            $tanggal = $today->day; // Tanggal (hari)
+            $bulan = $today->monthName;   // Bulan
+            $tahun = $today->year;  // Tahun
+            $jamSekarang = $today->format('H:i:s'); // Jam
+            
+            return view('Mitra.spk', ['mitra' => $mitra, 'po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
+        }
+
+        $mitra = Mitra::where('id_mitra', '=', $request->id_mitra)->first();
+
+        $today = Carbon::now();
+
+        $day = $today->dayName;
+        $tanggal = $today->day; // Tanggal (hari)
+        $bulan = $today->monthName;   // Bulan
+        $tahun = $today->year;  // Tahun
+
+        return view('Mitra.spk', ['mitra' => $mitra, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun]);
     }
 }

@@ -19,3 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/mitra/konfimasi/{status}/{id_mitra}', [App\Http\Controllers\AdminController::class, 'konfirmasi'])->name('mitra.konfimasi');
+
+Route::post('/mitra/aktif/{status}/{id_mitra}', [App\Http\Controllers\AdminController::class, 'aktif'])->name('mitra.aktif');

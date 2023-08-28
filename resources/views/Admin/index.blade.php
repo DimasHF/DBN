@@ -109,6 +109,9 @@
                                     <center>Nama Mitra</center>
                                 </th>
                                 <th>
+                                    <center>SPK</center>
+                                </th>
+                                <th>
                                     <center>Status</center>
                                 </th>
                                 <th>
@@ -130,6 +133,15 @@
                                     </td>
                                     <td>
                                         <center>{{ $t->nama }}</center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <a href="{{ route('admin.spk', $t->id_mitra) }}"
+                                                class="btn btn-sm btn-info btn-icon-text edit">
+                                                Buat SPK
+                                                <i class="ti-file btn-icon-append"></i>
+                                            </a>
+                                        </center>
                                     </td>
                                     <td>
                                         <center>

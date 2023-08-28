@@ -41,19 +41,13 @@
                                     </th>
                                 @endif
                                 <th>
-                                    <center>ID Pelanggan</center>
+                                    <center>ID Transaksi</center>
                                 </th>
                                 <th>
                                     <center>Nama Pelanggan</center>
                                 </th>
                                 <th>
-                                    <center>Layanan</center>
-                                </th>
-                                <th>
-                                    <center>Kirim Pesan</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
+                                    <center>Tagihan</center>
                                 </th>
                             </tr>
                         </thead>
@@ -61,7 +55,7 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($pelanggan as $t)
+                            @foreach ($transaksi as $t)
                                 <tr>
                                     <td>
                                         <center>{{ $no++ }}</center>
@@ -73,29 +67,15 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <center>{{ $t->id_pelanggan }}</center>
+                                        <center>{{ $t->id_transaksi }}</center>
                                     </td>
                                     <td>
                                         <center>{{ $t->nama }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->nama_layanan }}</center>
-                                    </td>
-                                    <td>
                                         <center>
-                                            <a href="https://api.whatsapp.com/send?phone={{ $t->no_telp }}&text=Halo%20ada%20yang%20bisa%20saya%20bantu?"
-                                                target="_blank">
-                                                <span class="btn btn-sm btn-success btn-icon-text">Pesan</span>
-                                            </a>
-                                        </center>
-
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a onclick="javascript:void(0)" data-id="{{ $t->id_pelanggan }}"
-                                                class="btn btn-sm btn-info btn-icon-text edit">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
+                                            <a href="/mitra/laypel/detail/{{ $t->id_transaksi }}">
+                                                <span class="btn btn-sm btn-primary btn-icon-text">Liat Tagihan</span>
                                             </a>
                                         </center>
                                     </td>

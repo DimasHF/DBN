@@ -1,5 +1,9 @@
 @extends('index')
 @section('content')
+    <link href="{{ asset('assets/jquery-steps/jquery.steps.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/jquery-steps/steps.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/style.min.css') }}">
+
     @php
         use App\Models\PurchaseOrder;
     @endphp
@@ -91,6 +95,21 @@
                 </div>
             </div>
         </div>
+    @elseif (PurchaseOrder::where('status', 0)->where(
+                'id_mitra',
+                auth()->guard('mitra')->user()->id_mitra)->exists())
+        <div class="col-md-12 grid-margin transparent">
+            <div class="row">
+                <div class="col-md-12 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                        <div class="card-body">
+                            <h3 class="mb-4">Informasi</h3>
+                            <p class="fs-30 mb-2" style="font-size: 20px">Purchase Order Sudah Terkirim dan Dalam Proses Pemeriksaan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @elseif (auth()->guard('mitra')->user()->status == 1)
         <div class="col-md-12 grid-margin transparent">
             <div class="row">
@@ -100,6 +119,20 @@
                             <h3 class="mb-4">Informasi</h3>
                             <p class="fs-30 mb-2" style="font-size: 20px">Akun Mitra Telah Disetujui, Silahkan Melakukan
                                 Proses Dengan Mengirimkan Dokumen Yang Kami Berikan Pada Menu Purchase Order</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @elseif (auth()->guard('mitra')->user()->nik == null)
+        <div class="col-md-12 grid-margin transparent">
+            <div class="row">
+                <div class="col-md-12 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                        <div class="card-body">
+                            <h3 class="mb-4">Informasi</h3>
+                            <p class="fs-30 mb-2" style="font-size: 20px">Akun Mitra Berhasil Dibuat, Silahkan Lengkapi
+                                Profil Untuk Melanjutkan Proses</p>
                         </div>
                     </div>
                 </div>
@@ -121,9 +154,6 @@
         </div>
     @endif
 
-    {{-- Card Layanan --}}
-
-    <!--JS Jam & Tanggal-->
     <script type="text/javascript">
         window.setTimeout("jam_aktif()", 1000);
 

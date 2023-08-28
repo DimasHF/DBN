@@ -41,6 +41,8 @@ Route::prefix('admin')->group(function(){
     Route::get('/mitra', [App\Http\Controllers\AdminController::class, 'mitra'])->name('admin.mitra');
     Route::get('/mitra/{id_mitra}', [App\Http\Controllers\AdminController::class, 'detail'])->name('admin.mitra.detail');
 
+    Route::get('/spk/{id_mitra}', [App\Http\Controllers\PurchaseOrderController::class, 'spk'])->name('admin.spk');
+
     Route::get('/layanan', [App\Http\Controllers\LayananController::class, 'index'])->name('admin.layanan');
 
     Route::get('/purchase', [App\Http\Controllers\PurchaseOrderController::class, 'index'])->name('admin.purchase');
@@ -84,10 +86,14 @@ Route::prefix('mitra')->group(function(){
     Route::post('/pelanggan/search', [App\Http\Controllers\LaypelController::class, 'pelanggan'])->name('mitra.search.pelanggan');
     Route::post('/layanan/search', [App\Http\Controllers\LaypelController::class, 'layanan'])->name('mitra.search.layanan');
     Route::post('/laypel/add', [App\Http\Controllers\LaypelController::class, 'laypel'])->name('mitra.tambah.laypel');
+    Route::get('/laypel/detail/{id_transaksi}', [App\Http\Controllers\LaypelController::class, 'detail'])->name('mitra.detail.laypel');
 
-    Route::get('/spk', [App\Http\Controllers\MitraController::class, 'spk'])->name('mitra.spk');
+    Route::get('/spk', [App\Http\Controllers\PurchaseOrderController::class, 'spk'])->name('mitra.spk');
 
-    Route::get('/map', [App\Http\Controllers\MitraController::class, 'map'])->name('mitra.map');
+    Route::get('/map/{id_mitra}', [App\Http\Controllers\MitraController::class, 'map'])->name('mitra.map');
+
+    Route::get('/tagihan', [App\Http\Controllers\TagihanController::class, 'index'])->name('mitra.cetak.tagihan');
+    Route::get('/tagihan/cetak/{tgl_awal}/{tgl_akhir}', [App\Http\Controllers\TagihanController::class, 'cetak'])->name('mitra.cetak.tagihan.proses');
 
 });
 

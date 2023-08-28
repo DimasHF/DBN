@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label>Foto</label>
-                        <input type="file" name="foto" id="foto" class="file-upload-default">
+                        <input type="file" name="foto" id="foto" class="file-upload-default" accept=".jpg, .jpeg, .png">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Foto">
                             <span class="input-group-append">
@@ -41,13 +41,4 @@
         </div>
     </div>
 
-    @push('page-script')
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-    @endpush
 @endsection

@@ -35,19 +35,19 @@
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
-                                        id="nama" placeholder="nama">
+                                        id="nama" placeholder="Nama" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="username"
-                                        id="username" placeholder="Username">
+                                        id="username" placeholder="Username" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password"
-                                        id="password" placeholder="password">
+                                        id="password" placeholder="password" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Email" name="email">
+                                        placeholder="Email" name="email" required>
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">

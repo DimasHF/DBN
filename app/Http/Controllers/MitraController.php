@@ -47,7 +47,7 @@ class MitraController extends Controller
         $mitra->username = $request->username;
         $mitra->password = bcrypt($request->password);
         $mitra->email = $request->email;
-        $mitra->no_telp = $request->no_telp;
+        $mitra->no_telp = ("62".$request->no_telp);
         $mitra->status = 0;
         $mitra->save();
 
@@ -95,7 +95,7 @@ class MitraController extends Controller
     {
         $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-        $mitra = Mitra::where('id_mitra', $mitra)->first();
+        $mitra = Mitra::where('id_mitra', $mitra)->select('*')->first();
 
         return view('Mitra.detail', ['mitra' => $mitra]);
     }
@@ -103,7 +103,7 @@ class MitraController extends Controller
     //View Edit Data Profil Mitra
     public function edit($id_mitra)
     {
-        $mitra = Mitra::where('id_mitra', $id_mitra)->first();
+        $mitra = Mitra::where('id_mitra', $id_mitra)->select('*')->first();
 
         return view('Mitra.edit', ['mitra' => $mitra]);
     }
@@ -125,6 +125,8 @@ class MitraController extends Controller
             $data['logo'] = $filename;
 
         }
+
+        $data['notelp'] = '62' . $request->notelp;
 
         Mitra::where('id_mitra', $id_mitra)->update($data);
 
@@ -167,7 +169,8 @@ class MitraController extends Controller
     //View Map Mitra
     public function map()
     {
-        $mitra = Auth::guard('mitra')->user()->id_mitra;
+        $mitra1 = Auth::guard('mitra')->user()->id_mitra;
+        $mitra = Mitra::find($mitra1);
         return view('Mitra.map', ['mitra' => $mitra]);
     }
 }

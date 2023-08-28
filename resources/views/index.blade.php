@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DBN</title>
@@ -78,7 +79,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('admin.purchase')}}">
+                            <a class="nav-link" href="{{ route('admin.purchase') }}">
                                 <i class="icon-layout menu-icon"></i>
                                 <span class="menu-title">Purchase Order</span>
                             </a>
@@ -98,8 +99,10 @@
                             </a>
                             <div class="collapse" id="list">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.pelanggan') }}">List Pelanggan</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.layanan')}}">List Layanan</a></li>
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('admin.pelanggan') }}">List Pelanggan</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.layanan') }}">List
+                                            Layanan</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="{{ route('admin.mitra') }}">List
                                             Mitra</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
@@ -128,13 +131,13 @@
                         </li>
                         @if (auth()->guard('mitra')->user()->status == 1)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('mitra.po')}}">
+                                <a class="nav-link" href="{{ route('mitra.po') }}">
                                     <i class="icon-layout menu-icon"></i>
                                     <span class="menu-title">Purchase Order</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('mitra.spk')}}">
+                                <a class="nav-link" href="{{ route('mitra.spk') }}">
                                     <i class="icon-layout menu-icon"></i>
                                     <span class="menu-title">SPK</span>
                                 </a>
@@ -156,6 +159,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('mitra.cetak.tagihan') }}">
+                                    <i class="icon-layout menu-icon"></i>
+                                    <span class="menu-title">Cetak Tagihan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
                                     aria-controls="mitra">
                                     <i class="icon-columns menu-icon"></i>
@@ -171,8 +180,8 @@
                                                 href="{{ route('mitra.layanan') }}">List Layanan</a>
                                         </li>
                                         <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('mitra.barang') }}">List Barang</a>
-                                    </li>
+                                                href="{{ route('mitra.barang') }}">List Barang</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -303,6 +312,7 @@
             alert(msg);
         }
     </script>
+
 </body>
 
 </html>

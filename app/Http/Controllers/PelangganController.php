@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laypel;
 use App\Models\Pelanggan;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,20 +37,24 @@ class PelangganController extends Controller
         if (Auth::guard('mitra')->check()) {
             $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-            $pelanggan = Laypel::join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+            $transaksi = Transaksi::join('laypels', 'transaksis.id_transaksi', '=', 'laypels.id_transaksi')
                 ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
-                ->select('laypels.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
-                ->where('pelanggans.id_mitra', $mitra)->get();
-
-            return view('Pelanggan.aktif', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
-        } elseif (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
-
-            $pelanggan = Laypel::join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
-                ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
-                ->select('laypels.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->where('pelanggans.id_mitra', '=', $mitra)
+                ->distinct()
                 ->get();
 
-            return view('Pelanggan.aktif', ['pelanggan' => $pelanggan]);
+            return view('Pelanggan.aktif', ['transaksi' => $transaksi, 'mitra' => $mitra]);
+        } elseif (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
+
+            $transaksi = Transaksi::join('laypels', 'transaksis.id_transaksi', '=', 'laypels.id_transaksi')
+                ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
+                ->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->get();
+
+            return view('Pelanggan.aktif', ['transaksi' => $transaksi]);
         }
     }
 

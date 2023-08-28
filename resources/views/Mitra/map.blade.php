@@ -73,10 +73,16 @@
             theMarker = L.marker([latitude, longitude]).addTo(leafletMap);
 
             var konfirmasi = document.getElementById('kirim');
+            var mitraId = @json($mitra ? $mitra->id_mitra : null); // Menghindari karakter khusus
+
             konfirmasi.addEventListener('click', function() {
-                if (window.confirm('Apakah koordinat telah tepat?')) {
-                    window.location.href = '/mitra/edit/' + id_mitra '?latitude=' + latitude + '&longitude=' +
+                if (window.confirm('Apakah Anda ingin pindah ke halaman tujuan?')) {
+                    if(mitraId) {
+                    window.location.href = '/mitra/edit/' + mitraId + '?latitude=' + latitude + '&longitude=' +
                         longitude;
+                    } else {
+                        return false;
+                    }
                 }
             });
         });

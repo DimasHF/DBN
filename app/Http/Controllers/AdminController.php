@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Mitra;
+use App\Models\PurchaseOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -118,10 +120,54 @@ class AdminController extends Controller
         $apikey = "c334dfca6ce6e04338dc0a34f833ab10dea42f87";
         $tujuan = $model->no_telp; //atau $tujuan="Group Chat Name";
         $pesan = "Testttttttttttt";
-        $filePath="C:\Users\USER\Downloads\logo.jpeg";
-        
+        $filePath = "C:\Users\USER\Downloads\logo.jpeg";
+
         $curl = curl_init();
-        
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://starsender.online/api/sendFilesUpload?message=' . rawurlencode($pesan) . '&tujuan=' . rawurlencode($tujuan . '@s.whatsapp.net'),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('file' => curl_file_create($filePath)),
+            CURLOPT_HTTPHEADER => array(
+                'apikey: ' . $apikey
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+        if ($model->save()) {
+
+            $notice = ['alert' => 'Status Telah Diganti'];
+        }
+
+        return redirect()->back()->with($notice);
+    }
+
+    //Konfirmasi Mitra
+    public function aktif($status, $id_purchase_order)
+    {
+        $model = PurchaseOrder::findOrFail($id_purchase_order);
+        $model->status = $status;
+
+        //$model->dd();
+        $mitra = Mitra::where('id_mitra', $model->id_mitra)->first();
+
+        $apikey = "c334dfca6ce6e04338dc0a34f833ab10dea42f87";
+        $tujuan = $mitra->no_telp; //atau $tujuan="Group Chat Name";
+        $pesan = "Testttttttttttt 2";
+        $filePath="C:\Users\USER\Downloads\logo.jpeg";
+
+        $curl = curl_init();
+
         curl_setopt_array($curl, array(
           CURLOPT_URL => 'https://starsender.online/api/sendFilesUpload?message='.rawurlencode($pesan).'&tujuan='.rawurlencode($tujuan.'@s.whatsapp.net'),
           CURLOPT_RETURNTRANSFER => true,
@@ -136,17 +182,18 @@ class AdminController extends Controller
             'apikey: '.$apikey
           ),
         ));
-        
+
         $response = curl_exec($curl);
-        
+
         curl_close($curl);
         echo $response;
-        
+
         if ($model->save()) {
 
             $notice = ['alert' => 'Status Telah Diganti'];
         }
-        
+
+
         return redirect()->back()->with($notice);
     }
 

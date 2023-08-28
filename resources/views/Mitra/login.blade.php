@@ -29,17 +29,17 @@
                             <div class="brand-logo">
                                 <img src="{{ asset('images/logo.svg') }}" alt="logo">
                             </div>
-                            <h4>Hello! let's get started</h4>
+                            <h4>Hello Mitra! let's get started</h4>
                             <h6 class="font-weight-light">Sign in to continue.</h6>
                             <form class="pt-3" action="{{ route('mitra.loginproses') }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <input type="username" class="form-control form-control-lg" id="username"
-                                        name="username" placeholder="Username">
+                                        name="username" placeholder="Username" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password"
-                                        id="password" placeholder="Password">
+                                        id="password" placeholder="Password" required>
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit"

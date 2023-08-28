@@ -8,9 +8,11 @@
                     <h3 class="font-weight-bold">Profil Mitra</h3>
                 </div>
                 <!--Button Modal-->
-                <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{{route('mitra.edit.form', $mitra->id_mitra)}}" class="btn btn-primary">Update Profil</a>
-                </div>
+                @if(auth()->guard('mitra')->check())
+                    <div class="col-md-4 col-xl-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{route('mitra.edit.form', $mitra->id_mitra)}}" class="btn btn-primary">Update Profil</a>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="col-md-6 stretch-card grid-margin">
@@ -83,7 +85,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">Koordinat</label>:
                                     <div class="col-sm-9">
-                                        {{ $mitra->Koordinat }}
+                                        {{ $mitra->latitude }}, {{ $mitra->longitude }}
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +99,7 @@
                 <div class="card-body">
                     <p class="card-title">Logo Mitra</p>
                     <center>
-                        <img src="{{ asset('logo/'. $mitra->logo) }}" alt="image" style="max-width: 100%; max-heigth: 100%;"
+                        <img src="{{ asset('logo/'. $mitra->logo) }}" alt="image" style="max-width: 600px; max-heigth: 600px;"
                             class="mx-auto">
                     </center>
                 </div>

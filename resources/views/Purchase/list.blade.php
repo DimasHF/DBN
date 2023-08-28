@@ -73,10 +73,21 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="https://api.whatsapp.com/send?phone=&text=Halo%20ada%20yang%20bisa%20saya%20bantu?"
-                                                target="_blank">
-                                                <span class="btn btn-sm btn-success btn-icon-text">Setuju</span>
-                                            </a>
+                                            @if ($t->status == 0)
+                                                <form action="/api/mitra/aktif/1/{{ $t->id_purchase_order }}" method="POST">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-danger btn-icon-text">Setuju
+                                                        <i class="ti-alert btn-icon-append"></i>
+                                                    </button>
+                                                </form>
+                                            @elseif ($t->status == 1)
+                                                <form action="/api/mitra/aktif/0/{{ $t->id_purchase_order }}" method="POST">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-success btn-icon-text">Menjadi Mitra
+                                                        <i class="ti-check btn-icon-append"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </center>
 
                                     </td>

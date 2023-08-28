@@ -15,5 +15,11 @@ class Transaksi extends Model
     //Primary Key
     protected $primaryKey = 'id_transaksi';
     public $incrementing = false;
+
+    //Relation
+    public function transaksi()
+    {
+        return $this->hasMany(Laypel::class);
+    }
     
 }

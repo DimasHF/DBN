@@ -49,7 +49,6 @@
                                         <input type="text" class="form-control form-control-user" id="id_layanan"
                                             name="id_layanan" placeholder="Masukkan Nama layanan" aria-label="Search"
                                             aria-describedby="basic-addon2">
-                                        <input type="hidden" name="_token" id="csrf" value="{{ Session::token() }}">
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +57,7 @@
                                     <label class="col-sm-3 col-form-label">Terima</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="tanggal" id="tanggal"
-                                            value="{{ date('d-m-y') }}" readonly />
+                                            value="{{ date('Y-m-d') }}" readonly />
                                     </div>
                                 </div>
                             </div>
@@ -129,10 +128,10 @@
                                         <center>Pajak</center>
                                     </th>
                                     <th width="200px">
-                                        <center>Subtotal Tanpa pajak</center>
+                                        <center>Subtotal Awal</center>
                                     </th>
                                     <th width="200px">
-                                        <center>Subtotal pajak</center>
+                                        <center>Subtotal Dengan Pajak</center>
                                     </th>
                                 </tr>
                             </thead>
@@ -243,6 +242,14 @@
                     formattedSubtotalPajak = SubtotalPajak.replace(/\.?0+$/, '');
                     let subtotal = $("#harga").val();
 
+                    function biaya() {
+                        if (pajak == 1) {
+                            return formattedSubtotalPajak;
+                        } else {
+                            return subtotal;
+                        }
+                    }
+
                     let new_row = row - 1;
                     $('#template').append(
                         '<tr><td><input type="text" class="form-control form-control-user"name="nomor[]" value="' +
@@ -262,7 +269,7 @@
                         '"readonly></td><td><input type="text" class="form-control form-control-user" name="subtotal[]" value="' +
                         subtotal +
                         '"readonly></td><td><input type="text" class="form-control form-control-user" name="subtotalpajak[]" value="' +
-                        formattedSubtotalPajak +
+                        biaya() +
                         '" readonly></td></tr>'
 
                     );
