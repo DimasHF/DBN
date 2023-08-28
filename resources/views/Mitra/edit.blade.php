@@ -34,13 +34,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">+62</span>
                             </div>
-                            <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp"
+                            <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp"
                                 value="{{ substr($mitra->no_telp, 2) }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="nik">NIK</label>
-                        <input type="number" class="form-control" id="nik" name="nik" placeholder="NIK"
+                        <input type="text" pattern="[0-9]*" title="Harap masukkan hanya angka" class="form-control" id="nik" name="nik" placeholder="NIK"
                             value="{{ $mitra->nik }}">
                     </div>
                     <div class="form-group">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>Longtitude<a href="/map">   Lihat Map</a></label>
+                            <label>Longtitude<a href="/mitra/map">   Lihat Map</a></label>
                             <div class="form-group">
                                 <input type="number" class="form-control" id="longitude" name="longitude"
                                     value="{{ $mitra->longitude }}" />

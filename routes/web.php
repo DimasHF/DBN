@@ -17,6 +17,10 @@ Route::get('/test', function () {
     return view('Mitra.edit');
 });
 
+Route::get('/map', function () {
+    return view('Mitra.map');
+});
+
 Route::prefix('admin')->group(function(){
     Route::get('/login', [App\Http\Controllers\AdminController::class, 'logview'])->name('admin.login');
     Route::post('/login', [App\Http\Controllers\AdminController::class, 'login'])->name('admin.loginproses');
@@ -82,6 +86,8 @@ Route::prefix('mitra')->group(function(){
     Route::post('/laypel/add', [App\Http\Controllers\LaypelController::class, 'laypel'])->name('mitra.tambah.laypel');
 
     Route::get('/spk', [App\Http\Controllers\MitraController::class, 'spk'])->name('mitra.spk');
+
+    Route::get('/map', [App\Http\Controllers\MitraController::class, 'map'])->name('mitra.map');
 
 });
 

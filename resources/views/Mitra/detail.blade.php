@@ -103,6 +103,17 @@
                 </div>
             </div>
         </div>
-        
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const latitude = urlParams.get('latitude');
+            const longitude = urlParams.get('longitude');
+
+            // Menampilkan nilai latitude dan longitude dalam elemen
+            document.getElementById("latitude").value = latitude || 'Tidak ada data';
+            document.getElementById("longitude").value = longitude || 'Tidak ada data';
+        });
+    </script>
 @endsection

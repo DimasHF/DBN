@@ -163,4 +163,11 @@ class MitraController extends Controller
 
         return view('Dokumen.spk', ['day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
     }
+
+    //View Map Mitra
+    public function map()
+    {
+        $mitra = Auth::guard('mitra')->user()->id_mitra;
+        return view('Mitra.map', ['mitra' => $mitra]);
+    }
 }

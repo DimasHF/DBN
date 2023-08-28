@@ -72,7 +72,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">+62</span>
                                         </div>
-                                        <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp">
+                                        <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp" name="no_telp" placeholder="No. Telp">
                                     </div>
                                 </div>
                                 <div class="mb-4">
@@ -114,18 +114,6 @@
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     <script src="{{ asset('assets/js/file-upload.js') }}"></script>
     <script src="{{ asset('assets/jqueryui/jquery-ui.js') }}"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const latitude = urlParams.get('latitude');
-            const longitude = urlParams.get('longitude');
-
-            // Menampilkan nilai latitude dan longitude dalam elemen
-            document.getElementById("latitude").value = latitude || 'Tidak ada data';
-            document.getElementById("longitude").value = longitude || 'Tidak ada data';
-        });
-    </script>
 
 </body>
 

@@ -75,7 +75,7 @@
             var konfirmasi = document.getElementById('kirim');
             konfirmasi.addEventListener('click', function() {
                 if (window.confirm('Apakah koordinat telah tepat?')) {
-                    window.location.href = '/mitra/register?latitude=' + latitude + '&longitude=' +
+                    window.location.href = '/mitra/edit/' + id_mitra '?latitude=' + latitude + '&longitude=' +
                         longitude;
                 }
             });
