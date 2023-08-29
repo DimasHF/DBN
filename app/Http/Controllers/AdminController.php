@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Mitra;
+use App\Models\Pelanggan;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,7 +22,10 @@ class AdminController extends Controller
 
         $mitra = Mitra::where('status', 0)->paginate(10);
 
-        return view('Admin.index', ['admin' => $admin, 'mitra' => $mitra]);
+        $jumlahmitra = Mitra::where('status', 1)->count();
+        $jumlahpelanggan = Pelanggan::where('status', 1)->count();
+
+        return view('Admin.index', ['admin' => $admin, 'mitra' => $mitra, 'jumlahmitra' => $jumlahmitra, 'jumlahpelanggan' => $jumlahpelanggan]);
     }
 
     //View Register Admin
@@ -119,28 +123,26 @@ class AdminController extends Controller
 
         $apikey = "c334dfca6ce6e04338dc0a34f833ab10dea42f87";
         $tujuan = $model->no_telp; //atau $tujuan="Group Chat Name";
-        $pesan = "Testttttttttttt";
-        $filePath = "C:\Users\USER\Downloads\logo.jpeg";
+        $pesan = "Akun Mitra Anda Telah Disetujui. Silahkan Login Untuk Melakukan Proses Purchase Order";
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://starsender.online/api/sendFilesUpload?message=' . rawurlencode($pesan) . '&tujuan=' . rawurlencode($tujuan . '@s.whatsapp.net'),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('file' => curl_file_create($filePath)),
-            CURLOPT_HTTPHEADER => array(
-                'apikey: ' . $apikey
-            ),
+          CURLOPT_URL => 'https://starsender.online/api/sendText?message='.rawurlencode($pesan).'&tujuan='.rawurlencode($tujuan.'@s.whatsapp.net'),
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_HTTPHEADER => array(
+            'apikey: '.$apikey
+          ),
         ));
-
+        
         $response = curl_exec($curl);
-
+        
         curl_close($curl);
         echo $response;
 
@@ -163,28 +165,26 @@ class AdminController extends Controller
 
         $apikey = "c334dfca6ce6e04338dc0a34f833ab10dea42f87";
         $tujuan = $mitra->no_telp; //atau $tujuan="Group Chat Name";
-        $pesan = "Testttttttttttt 2";
-        $filePath="C:\Users\USER\Downloads\logo.jpeg";
+        $pesan = "Purchase Order Anda Telah Disetujui. Sekarang Anda Menjadi Mitra Kami";
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://starsender.online/api/sendFilesUpload?message='.rawurlencode($pesan).'&tujuan='.rawurlencode($tujuan.'@s.whatsapp.net'),
+          CURLOPT_URL => 'https://starsender.online/api/sendText?message='.rawurlencode($pesan).'&tujuan='.rawurlencode($tujuan.'@s.whatsapp.net'),
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10, 
+          CURLOPT_MAXREDIRS => 10,
           CURLOPT_TIMEOUT => 0,
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => array('file'=> curl_file_create($filePath)),
           CURLOPT_HTTPHEADER => array(
             'apikey: '.$apikey
           ),
         ));
-
+        
         $response = curl_exec($curl);
-
+        
         curl_close($curl);
         echo $response;
 

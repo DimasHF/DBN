@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('id_tagmit');
             $table->string('id_mitra');
-            $table->string('invoice')->nullable();
+            $table->string('bayar')->nullable();
+            $table->string('sisa')->nullable();
             $table->string('total')->nullable();
             $table->string('status')->default('0')->nullable();
             $table->timestamps();

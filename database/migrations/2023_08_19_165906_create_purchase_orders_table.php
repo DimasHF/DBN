@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('spk')->nullable();
             $table->string('ba')->nullable();
-            // $table->string('invoice')->nullable();
             $table->tinyInteger('status')->default(0)->nullable();
             $table->timestamps();
         });

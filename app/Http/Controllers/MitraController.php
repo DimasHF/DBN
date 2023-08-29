@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layanan;
 use App\Models\Mitra;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +17,10 @@ class MitraController extends Controller
     public function index()
     {
         $mitra = Auth::guard('mitra')->check();
+        $pelanggan = Pelanggan::all()->count();
+        $layanan = Layanan::all()->count();
 
-        return view('Mitra.index', ['mitra' => $mitra]);
+        return view('Mitra.index', ['mitra' => $mitra, 'pelanggan' => $pelanggan, 'layanan' => $layanan]);
     }
 
     //View Register Mitra
@@ -126,7 +130,7 @@ class MitraController extends Controller
 
         }
 
-        $data['notelp'] = '62' . $request->notelp;
+        $data['no_telp'] = '62' . $request->no_telp;
 
         Mitra::where('id_mitra', $id_mitra)->update($data);
 

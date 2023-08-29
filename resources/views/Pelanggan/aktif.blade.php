@@ -70,7 +70,7 @@
                                         <center>{{ $t->id_transaksi }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->nama }}</center>
+                                        <center>{{ $t->nama_pel }}</center>
                                     </td>
                                     <td>
                                         <center>
@@ -93,14 +93,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-
         <script>
             $(document).ready(function() {
                 $('#datatable').DataTable();

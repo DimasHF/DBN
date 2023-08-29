@@ -29,25 +29,25 @@
                             <div class="brand-logo">
                                 <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
                             </div>
-                            <h4>New here?</h4>
+                            <h4>New Admin?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
                             <form class="pt-3" action="{{route('admin.regadmin')}}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
-                                        id="nama" placeholder="Nama" required>
+                                        id="nama" placeholder="Masukkan Nama" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="username"
-                                        id="username" placeholder="Username" required>
+                                        id="username" placeholder="Masukkan Username" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password"
-                                        id="password" placeholder="password" required>
+                                        id="password" placeholder="Masukkan Password" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Email" name="email" required>
+                                        placeholder="Masukkan Email" name="email" required>
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">
@@ -86,13 +86,6 @@
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     <!-- endinject -->
 
-    <script>
-        var msg = '{{ Session::get('alert') }}';
-        var exist = '{{ Session::has('alert') }}';
-        if (exist) {
-            alert(msg);
-        }
-    </script>
 </body>
 
 </html>

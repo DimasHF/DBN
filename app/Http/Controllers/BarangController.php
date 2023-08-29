@@ -48,7 +48,7 @@ class BarangController extends Controller
         //Save
         $barang = new Barang;
         $barang->id_barang = $request->id_barang;
-        $barang->nama = $request->nama;
+        $barang->nama_bar = $request->nama_bar;
         $barang->stok = $request->stok;
         $barang->status = 1;
         $barang->foto = 'barang/' . $filename;
@@ -61,20 +61,30 @@ class BarangController extends Controller
     //View Edit
     public function show($id_barang)
     {
-        $barang = Barang::find($id_barang);
-        return response()->json($barang);
+        $barang = Barang::where('id_barang', $id_barang)->first();
+        return view('Barang.edit', ['barang' => $barang]);
     }
 
     //Edit Barang
     public function edit(Request $request)
     {
-        //Update
-        Barang::updateOrCreate(
-            ['id_barang' => $request->id_barang],
-            ['nama' => $request->nama, 'stok' => $request->stok, 'foto' => $request->foto]
-        );
+        $data = $request->except(['_token', '_method']);
 
-        return response()->json(['success' => true, 'message' => 'Data Barang Diubah'], 200);
+        if ($request->hasFile('foto')) {
+            // Get the uploaded image
+            $foto = $request->file('foto');
+            // Generate a unique file name for the foto
+            $filename = time() . '_' . uniqid() . '.' . $foto->getClientOriginalExtension();
+            // Move the uploaded foto to the desired location
+            $foto->move(public_path('foto'), $filename);
+            $data['foto'] = $filename;
+
+        }
+
+        Barang::where('id_barang', $request->id_barang)->update($data);
+
+        //View Alert
+        return redirect('/admin/barang')->with('alert', 'Barang Berhasil Diperbarui');
     }
 
     //Status Barang

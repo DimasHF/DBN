@@ -12,12 +12,13 @@ class Pelanggan extends Model
     protected $fillable = [
         'id_pelanggan',
         'id_mitra',
-        'nama',
+        'nama_pel',
         'alamat',
         'email',
         'no_telp',
         'nik',
         'npwp',
+        'foto',
         'status',
     ];
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bayar;
+use App\Models\Layanan;
 use App\Models\Laypel;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
@@ -24,26 +26,26 @@ class LaypelController extends Controller
         $search = $request->search;
 
         if ($search == '') {
-            $cari = DB::table('pelanggans')->orderBy('nama', 'asc')
+            $cari = DB::table('pelanggans')->orderBy('nama_pel', 'asc')
                 ->select('pelanggans.*')
                 ->where('id_mitra', '=', $mitra)
                 ->where('status', '=', '1')
                 ->get();
         } else {
-            $cari = DB::table('pelanggans')->orderBy('nama', 'asc')
+            $cari = DB::table('pelanggans')->orderBy('nama_pel', 'asc')
                 ->select('pelanggans.*')
                 ->where('id_mitra', '=', $mitra)
                 ->where('status', '=', '1')
-                ->where('nama', 'like', '%' . $search . '%')
+                ->where('nama_pel', 'like', '%' . $search . '%')
                 ->get();
         }
 
         $response = array();
         foreach ($cari as $pelanggan) {
-            $response[] = array("value" => $pelanggan->nama, "label1" => $pelanggan->id_pelanggan);
+            $response[] = array("value" => $pelanggan->nama_pel, "label1" => $pelanggan->id_pelanggan);
         }
 
-        return response()->json($response);
+        return \response()->json($response);
     }
 
     //Search Layanan
@@ -53,31 +55,54 @@ class LaypelController extends Controller
         $search = $request->search;
 
         if ($search == '') {
-            $cari = DB::table('layanans')->orderBy('nama', 'asc')
+            $cari = Layanan::orderBy('nama_lay', 'asc')
                 ->select('layanans.*')
                 ->where('id_mitra', '=', $mitra)
                 ->where('status', '=', '1')
                 ->get();
         } else {
-            $cari = DB::table('layanans')->orderBy('nama', 'asc')
+            $cari = Layanan::orderBy('nama_lay', 'asc')
                 ->select('layanans.*')
                 ->where('id_mitra', '=', $mitra)
                 ->where('status', '=', '1')
-                ->where('nama', 'like', '%' . $search . '%')
+                ->where('nama_lay', 'like', '%' . $search . '%')
                 ->get();
         }
 
         $response = array();
         foreach ($cari as $suppli) {
-            $response[] = array("value" => $suppli->nama, "id_layanan" => $suppli->id_layanan, "layanan" => $suppli->nama, "harga" => $suppli->harga, "bandwidth" => $suppli->bandwidth);
+            $response[] = array("value" => $suppli->nama_lay, "id_layanan" => $suppli->id_layanan, "layanan" => $suppli->nama, "harga" => $suppli->harga, "bandwidth" => $suppli->bandwidth);
         }
 
         return response()->json($response);
     }
 
+
     //View Data Barang Untuk Dipinjam
     public function laypel(Request $request)
     {
+
+        $autoId = DB::table('bayars')->select(DB::raw('MAX(RIGHT(id_bayar,5)) as autoId'));
+        $kdb = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kdb = sprintf("%05s", $tmp);
+            }
+        } else {
+            $kdb = "00001";
+        }
+
+        $autoId = DB::table('laypels')->select(DB::raw('MAX(RIGHT(id_laypel,5)) as autoId'));
+        $kdl = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kdl = sprintf("%05s", $tmp);
+            }
+        } else {
+            $kdl = "00001";
+        }
 
         $autoId = DB::table('transaksis')->select(DB::raw('MAX(RIGHT(id_transaksi,4)) as autoId'));
         $kds = "";
@@ -94,31 +119,43 @@ class LaypelController extends Controller
             //Gagal
             // dd($request);
         } else {
-            $count_barang = count($request->nomor);
-            for ($i = 0; $i < $count_barang; $i++) {
+            $count = count($request->nomor);
+            for ($i = 0; $i < $count; $i++) {
 
                 //Berhasil
                 $lay = new Laypel;
+                $lay->id_laypel = ("LY-" . $kdl);
                 $lay->id_transaksi = ("TR-" . $kds);
                 $lay->id_pelanggan = $request->id_pelanggan[$i];
                 $lay->id_layanan = $request->id_layanan[$i];
+                $lay->harga = $request->harga[$i];
                 $lay->pajak = $request->pajak[$i];
-                $lay->biaya = $request->subtotalpajak[$i];
+                $lay->subtotal = $request->subtotal[$i];
                 $lay->status = 1;
-                //dd($lay);
-                $lay->save();
+                // dd($lay);
+                //$lay->save();
 
+                //Bayar
+                $bayar = new Bayar;
+                $bayar->id_bayar = ("BY-" . $kdb);
+                $bayar->id_laypel = ("LY-" . $kdl);
+                $bayar->tanggal_bayar = date('Y-m-d');
+                $bayar->total = $request->subtotal[$i];
+                $bayar->status = 1;
+                // dd($bayar);
+                //$bayar->save();
             }
 
             //transaksi
             $transaksi = new Transaksi;
             $transaksi->id_transaksi = ("TR-" . $kds);
             $transaksi->tanggal = $request->tanggal;
-            $transaksi->total = $request->totalpajak;
+            $transaksi->biaya = $request->biaya;
             $transaksi->status = 1;
-            //dd($transaksi);
-            $transaksi->save();
+            // dd($transaksi);
+            //$transaksi->save();
 
+            dd($lay, $bayar, $transaksi);
             //View Alert
             return redirect()->route('mitra.pelanggan.aktif')->with('alert', 'Layanan Berhasil Ditambahkan');
         }
@@ -134,8 +171,8 @@ class LaypelController extends Controller
         $detail2 = new Laypel();
         $detaillayanan = $detail2->where('id_transaksi', $id_transaksi)->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')->get();
         $detailpelanggan = $detail2->where('id_transaksi', $id_transaksi)->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
-                                ->join('mitras', 'pelanggans.id_mitra', '=', 'mitras.id_mitra')->select('pelanggans.*', 'mitras.nama as nama_mitra')
-                                ->first();
+            ->join('mitras', 'pelanggans.id_mitra', '=', 'mitras.id_mitra')->select('pelanggans.*', 'mitras.nama as nama_mitra')
+            ->first();
 
         return view('Laypel.detail', compact('detail', 'detaillayanan', 'detailpelanggan'));
     }

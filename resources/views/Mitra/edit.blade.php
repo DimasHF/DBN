@@ -1,5 +1,6 @@
 @extends('index')
 @section('content')
+
     <!--Form Edit-->
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
@@ -35,23 +36,8 @@
                                 <span class="input-group-text">+62</span>
                             </div>
                             <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp" name="no_telp"
-                                placeholder="No. Telp" value="{{ $mitra->no_telp }}" required>
+                                placeholder="No. Telp" value="{{ (substr($mitra->no_telp, 2)) }}" required>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="nik">NIK</label>
-                        <input type="text" pattern="[0-9]*" title="Harap masukkan hanya angka" class="form-control"
-                            id="nik" name="nik" placeholder="NIK" value="{{ $mitra->nik }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="npwp">NPWP</label>
-                        <input type="text" class="form-control" id="npwp" name="npwp" placeholder="NPWP"
-                            value="{{ $mitra->npwp }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="alamat">Alamat</label>
-                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat"
-                            value="{{ $mitra->alamat }}" required>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -71,11 +57,26 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="nik">NIK</label>
+                        <input type="text" pattern="[0-9]*" title="Harap masukkan hanya angka" class="form-control"
+                            id="nik" name="nik" placeholder="NIK" value="{{ $mitra->nik }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="npwp">NPWP</label>
+                        <input type="text" class="form-control" id="npwp" name="npwp" placeholder="NPWP"
+                            value="{{ $mitra->npwp }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat"
+                            value="{{ $mitra->alamat }}" required>
+                    </div>
+                    <div class="form-group">
                         <label>Logo Mitra</label>
-                        <input type="file" name="logo" id="logo" class="file-upload-default">
+                        <input type="file" name="logo" id="logo" class="file-upload-default" accept=".jpg, .jpeg, .png">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled id="imageInput"
-                                placeholder="Upload Logo" value="{{ $mitra->logo }}">
+                                placeholder="Upload Logo" value="{{ $mitra->logo }}" >
                             <span class="input-group-append">
                                 <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                             </span>

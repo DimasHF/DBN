@@ -38,6 +38,11 @@
                                 <th style="display: none;">
                                     <center>ID Layanan</center>
                                 </th>
+                                @if(auth()->guard('admin')->check())
+                                <th>
+                                    <center>ID Mitra</center>
+                                </th>
+                                @endif
                                 <th>
                                     <center>Nama Layanan</center>
                                 </th>
@@ -67,8 +72,13 @@
                                     <td style="display: none;">
                                         <center>{{ $t->id_layanan }}</center>
                                     </td>
+                                    @if(auth()->guard('admin')->check())
                                     <td>
-                                        <center>{{ $t->nama }}</center>
+                                        <center>{{ $t->id_mitra }}</center>
+                                    </td>
+                                    @endif
+                                    <td>
+                                        <center>{{ $t->nama_lay }}</center>
                                     </td>
                                     <td>
                                         <center>{{ $t->bandwidth }}</center>
@@ -79,18 +89,18 @@
                                     <td>
                                         <center>
                                             @if ($t->status == 1)
-                                                <a href="/status/0/{{ $t->id_layanan }}">
+                                                <a href="/mitra/statuslay/0/{{ $t->id_layanan }}">
                                                     <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
                                                 </a>
                                             @elseif ($t->status == 0)
-                                                <a href=" /status/1/{{ $t->id_layanan }}"><span
+                                                <a href="/mitra/statuslay/1/{{ $t->id_layanan }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
                                             @endif
                                         </center>
                                     </td>
                                     <td>
                                         <center>
-                                            <a onclick="javascript:void(0)" data-id="{{ $t->id_barang }}"
+                                            <a href="{{ route('mitra.edit.layanan', $t->id_layanan) }}"
                                                 class="btn btn-sm btn-info btn-icon-text edit">
                                                 Edit
                                                 <i class="ti-file btn-icon-append"></i>
@@ -111,23 +121,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script>
-            function hanyaAngka(event) {
-                var angka = (event.which) ? event.which : event.keyCode
-                if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
-                    return false;
-                return true;
-            }
-        </script>
-
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-
         <script>
             $(document).ready(function() {
                 $('#datatable').DataTable();

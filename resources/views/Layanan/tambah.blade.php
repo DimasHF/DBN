@@ -11,7 +11,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="nama">Nama Layanan</label>
-                        <input type="text" class="form-control" id="nama" name="nama"
+                        <input type="text" class="form-control" id="nama_lay" name="nama_lay"
                             placeholder="Nama Pelanggan">
                     </div>
                     <div class="form-group">
@@ -30,14 +30,4 @@
             </div>
         </div>
     </div>
-
-    @push('page-script')
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-    @endpush
 @endsection

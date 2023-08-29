@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TagihanMitra extends Model
+class Bayar extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id_tagmit',
-        'id_mitra',
-        'bayar',
-        'sisa',
+        'id_bayar',
+        'id_laypel',
+        'tanggal_bayar',
         'total',
         'status',
     ];
-
-    protected $primaryKey = 'id_tagmit';
-    public $incrementing = false;
-
 }

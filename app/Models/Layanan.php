@@ -12,7 +12,7 @@ class Layanan extends Model
     protected $fillable = [
         'id_layanan',
         'id_mitra',
-        'nama',
+        'nama_lay',
         'harga',
         'bandwidth',
         'status',

@@ -6,8 +6,6 @@
             <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                 @auth('admin')
                     <h3 class="font-weight-bold">Welcome, {{ auth('admin')->user()->nama }}</h3>
-                @else
-                    <h3 class="font-weight-bold">Who Are You?</h3>
                 @endauth
             </div>
         </div>
@@ -68,7 +66,7 @@
                 <div class="card card-tale">
                     <div class="card-body">
                         <h3 class="mb-4">Jumlah Mitra</h3>
-                        <p class="fs-30 mb-2">10</p>
+                        <p class="fs-30 mb-2">{{$jumlahmitra}}</p>
                         <p>Mitra</p>
                     </div>
                 </div>
@@ -77,7 +75,7 @@
                 <div class="card card-dark-blue">
                     <div class="card-body">
                         <h3 class="mb-4">Jumlah Semua Pelanggan</h3>
-                        <p class="fs-30 mb-2">1111</p>
+                        <p class="fs-30 mb-2">{{$jumlahpelanggan}}</p>
                         <p>Pelanggan</p>
                     </div>
                 </div>
@@ -91,7 +89,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
-                        <h3 class="font-weight-bold">List Mitra</h3>
+                        <h3 class="font-weight-bold">List Mitra Baru</h3>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -107,9 +105,6 @@
                                 </th>
                                 <th>
                                     <center>Nama Mitra</center>
-                                </th>
-                                <th>
-                                    <center>SPK</center>
                                 </th>
                                 <th>
                                     <center>Status</center>
@@ -133,15 +128,6 @@
                                     </td>
                                     <td>
                                         <center>{{ $t->nama }}</center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ route('admin.spk', $t->id_mitra) }}"
-                                                class="btn btn-sm btn-info btn-icon-text edit">
-                                                Buat SPK
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
-                                        </center>
                                     </td>
                                     <td>
                                         <center>
@@ -185,14 +171,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-
         <script>
             $(document).ready(function() {
                 $('#datatable').DataTable();

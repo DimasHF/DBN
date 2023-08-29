@@ -34,7 +34,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Stok Barang</label>
                                     <div class="col-sm-9">
-                                        <input type="int" class="form-control" name="stok" id="stok"
+                                        <input type="number" class="form-control" name="stok" id="stok"
                                             value="" readonly />
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                                     <label class="col-sm-3 col-form-label">Terima</label>
                                     <div class="col-sm-9">
                                         <input type="date" class="form-control" name="tanggal" id="tanggal"
-                                            value="{{ date('d-m-y') }}" readonly/>
+                                            value="{{ date('Y-m-d') }}" readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Jumlah Barang</label>
                                     <div class="col-sm-9">
-                                        <input type="int" class="form-control" name="jumlah" id="jumlah"
+                                        <input type="number" class="form-control" name="jumlah" id="jumlah"
                                             value="" />
                                     </div>
                                 </div>
@@ -182,24 +182,6 @@
 
                 });
             });
-        </script>
-
-        <script>
-            function hanyaAngka(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-
-                    return false;
-                return true;
-            }
-        </script>
-
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
         </script>
     @endpush
 @endsection

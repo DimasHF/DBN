@@ -24,21 +24,21 @@ class PinjamanController extends Controller
         $search = $request->search;
 
         if ($search == '') {
-            $cari = DB::table('barangs')->orderBy('nama', 'asc')
-                ->select('id_barang', 'nama', 'stok', 'status')
+            $cari = DB::table('barangs')->orderBy('nama_bar', 'asc')
+                ->select('id_barang', 'nama_bar', 'stok', 'status')
                 ->where('status', '=', '1')
                 ->get();
         } else {
-            $cari = DB::table('barangs')->orderBy('nama', 'asc')
-                ->select('id_barang', 'nama', 'stok', 'status')
+            $cari = DB::table('barangs')->orderBy('nama_bar', 'asc')
+                ->select('id_barang', 'nama_bar', 'stok', 'status')
                 ->where('status', '=', '1')
-                ->where('nama', 'like', '%' . $search . '%')
+                ->where('nama_bar', 'like', '%' . $search . '%')
                 ->get();
         }
 
         $response = array();
         foreach ($cari as $suppli) {
-            $response[] = array("value" => $suppli->nama, "label1" => $suppli->id_barang, "label2" => $suppli->stok, "status" => $suppli->status);
+            $response[] = array("value" => $suppli->nama_bar, "label1" => $suppli->id_barang, "label2" => $suppli->stok, "status" => $suppli->status);
         }
 
         return response()->json($response);
@@ -88,12 +88,12 @@ class PinjamanController extends Controller
             $pinjam = new Pinjaman;
             $pinjam->id_pinjaman = ('PIN' . $kd);
             $pinjam->id_mitra = $user;
-            $pinjam->tanggal = $request->tanggal;
+            $pinjam->tanggal = date('Y-m-d');
             $pinjam->status = '0';
             //dd($pinjam);
             $pinjam->save();
         }
 
-        return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
+        return redirect()->back()->with('alert', 'Data Berhasil Ditambahkan');
     }
 }

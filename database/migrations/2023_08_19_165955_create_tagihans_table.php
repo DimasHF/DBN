@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('tagihans', function (Blueprint $table) {
             $table->id();
-            $table->string('id_tagihan');
-            $table->string('id_laypel');
+            $table->string('id_tagihan')->nullable();
+            $table->string('id_bayar');
+            $table->date('tanggal_bayar')->nullable();
+            $table->date('tanggal_deadline')->nullable();
             $table->string('pajak')->nullable();
-            $table->string('total')->nullable();
+            $table->string('telat')->nullable();
+            $table->string('bayar')->nullable();
+            $table->string('sisa')->nullable();
             $table->tinyInteger('status')->default(0)->nullable();            
             $table->timestamps();
         });

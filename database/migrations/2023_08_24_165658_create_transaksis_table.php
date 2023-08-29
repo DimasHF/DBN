@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->string('id_transaksi');
-            $table->string('total');
             $table->date('tanggal');
+            $table->string('total');
             $table->tinyInteger('status')->default(1)->nullable();
             $table->timestamps();
         });

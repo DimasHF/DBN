@@ -20,7 +20,7 @@
                         <center>                        
                             <img src={{asset($b->foto)}} alt="image" class="img-fluid" style="width: 300px; height: 300px;"/>
                         </center><br>
-                        <center><p class="card-title">{{$b->nama}}</p></center>
+                        <center><p class="card-title">{{$b->nama_bar}}</p></center>
                         <center><p class="font-weight-500">Stok : {{$b->stok}}</p></center>
                     </div>
                 </div>

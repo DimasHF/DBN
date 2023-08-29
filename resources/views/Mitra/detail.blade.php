@@ -45,7 +45,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">No. Telp</label>:
                                     <div class="col-sm-9">
-                                        {{ $mitra->no_telp }}
+                                        +{{ $mitra->no_telp }}
                                     </div>
                                 </div>
                             </div>

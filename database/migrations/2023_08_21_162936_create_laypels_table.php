@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('laypels', function (Blueprint $table) {
             $table->id();
-            $table->string('id_transaksi');
             $table->string('id_laypel');
+            $table->string('id_transaksi');
             $table->string('id_pelanggan');
             $table->string('id_layanan');
+            $table->string('harga')->nullable();
             $table->string('pajak')->nullable();
-            $table->string('biaya')->nullable();
+            $table->string('subtotal')->nullable();
             $table->tinyInteger('status')->default(1)->nullable();
             $table->timestamps();
         });

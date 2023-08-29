@@ -79,8 +79,8 @@
                     <div class="card card-tale">
                         <div class="card-body">
                             <h3 class="mb-4">Jumlah Pelanggan</h3>
-                            <p class="fs-30 mb-2">10</p>
-                            <p>Mitra</p>
+                            <p class="fs-30 mb-2">{{$pelanggan}}</p>
+                            <p>Pelanggan</p>
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,8 @@
                     <div class="card card-dark-blue">
                         <div class="card-body">
                             <h3 class="mb-4">Jumlah Layanan</h3>
-                            <p class="fs-30 mb-2">1111</p>
-                            <p>Pelanggan</p>
+                            <p class="fs-30 mb-2">{{$layanan}}</p>
+                            <p>Layanan</p>
                         </div>
                     </div>
                 </div>

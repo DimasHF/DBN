@@ -40,24 +40,4 @@
             </div>
         </div>
     </div>
-
-    @push('page-script')
-        <script>
-            function hanyaAngka(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-
-                    return false;
-                return true;
-            }
-        </script>
-
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-    @endpush
 @endsection

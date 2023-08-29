@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('assets/table/DataTables-1.13.1/css/jquery.dataTables.min.css') }}" />
     <link href="{{ asset('assets/jqueryui/jquery-ui.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/dashboard.css') }}">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
 
     @php
         use App\Models\PurchaseOrder;

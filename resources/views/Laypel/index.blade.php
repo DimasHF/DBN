@@ -9,7 +9,8 @@
                         <div class="form-group">
                             <label for="pelanggan">Pelanggan</label>
                             <input type="text" class="form-control form-control-user" id="pelanggan" name="pelanggan"
-                                placeholder="Masukkan pelanggan" aria-label="Search" aria-describedby="basic-addon2">
+                                placeholder="Masukkan pelanggan" aria-label="Search" aria-describedby="basic-addon2"
+                                required>
                             <input type="hidden" name="_token" id="csrf" value="{{ Session::token() }}">
                         </div>
                     </div>
@@ -28,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 grid-margin " id="layanan">
+            <div class="col-12 grid-margin" id="layanan">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Masukkan Data Layanan</h4>
@@ -109,45 +110,47 @@
             <div class="col-12 grid-margin " id="keranjang_brg">
                 <div class="card">
                     <div class="card-body">
-                        <table id="keranjang" name="keranjang" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th width="100px">
-                                        <center>No</center>
-                                    </th>
-                                    <th style="width: 300px">
-                                        <center>Nama Pelanggan</center>
-                                    </th>
-                                    <th style="width: 300px">
-                                        <center>Layanan</center>
-                                    </th>
-                                    <th>
-                                        <center>Harga Layanan</center>
-                                    </th>
-                                    <th>
-                                        <center>Pajak</center>
-                                    </th>
-                                    <th width="200px">
-                                        <center>Subtotal Awal</center>
-                                    </th>
-                                    <th width="200px">
-                                        <center>Subtotal Dengan Pajak</center>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="template">
+                        <div class="table-responsive">
+                            <table id="keranjang" name="keranjang" class="table table-bordered dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th width="100px">
+                                            <center>No</center>
+                                        </th>
+                                        <th style="width: 300px">
+                                            <center>Nama Pelanggan</center>
+                                        </th>
+                                        <th style="width: 300px">
+                                            <center>Layanan</center>
+                                        </th>
+                                        <th>
+                                            <center>Harga Layanan</center>
+                                        </th>
+                                        <th>
+                                            <center>Pajak</center>
+                                        </th>
+                                        <th width="200px">
+                                            <center>Subtotal Awal</center>
+                                        </th>
+                                        <th width="200px">
+                                            <center>Subtotal Dengan Pajak</center>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="template">
 
-                            </tbody>
-                            <tfoot id="footerTemplate">
-                                <tr>
-                                    <th class="text-center bg_total" colspan="5"><b>TOTAL</b></th>
-                                    <th><input class="form-control form-control-user" readonly type="text"
-                                            name="totaltanpapajak" id="totaltanpapajak" value=""></th>
-                                    <th><input class="form-control form-control-user" readonly type="text"
-                                            name="totalpajak" id="totalpajak" value=""></th>
-                                </tr>
-                            </tfoot>
-                        </table><br>
+                                </tbody>
+                                <tfoot id="footerTemplate">
+                                    <tr>
+                                        <th class="text-center bg_total" colspan="5"><b>TOTAL</b></th>
+                                        <th><input class="form-control form-control-user" readonly type="text"
+                                                name="totaltanpapajak" id="totaltanpapajak" value=""></th>
+                                        <th><input class="form-control form-control-user" readonly type="text"
+                                                name="totalpajak" id="totalpajak" value=""></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div><br>
                         <div class="col-md-12 d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="submit" class="btn btn-info">
                                 Konfirmasi
@@ -175,6 +178,7 @@
 
                     source: function(request, response) {
                         // Fetch data
+                        // console.log($("#csrf"));
                         $.ajax({
                             url: "/mitra/pelanggan/search",
                             type: 'post',
@@ -201,6 +205,8 @@
                     source: function(request, response) {
                         let pelanggan = $("#pelanggan").val();
                         // Fetch data
+                        // console.log($("#csrf"));
+
                         $.ajax({
                             url: "/mitra/layanan/search",
                             type: 'post',
@@ -254,7 +260,7 @@
                     $('#template').append(
                         '<tr><td><input type="text" class="form-control form-control-user"name="nomor[]" value="' +
                         row +
-                        '"readonly><td><input type="text" class="form-control form-control-user"name="pelanggan[]" value="' +
+                        '"readonly></td><td><input type="text" class="form-control form-control-user"name="pelanggan[]" value="' +
                         pelanggan +
                         '"readonly></td><td style="display:none"><input type="text" class="form-control form-control-user" name="id_pelanggan[]" value="' +
                         id_pelanggan +
@@ -304,31 +310,13 @@
 
                         $('#totalpajak').val(formattedSum);
                     }
-                    
+
                     document.getElementById("carilayanan").value = "";
                     document.getElementById("harga").value = "";
                     document.getElementById("bandwidth").value = "";
 
                 });
             });
-        </script>
-
-        <script>
-            function hanyaAngka(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-
-                    return false;
-                return true;
-            }
-        </script>
-
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
         </script>
     @endpush
 @endsection

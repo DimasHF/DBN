@@ -1,6 +1,7 @@
 @extends('index')
 @section('content')
-    <!--Tittle-->
+
+    {{-- Tabel Pelanggan --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -9,25 +10,18 @@
                         <h3 class="font-weight-bold">List Purchase Order</h3>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    {{-- Tabel Pelanggan --}}
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;" id="datatable">
                         <thead style="background-color: #00AFEF">
                             <tr>
-                                <th>
+                                <th width="50px">
                                     <center>No</center>
                                 </th>
-                                <th>
+                                <th width="200px">
                                     <center>ID Mitra</center>
                                 </th>
-                                <th>
+                                <th width="200px">
                                     <center>ID Purchase Order</center>
                                 </th>
                                 <th>
@@ -36,7 +30,7 @@
                                 <th>
                                     <center>BA</center>
                                 </th>
-                                <th>
+                                <th width="200px">
                                     <center>Kirim Pesan</center>
                                 </th>
                                 <th>
@@ -74,14 +68,16 @@
                                     <td>
                                         <center>
                                             @if ($t->status == 0)
-                                                <form action="/api/mitra/aktif/1/{{ $t->id_purchase_order }}" method="POST">
+                                                <form action="/api/mitra/aktif/1/{{ $t->id_purchase_order }}"
+                                                    method="POST">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-danger btn-icon-text">Setuju
                                                         <i class="ti-alert btn-icon-append"></i>
                                                     </button>
                                                 </form>
                                             @elseif ($t->status == 1)
-                                                <form action="/api/mitra/aktif/0/{{ $t->id_purchase_order }}" method="POST">
+                                                <form action="/api/mitra/aktif/0/{{ $t->id_purchase_order }}"
+                                                    method="POST">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-success btn-icon-text">Menjadi Mitra
                                                         <i class="ti-check btn-icon-append"></i>
@@ -114,14 +110,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-
         <script>
             $(document).ready(function() {
                 $('#datatable').DataTable();

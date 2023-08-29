@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('id_layanan');
             $table->string('id_mitra');
-            $table->string('nama');
+            $table->string('nama_lay');
             $table->string('harga')->nullable();
             $table->string('bandwidth')->nullable();
             $table->tinyInteger('status')->default(1)->nullable();

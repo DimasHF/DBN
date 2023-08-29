@@ -15,7 +15,6 @@ class PurchaseOrder extends Model
         'tanggal',
         'spk',
         'ba',
-        // 'invoice',
         'status',
     ];
 

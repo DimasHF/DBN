@@ -12,13 +12,13 @@ class LayananController extends Controller
     //View Layanan
     public function index()
     {
-        if (Auth::guard('admin')->check() || Auth::guard('staff')->check()) {
+        if (Auth::guard('admin')->check() || Auth::guard('staff')->check() || Auth::user()) {
 
-            $layanan = Layanan::orderBy('nama', 'asc')->get();
+            $layanan = Layanan::orderBy('id_mitra', 'asc')->get();
             return view('Layanan.index', ['layanan' => $layanan]);
         } else {
             $mitra = Auth::guard('mitra')->user()->id_mitra;
-            $layanan = Layanan::where('id_mitra', '=', $mitra)->orderBy('nama', 'asc')->get();
+            $layanan = Layanan::where('id_mitra', '=', $mitra)->orderBy('nama_lay', 'asc')->get();
 
             return view('Layanan.index', ['layanan' => $layanan]);
         }
@@ -49,7 +49,7 @@ class LayananController extends Controller
         $layanan = new Layanan;
         $layanan->id_layanan = ('LY' . $kd);
         $layanan->id_mitra = $mitra;
-        $layanan->nama = $request->nama;
+        $layanan->nama_lay = $request->nama_lay;
         $layanan->harga = $request->harga;
         $layanan->bandwidth = $request->bandwidth;
         $layanan->status = 1;
@@ -62,20 +62,22 @@ class LayananController extends Controller
     //View Edit
     public function show($id_layanan)
     {
-        $layanan = Layanan::find($id_layanan);
-        return response()->json($layanan);
+        $layanan = Layanan::where('id_layanan', $id_layanan)->first();
+        return view('Layanan.edit', ['layanan' => $layanan]);
     }
 
     //Edit Layanan
-    public function edit(Request $request)
+    public function edit(Request $request, $id_layanan)
     {
         //Update
-        Layanan::updateOrCreate(
-            ['id_layanan' => $request->id_layanan],
-            ['nama' => $request->nama, 'harga' => $request->harga, 'badwidth' => $request->badwidth]
-        );
+        Layanan::where('id_layanan', $id_layanan)->update([
+            'nama_lay' => $request->nama_lay,
+            'harga' => $request->harga,
+            'bandwidth' => $request->bandwidth,
+        ]);
 
-        return response()->json(['success' => true, 'message' => 'Data Layanan Diubah'], 200);
+        //View Alert
+        return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Diperbarui');
     }
 
     //Status Layanan
@@ -91,4 +93,5 @@ class LayananController extends Controller
         }
         return redirect()->back()->with($notice);
     }
+
 }

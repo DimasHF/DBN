@@ -11,9 +11,13 @@ class Tagihan extends Model
 
     protected $fillable = [
         'id_tagihan',
-        'id_laypel',
+        'id_bayar',
+        'tanggal_bayar',
+        'tanggal_deadline',
         'pajak',
-        'total',
+        'telat',
+        'bayar',
+        'sisa',
         'status',
     ];
 

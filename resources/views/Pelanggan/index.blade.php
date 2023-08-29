@@ -62,16 +62,16 @@
                                         <center>{{ $t->id_pelanggan }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->nama }}</center>
+                                        <center>{{ $t->nama_pel }}</center>
                                     </td>
                                     <td>
                                         <center>
                                             @if ($t->status == 1)
-                                                <a href="/status/0/{{ $t->id_pelanggan }}">
+                                                <a href="mitra/status/0/{{ $t->id_pelanggan }}">
                                                     <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
                                                 </a>
                                             @elseif ($t->status == 0)
-                                                <a href=" /status/1/{{ $t->id_pelanggan }}"><span
+                                                <a href="mitra/status/1/{{ $t->id_pelanggan }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
                                             @endif
                                         </center>
@@ -99,23 +99,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script>
-            function hanyaAngka(event) {
-                var angka = (event.which) ? event.which : event.keyCode
-                if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
-                    return false;
-                return true;
-            }
-        </script>
-
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
-
         <script>
             $(document).ready(function() {
                 $('#datatable').DataTable();

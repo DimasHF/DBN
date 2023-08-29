@@ -1,47 +1,84 @@
 @extends('index')
 @section('content')
-
-<!--Tittle-->
-<div class="row">
-    <div class="col-lg-12 grid-margin">
-        <div class="row">
-            <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
-                <h3 class="font-weight-bold">Daftar Barang</h3>
-            </div>
-            {{-- @if (Auth::user()->role == 'Super') --}}
-            <!--Button Modal-->
-            <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="button" class="btn btn-primary" id="modal">Tambah Barang</button>
-            </div>
-            {{-- @endif --}}
-        </div>
-    </div>
-    <!--List Kategori-->
-    <div class="col-lg-12">
-        <div class="row">
-            @forelse ($Barang as $k)
-                <div class="col-lg-6 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <center>
-                                <h3 style="text-transform: capitalize; bold">{{ $k->nama }}</h3>
-                            </center>
-                        </div>
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
+                        <h3 class="font-weight-bold">List Pinjaman Semua Mitra</h3>
                     </div>
                 </div>
-            @empty
-                <div class="col-lg-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <center>
-                                <h4 class="card-title">Barang Kosong</h4>
-                            </center>
-                        </div>
-                    </div>
-                </div>
-            @endforelse
+            </div>
         </div>
     </div>
-</div>
+    {{-- Tabel Pelanggan --}}
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dt-responsive nowrap"
+                        style="border-collapse: collapse; border-spacing: 0; width: 100%;" id="datatable">
+                        <thead style="background-color: #00AFEF">
+                            <tr>
+                                <th>
+                                    <center>No</center>
+                                </th>
+                                <th>
+                                    <center>ID Mitra</center>
+                                </th>
+                                <th>
+                                    <center>ID Pinjaman</center>
+                                </th>
+                                <th>
+                                    <center>Status</center>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $no = 1;
+                            @endphp
+                            @foreach ($pinjaman as $t)
+                                <tr>
+                                    <td>
+                                        <center>{{ $no++ }}</center>
+                                    </td>
+                                        <td>
+                                            <center>{{ $t->id_mitra }}</center>
+                                        </td>
+                                    <td>
+                                        <center>{{ $t->id_pinjaman }}</center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            @if ($t->status == 1)
+                                                <a href="/admin/statuspinjaman/0/{{ $t->id_pinjaman }}">
+                                                    <span class="btn btn-sm btn-success btn-icon-text">Sudah Kembali</span>
+                                                </a>
+                                            @elseif ($t->status == 0)
+                                                <a href="/admin/statuspinjaman/1/{{ $t->id_pinjaman }}"><span
+                                                        class="btn btn-sm btn-danger btn-icon-text">Belum Kembali</span></a>
+                                            @endif
+                                        </center>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div><br>
+                <div class="d-flex justify-content-center">
+                    {{-- {!! $pelanggan->links('pagination::bootstrap-4') !!} --}}
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!--JS Modal-->
+    @push('page-script')
+        <script>
+            $(document).ready(function() {
+                $('#datatable').DataTable();
+            });
+        </script>
+    @endpush
 @endsection

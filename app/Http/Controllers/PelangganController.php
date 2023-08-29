@@ -40,7 +40,7 @@ class PelangganController extends Controller
             $transaksi = Transaksi::join('laypels', 'transaksis.id_transaksi', '=', 'laypels.id_transaksi')
                 ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
                 ->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
-                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama_lay')
                 ->where('pelanggans.id_mitra', '=', $mitra)
                 ->distinct()
                 ->get();
@@ -51,7 +51,7 @@ class PelangganController extends Controller
             $transaksi = Transaksi::join('laypels', 'transaksis.id_transaksi', '=', 'laypels.id_transaksi')
                 ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
                 ->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
-                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama as nama_layanan')
+                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama_lay')
                 ->get();
 
             return view('Pelanggan.aktif', ['transaksi' => $transaksi]);
@@ -80,15 +80,25 @@ class PelangganController extends Controller
             $kd = "00001";
         }
 
+        // Get the uploaded image
+        $image = $request->file('foto');
+
+        // Generate a unique file name for the image
+        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+        // Move the uploaded image to the desired location
+        $image->move(('pelanggan'), $filename);
+
         $pel = new Pelanggan;
         $pel->id_pelanggan = ('PEL' . date('Y-m-d') . $kd);
         $pel->id_mitra = $mitra;
-        $pel->nama = $request->nama;
+        $pel->nama_pel = $request->nama_pel;
         $pel->alamat = $request->alamat;
-        $pel->no_telp = $request->no_telp;
+        $pel->no_telp = ("+62".$request->no_telp);
         $pel->email = $request->email;
         $pel->nik = $request->nik;
         $pel->npwp = $request->npwp;
+        $pel->foto = 'pelanggan/' . $filename;
         $pel->status = 1;
         $pel->save();
 
@@ -117,7 +127,7 @@ class PelangganController extends Controller
     public function show($id_pelanggan)
     {
         //dd($id_pelanggan);
-        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->get();
+        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->first();
         return view('Pelanggan.edit', ['pelanggan' => $pelanggan]);
     }
 
@@ -125,9 +135,9 @@ class PelangganController extends Controller
     public function edit(Request $request, $id_pelanggan)
     {
         Pelanggan::where('id_pelanggan', $id_pelanggan)->update([
-            'nama' => $request->nama,
+            'nama_pel' => $request->nama_pel,
             'alamat' => $request->alamat,
-            'no_telp' => $request->no_telp,
+            'no_telp' => ("+62".$request->no_telp),
             'email' => $request->email,
             'nik' => $request->nik,
             'npwp' => $request->npwp,
