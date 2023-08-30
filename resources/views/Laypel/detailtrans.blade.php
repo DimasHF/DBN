@@ -22,7 +22,7 @@
             <div class="card ">
                 <div class="card-body">
                     <p>
-                        <center><b>{{ $detail->id_laypel }}</b></center>
+                        <center><b>{{ $detail->id_transaksi }}</b></center>
                     </p><br>
                     <div class="row">
                         <div class="col-sm-6">
@@ -70,8 +70,8 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                @foreach ($detaillayanan as $r)
                                 <tbody>
+                                    @foreach ($detaillayanan as $r)
                                         <tr>
                                             <td>
                                                 <center>{{ $no++ }}</center>
@@ -86,7 +86,7 @@
                                                 <center>Rp. {{ number_format($r->subtotal, 0, ',', '.') }}</center>
                                             </td>
                                         </tr>
-
+                                        @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -94,11 +94,10 @@
                                             <center>Total</center>
                                         </td>
                                         <td>
-                                            <center>Rp. {{ number_format($r->subtotal, 0, ',', '.') }}</center>
+                                            <center>Rp. {{ number_format($detail->total, 0, ',', '.') }}</center>
                                         </td>
                                     </tr>
                                 </tfoot>
-                                @endforeach
                             </table>
                         </div>
                     </div>

@@ -38,10 +38,10 @@
                                 <th style="display: none;">
                                     <center>ID Layanan</center>
                                 </th>
-                                @if(auth()->guard('admin')->check())
-                                <th>
-                                    <center>ID Mitra</center>
-                                </th>
+                                @if (auth()->guard('admin')->check())
+                                    <th>
+                                        <center>ID Mitra</center>
+                                    </th>
                                 @endif
                                 <th>
                                     <center>Nama Layanan</center>
@@ -72,10 +72,10 @@
                                     <td style="display: none;">
                                         <center>{{ $t->id_layanan }}</center>
                                     </td>
-                                    @if(auth()->guard('admin')->check())
-                                    <td>
-                                        <center>{{ $t->id_mitra }}</center>
-                                    </td>
+                                    @if (auth()->guard('admin')->check())
+                                        <td>
+                                            <center>{{ $t->id_mitra }}</center>
+                                        </td>
                                     @endif
                                     <td>
                                         <center>{{ $t->nama_lay }}</center>
@@ -122,9 +122,58 @@
     <!--JS Modal-->
     @push('page-script')
         <script>
-            $(document).ready(function() {
-                $('#datatable').DataTable();
-            });
+            @if (auth()->guard('mitra')->check())
+                $(document).ready(function() {
+                    $('#datatable').DataTable();
+                });
+            @else
+                var groupColumn = 2;
+                var table = $('#datatable').DataTable({
+                    columnDefs: [{
+                        visible: false,
+                        targets: groupColumn
+                    }],
+                    order: [
+                        [groupColumn, 'asc']
+                    ],
+                    displayLength: 25,
+                    drawCallback: function(settings) {
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
+
+                        api.column(groupColumn, {
+                                page: 'current'
+                            })
+                            .data()
+                            .each(function(group, i) {
+                                if (last !== group) {
+                                    $(rows)
+                                        .eq(i)
+                                        .before(
+                                            '<tr class="group"><td colspan="6">' +
+                                            group +
+                                            '</td></tr>'
+                                        );
+
+                                    last = group;
+                                }
+                            });
+                    }
+                });
+
+                // Order by the grouping
+                $('#datatable tbody').on('click', 'tr.group', function() {
+                    var currentOrder = table.order()[0];
+                    if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                        table.order([groupColumn, 'desc']).draw();
+                    } else {
+                        table.order([groupColumn, 'asc']).draw();
+                    }
+                });
+            @endif
         </script>
     @endpush
 @endsection

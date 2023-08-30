@@ -16,4 +16,13 @@ class Bayar extends Model
         'total',
         'status',
     ];
+
+    protected $primaryKey = 'id_bayar';
+    public $incrementing = false;
+
+    public function laypel()
+    {
+        return $this->belongsTo(Laypel::class, 'id_laypel', 'id_laypel');
+    }
+
 }

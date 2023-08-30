@@ -36,4 +36,9 @@ class Laypel extends Model
     {
         return $this->belongsTo(Layanan::class, 'id_layanan', 'id_layanan');
     }
+
+    public function tagihan()
+    {
+        return $this->hasMany(Tagihan::class, 'id_laypel', 'id_laypel');
+    }
 }

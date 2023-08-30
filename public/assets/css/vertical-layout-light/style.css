@@ -26325,6 +26325,11 @@ body.avgrund-active {
   font-family: "themify";
 }
 
+tr.group,
+tr.group:hover {
+    background-color: #FAF1E4 !important;
+}
+
 .expandable-table tr.shown td.details-control:before {
   content: '\e648';
 }

@@ -12,12 +12,12 @@
                     <div class="form-group">
                         <label for="nama">ID Barang</label>
                         <input type="text" class="form-control" id="id_barang" name="id_barang"
-                            placeholder="Nama Pelanggan" value="{{'B'.$kd}}" readonly>
+                            placeholder="Nama Barang" value="{{'B'.$kd}}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Barang</label>
                         <input type="text" class="form-control" id="nama_bar" name="nama_bar"
-                            placeholder="Nama Pelanggan">
+                            placeholder="Nama Barang">
                     </div>
                     <div class="form-group">
                         <label for="stok">Stok</label>

@@ -7,17 +7,11 @@
                     <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
                         @if (auth()->guard('admin')->check() ||
                                 auth()->guard('staff')->check())
-                            <h3 class="font-weight-bold">List Pelanggan Semua Mitra</h3>
+                            <h3 class="font-weight-bold">Rekap Transaksi Semua Mitra</h3>
                         @elseif(auth()->guard('mitra')->check())
-                            <h3 class="font-weight-bold">List Pelanggan Aktif</h3>
+                            <h3 class="font-weight-bold">Rekap Transaksi</h3>
                         @endif
                     </div>
-                    @if (auth()->guard('mitra')->check())
-                        <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a type="button" class="btn btn-primary" href="{{ route('mitra.laypel') }}">Tambahkan
-                                Pelanggan Aktif</a>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -41,16 +35,16 @@
                                     </th>
                                 @endif
                                 <th>
-                                    <center>ID Layanan Pelanggan</center>
+                                    <center>ID Transaksi</center>
                                 </th>
                                 <th>
-                                    <center>ID Pelanggan</center>
+                                    <center>Tanggal</center>
                                 </th>
                                 <th>
-                                    <center>Nama Pelanggan</center>
+                                    <center>Total</center>
                                 </th>
                                 <th>
-                                    <center>Tagihan</center>
+                                    <center>Action</center>
                                 </th>
                             </tr>
                         </thead>
@@ -70,18 +64,18 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <center>{{ $t->id_laypel }}</center>
+                                        <center>{{ $t->id_transaksi }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->id_pelanggan }}</center>
+                                        <center>{{ $t->tanggal }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->nama_pel }}</center>
+                                        <center>{{ $t->total }}</center>
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="/mitra/laypel/detail/{{ $t->id_laypel }}">
-                                                <span class="btn btn-sm btn-primary btn-icon-text">Liat Tagihan</span>
+                                            <a href="/mitra/transaksi/detail/{{ $t->id_transaksi }}">
+                                                <span class="btn btn-sm btn-primary btn-icon-text">Detail</span>
                                             </a>
                                         </center>
                                     </td>
@@ -100,58 +94,9 @@
     <!--JS Modal-->
     @push('page-script')
         <script>
-            @if (auth()->guard('mitra')->check())
-                $(document).ready(function() {
-                    $('#datatable').DataTable();
-                });
-            @else
-                var groupColumn = 1;
-                var table = $('#datatable').DataTable({
-                    columnDefs: [{
-                        visible: false,
-                        targets: groupColumn
-                    }],
-                    order: [
-                        [groupColumn, 'asc']
-                    ],
-                    displayLength: 25,
-                    drawCallback: function(settings) {
-                        var api = this.api();
-                        var rows = api.rows({
-                            page: 'current'
-                        }).nodes();
-                        var last = null;
-
-                        api.column(groupColumn, {
-                                page: 'current'
-                            })
-                            .data()
-                            .each(function(group, i) {
-                                if (last !== group) {
-                                    $(rows)
-                                        .eq(i)
-                                        .before(
-                                            '<tr class="group"><td colspan="5">' +
-                                            group +
-                                            '</td></tr>'
-                                        );
-
-                                    last = group;
-                                }
-                            });
-                    }
-                });
-
-                // Order by the grouping
-                $('#datatable tbody').on('click', 'tr.group', function() {
-                    var currentOrder = table.order()[0];
-                    if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                        table.order([groupColumn, 'desc']).draw();
-                    } else {
-                        table.order([groupColumn, 'asc']).draw();
-                    }
-                });
-            @endif
+            $(document).ready(function() {
+                $('#datatable').DataTable();
+            });
         </script>
     @endpush
 @endsection

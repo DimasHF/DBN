@@ -40,7 +40,7 @@ class PelangganController extends Controller
             $transaksi = Transaksi::join('laypels', 'transaksis.id_transaksi', '=', 'laypels.id_transaksi')
                 ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
                 ->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
-                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama_lay')
+                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama_lay', 'laypels.id_laypel')
                 ->where('pelanggans.id_mitra', '=', $mitra)
                 ->distinct()
                 ->get();
@@ -51,7 +51,7 @@ class PelangganController extends Controller
             $transaksi = Transaksi::join('laypels', 'transaksis.id_transaksi', '=', 'laypels.id_transaksi')
                 ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
                 ->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
-                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama_lay')
+                ->select('transaksis.*', 'pelanggans.*', 'layanans.nama_lay', 'laypels.id_laypel')
                 ->get();
 
             return view('Pelanggan.aktif', ['transaksi' => $transaksi]);

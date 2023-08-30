@@ -3,17 +3,10 @@
     {{-- Button Print --}}
     <div class="row">
         <div class="col-md-6 d-grid gap-2 d-md-flex">
-            <a href="/mitra/pelanggan/aktif" class="btn btn-info btn-icon-text">
+            <a href="{{url()->previous()}}" class="btn btn-info btn-icon-text">
                 Kembali
                 <i class="ti-arrow-left btn-icon-append"></i>
             </a>
-        </div>
-
-        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
-            <button id="print-button" class="btn btn-warning btn-icon-text">
-                Print
-                <i class="ti-printer btn-icon-append"></i>
-            </button>
         </div>
     </div>
 
@@ -22,27 +15,21 @@
             <div class="card ">
                 <div class="card-body">
                     <p>
-                        <center><b>{{ $detail->id_laypel }}</b></center>
+                        <center><b>{{ $pinjaman->id_pinjaman }}</b></center>
                     </p><br>
                     <div class="row">
                         <div class="col-sm-6">
-                            <p>ID Pelanggan : {{ $detailpelanggan->id_pelanggan }}</p>
+                            <p>ID Mitra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                {{ $pinjaman->id_mitra }}</p>
                         </div>
                         <div class="col-sm-6">
-                            <p>Nama Pelanggan : {{ $detailpelanggan->nama_pel }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>ID Mitra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $detailpelanggan->id_mitra }}</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>Nama Mitra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $detailpelanggan->nama_mitra }}</p>
+                            <p>Nama Mitra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                {{ $pinjaman->nama }}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <p>Daftar Layanan</p>
+                            <p>Daftar Barang</p>
                         </div>
                     </div>
 
@@ -60,44 +47,35 @@
                                             <center>No</center>
                                         </th>
                                         <th>
-                                            <center>Nama Layanan</center>
+                                            <center>ID Barang</center>
                                         </th>
                                         <th>
-                                            <center>Harga</center>
+                                            <center>Nama Barang</center>
                                         </th>
                                         <th>
-                                            <center>Biaya</center>
+                                            <center>Jumlah</center>
                                         </th>
                                     </tr>
                                 </thead>
-                                @foreach ($detaillayanan as $r)
-                                <tbody>
+                                @foreach ($detail as $r)
+                                    <tbody>
                                         <tr>
                                             <td>
                                                 <center>{{ $no++ }}</center>
                                             </td>
                                             <td>
-                                                <center>{{ $r->nama_lay }}</center>
+                                                <center>{{ $r->id_barang }}</center>
                                             </td>
                                             <td>
-                                                <center>Rp. {{ number_format($r->harga, 0, ',', '.') }}</center>
+                                                <center>{{ $r->nama_bar }}</center>
                                             </td>
                                             <td>
-                                                <center>Rp. {{ number_format($r->subtotal, 0, ',', '.') }}</center>
+                                                <center>{{ $r->jumlah }}</center>
                                             </td>
+
                                         </tr>
 
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3">
-                                            <center>Total</center>
-                                        </td>
-                                        <td>
-                                            <center>Rp. {{ number_format($r->subtotal, 0, ',', '.') }}</center>
-                                        </td>
-                                    </tr>
-                                </tfoot>
+                                    </tbody>
                                 @endforeach
                             </table>
                         </div>

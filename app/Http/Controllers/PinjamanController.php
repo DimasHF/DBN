@@ -96,4 +96,33 @@ class PinjamanController extends Controller
 
         return redirect()->back()->with('alert', 'Data Berhasil Ditambahkan');
     }
+
+    //View Pinjaman
+    public function list()
+    {
+        $pinjaman = Pinjaman::where('status', 0)->get();
+        return view('Pinjaman.daftar', ['pinjaman' => $pinjaman]);
+    }
+
+    public function detail($id_pinjaman)
+    {
+        $pinjaman = Pinjaman::where('id_pinjaman', $id_pinjaman)->join('mitras', 'mitras.id_mitra', '=', 'pinjamen.id_mitra')->first();
+        $detail = DetailPinjam::where('id_pinjaman', $id_pinjaman)->join('barangs', 'barangs.id_barang', '=', 'detail_pinjams.id_barang')->get();
+        return view('Pinjaman.detail', ['pinjaman' => $pinjaman, 'detail' => $detail]);
+    }
+
+    public function status($id_pinjaman)
+    {
+        $pinjaman = Pinjaman::where('id_pinjaman', $id_pinjaman)->first();
+        $pinjaman->status = 1;
+        $pinjaman->save();
+
+        return redirect()->back()->with('alert', 'Data Berhasil Diubah');
+    }
+    
+    public function kembali()
+    {
+        $pinjaman = Pinjaman::where('status', 1)->get();
+        return view('Pinjaman.kembali', ['pinjaman' => $pinjaman]);
+    }
 }

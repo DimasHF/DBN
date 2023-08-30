@@ -82,7 +82,7 @@ class PurchaseOrderController extends Controller
     //View Purchase Order Admin
     public function index()
     {
-        $po = PurchaseOrder::all();
+        $po = PurchaseOrder::where('status', '=', 0)->get();
         return view('Purchase.list', ['po' => $po]);
     }
 

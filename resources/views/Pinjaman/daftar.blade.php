@@ -30,6 +30,9 @@
                                     <center>ID Pinjaman</center>
                                 </th>
                                 <th>
+                                    <center>Detail</center>
+                                </th>
+                                <th>
                                     <center>Status</center>
                                 </th>
                             </tr>
@@ -43,20 +46,27 @@
                                     <td>
                                         <center>{{ $no++ }}</center>
                                     </td>
-                                        <td>
-                                            <center>{{ $t->id_mitra }}</center>
-                                        </td>
+                                    <td>
+                                        <center>{{ $t->id_mitra }}</center>
+                                    </td>
                                     <td>
                                         <center>{{ $t->id_pinjaman }}</center>
                                     </td>
                                     <td>
                                         <center>
+                                            <a href="{{ route('admin.pinjaman.detail', $t->id_pinjaman) }}">
+                                                <span class="btn btn-sm btn-primary btn-icon-text">Detail</span>
+                                            </a>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
                                             @if ($t->status == 1)
-                                                <a href="/admin/statuspinjaman/0/{{ $t->id_pinjaman }}">
+                                                <a>
                                                     <span class="btn btn-sm btn-success btn-icon-text">Sudah Kembali</span>
                                                 </a>
                                             @elseif ($t->status == 0)
-                                                <a href="/admin/statuspinjaman/1/{{ $t->id_pinjaman }}"><span
+                                                <a href="/admin/pinjaman/1/{{ $t->id_pinjaman }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Belum Kembali</span></a>
                                             @endif
                                         </center>
@@ -76,9 +86,58 @@
     <!--JS Modal-->
     @push('page-script')
         <script>
-            $(document).ready(function() {
-                $('#datatable').DataTable();
-            });
+@if (auth()->guard('mitra')->check())
+                $(document).ready(function() {
+                    $('#datatable').DataTable();
+                });
+            @else
+                var groupColumn = 1;
+                var table = $('#datatable').DataTable({
+                    columnDefs: [{
+                        visible: false,
+                        targets: groupColumn
+                    }],
+                    order: [
+                        [groupColumn, 'asc']
+                    ],
+                    displayLength: 25,
+                    drawCallback: function(settings) {
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
+
+                        api.column(groupColumn, {
+                                page: 'current'
+                            })
+                            .data()
+                            .each(function(group, i) {
+                                if (last !== group) {
+                                    $(rows)
+                                        .eq(i)
+                                        .before(
+                                            '<tr class="group"><td colspan="5">' +
+                                            group +
+                                            '</td></tr>'
+                                        );
+
+                                    last = group;
+                                }
+                            });
+                    }
+                });
+
+                // Order by the grouping
+                $('#datatable tbody').on('click', 'tr.group', function() {
+                    var currentOrder = table.order()[0];
+                    if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                        table.order([groupColumn, 'desc']).draw();
+                    } else {
+                        table.order([groupColumn, 'asc']).draw();
+                    }
+                });
+            @endif
         </script>
     @endpush
 @endsection

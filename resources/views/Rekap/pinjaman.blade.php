@@ -5,12 +5,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
-                        @if (auth()->guard('admin')->check() ||
-                                auth()->guard('staff')->check())
-                            <h3 class="font-weight-bold">List Tagihan Semua Pelanggan</h3>
-                        @elseif(auth()->guard('mitra')->check())
-                            <h3 class="font-weight-bold">List Tagihan</h3>
-                        @endif
+                        <h3 class="font-weight-bold">List Pinjaman Semua Mitra</h3>
                     </div>
                 </div>
             </div>
@@ -28,28 +23,19 @@
                                 <th>
                                     <center>No</center>
                                 </th>
-                                <th style="display: none;">
-                                    <center>ID Bayar</center>
-                                </th>
                                 @if (auth()->guard('admin')->check())
                                     <th>
                                         <center>ID Mitra</center>
                                     </th>
                                 @endif
                                 <th>
-                                    <center>ID Laypel</center>
+                                    <center>ID Pinjaman</center>
                                 </th>
                                 <th>
-                                    <center>Tanggal</center>
-                                </th>
-                                <th>
-                                    <center>Total</center>
+                                    <center>Detail</center>
                                 </th>
                                 <th>
                                     <center>Status</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
                                 </th>
                             </tr>
                         </thead>
@@ -57,13 +43,10 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($bayar as $t)
+                            @foreach ($pinjaman as $t)
                                 <tr>
                                     <td>
                                         <center>{{ $no++ }}</center>
-                                    </td>
-                                    <td style="display: none;">
-                                        <center>{{ $t->id_bayar }}</center>
                                     </td>
                                     @if (auth()->guard('admin')->check())
                                         <td>
@@ -71,31 +54,24 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <center>{{ $t->id_laypel }}</center>
-                                    </td>
-                                    <td>
-                                        <center>{{ $t->tanggal_bayar }}</center>
-                                    </td>
-                                    <td>
-                                        <center>{{ $t->total }}</center>
+                                        <center>{{ $t->id_pinjaman }}</center>
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 1)
-                                                <a href="/mitra/statuslay/0/{{ $t->id_bayar }}">
-                                                    <span class="btn btn-sm btn-success btn-icon-text">Jatuh Tempo</span>
-                                                </a>
-                                            @elseif ($t->status == 0)
-                                                <a href="/mitra/statuslay/1/{{ $t->id_bayar }}"><span
-                                                        class="btn btn-sm btn-danger btn-icon-text">{{$daysLate}} Hari</span></a>
-                                            @endif
+                                            <a href="{{ route('admin.pinjaman.detail', $t->id_pinjaman) }}">
+                                                <span class="btn btn-sm btn-primary btn-icon-text">Detail</span>
+                                            </a>
                                         </center>
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="/mitra/tagihan/bayar/1/{{ $t->id_bayar }}">
-                                                <span class="btn btn-sm btn-primary btn-icon-text">Bayar</span>
-                                            </a>
+                                            @if ($t->status == 1)
+                                                <a><span class="btn btn-sm btn-success btn-icon-text">Sudah Kembali</span>
+                                                </a>
+                                            @elseif ($t->status == 0)
+                                                <a><span class="btn btn-sm btn-danger btn-icon-text">Belum
+                                                        Kembali</span></a>
+                                            @endif
                                         </center>
                                     </td>
                                 </tr>
@@ -118,7 +94,7 @@
                     $('#datatable').DataTable();
                 });
             @else
-                var groupColumn = 2;
+                var groupColumn = 1;
                 var table = $('#datatable').DataTable({
                     columnDefs: [{
                         visible: false,
@@ -144,7 +120,7 @@
                                     $(rows)
                                         .eq(i)
                                         .before(
-                                            '<tr class="group"><td colspan="6">' +
+                                            '<tr class="group"><td colspan="5">' +
                                             group +
                                             '</td></tr>'
                                         );

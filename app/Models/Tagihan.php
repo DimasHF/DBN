@@ -28,4 +28,9 @@ class Tagihan extends Model
     {
         return $this->belongsTo(Laypel::class, 'id_laypel', 'id_laypel');
     }
+
+    public function bayar()
+    {
+        return $this->belongsTo(Bayar::class, 'id_bayar', 'id_bayar');
+    }
 }

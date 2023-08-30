@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 grid-margin" id="layanan">
+            <div class="col-12 grid-margin" id="cardlayanan">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Masukkan Data Layanan</h4>
@@ -58,7 +58,7 @@
                                     <label class="col-sm-3 col-form-label">Terima</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="tanggal" id="tanggal"
-                                            value="{{ date('Y-m-d') }}" readonly />
+                                            value="{{ date('Y-m-d') }}" readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                     <label class="col-sm-3 col-form-label">Harga Layanan</label>
                                     <div class="col-sm-9">
                                         <input type="int" class="form-control" placeholder="Masukan Nama Layanan"
-                                            name="harga" id="harga" value="" readonly />
+                                            name="harga" id="harga" value="" readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     <label class="col-sm-3 col-form-label">Bandwidth Layanan</label>
                                     <div class="col-sm-9">
                                         <input type="int" class="form-control" placeholder="Masukan Nama Layanan"
-                                            name="bandwidth" id="bandwidth" value="" readonly />
+                                            name="bandwidth" id="bandwidth" value="" readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -96,11 +96,9 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-12 d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-primary" id="keranjang">Tambah Layanan</button>
                         </div><br>
-
                     </div>
                 </div>
             </div>
@@ -130,10 +128,7 @@
                                             <center>Pajak</center>
                                         </th>
                                         <th width="200px">
-                                            <center>Subtotal Awal</center>
-                                        </th>
-                                        <th width="200px">
-                                            <center>Subtotal Dengan Pajak</center>
+                                            <center>Subtotal</center>
                                         </th>
                                     </tr>
                                 </thead>
@@ -144,9 +139,7 @@
                                     <tr>
                                         <th class="text-center bg_total" colspan="5"><b>TOTAL</b></th>
                                         <th><input class="form-control form-control-user" readonly type="text"
-                                                name="totaltanpapajak" id="totaltanpapajak" value=""></th>
-                                        <th><input class="form-control form-control-user" readonly type="text"
-                                                name="totalpajak" id="totalpajak" value=""></th>
+                                                name="total" id="total" value=""></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -168,9 +161,9 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 //Input Barang Receive
-                let layanan = document.getElementById('layanan');
+                let carilayanan = document.getElementById('cardlayanan');
                 let keranjang = document.getElementById('keranjang_brg');
-                layanan.style.visibility = 'hidden';
+                carilayanan.style.visibility = 'hidden';
                 keranjang.style.visibility = 'hidden';
 
                 //Card Input 
@@ -196,7 +189,7 @@
                         // Set selection
                         $('#pelanggan').val(ui.item.value);
                         $('#id_pelanggan').val(ui.item.label1);
-                        layanan.style.visibility = 'visible';
+                        carilayanan.style.visibility = 'visible';
 
                         return false;
                     }
@@ -238,6 +231,7 @@
                     let pelanggan = $("#pelanggan").val();
                     let id_pelanggan = $("#id_pelanggan").val();
                     let id_layanan = $("#id_layanan").val();
+                    let id_laypel = $("#id_laypel").val();
                     let layanan = $("#carilayanan").val();
                     let harga = $("#harga").val();
                     let bandwidth = $("#bandwidth").val();
@@ -247,6 +241,17 @@
                     let SubtotalPajak = subtotalpajak.toFixed(2);
                     formattedSubtotalPajak = SubtotalPajak.replace(/\.?0+$/, '');
                     let subtotal = $("#harga").val();
+
+                    function totalpajak() {
+                        if (pajak == 1) {
+                            let pajakv = parseInt($("#harga").val()) * (0.11);
+                            let Pajakv = pajakv.toFixed(2);
+                            formattedPajakv = Pajakv.replace(/\.?0+$/, '');
+                            return formattedPajakv;
+                        } else {
+                            return 0;
+                        }
+                    }
 
                     function biaya() {
                         if (pajak == 1) {
@@ -262,6 +267,8 @@
                         row +
                         '"readonly></td><td><input type="text" class="form-control form-control-user"name="pelanggan[]" value="' +
                         pelanggan +
+                        '"readonly></td><td style="display:none"><input type="text" class="form-control form-control-user" name="id_laypel[]" value="' +
+                        id_laypel +
                         '"readonly></td><td style="display:none"><input type="text" class="form-control form-control-user" name="id_pelanggan[]" value="' +
                         id_pelanggan +
                         '"readonly></td><td style="display:none"><input type="text" class="form-control form-control-user" name="id_layanan[]" value="' +
@@ -271,44 +278,25 @@
                         '"readonly></td><td><input type="text" class="form-control form-control-user" name="harga[]" value="' +
                         harga +
                         '"readonly></td><td><input type="text" class="form-control form-control-user" name="pajak[]" value="' +
-                        pajak +
+                        totalpajak() +
                         '"readonly></td><td><input type="text" class="form-control form-control-user" name="subtotal[]" value="' +
-                        subtotal +
-                        '"readonly></td><td><input type="text" class="form-control form-control-user" name="subtotalpajak[]" value="' +
                         biaya() +
                         '" readonly></td></tr>'
 
                     );
-                    totaltanpapajak();
-                    totalpajak();
+                    total();
                     row++;
 
-                    function totaltanpapajak() {
+                    function total() {
                         var sum = 0;
                         $('.form-control[name="subtotal[]"]').each(function() {
                             sum += parseFloat($(this).val());
                         });
 
-                        // Menggunakan toFixed() untuk memformat jumlah desimal yang ditampilkan
-                        var formattedSum = sum.toFixed(2);
-
-                        // Menghapus nol di belakang koma desimal
-                        formattedSum = formattedSum.replace(/\.?0+$/, '');
-
-                        $('#totaltanpapajak').val(formattedSum);
-                    }
-
-
-                    function totalpajak() {
-                        var sum = 0;
-                        $('.form-control[name="subtotalpajak[]"]').each(function() {
-                            sum += parseFloat($(this).val());
-                        });
-
                         var formattedSum = sum.toFixed(2);
                         formattedSum = formattedSum.replace(/\.?0+$/, '');
 
-                        $('#totalpajak').val(formattedSum);
+                        $('#total').val(formattedSum);
                     }
 
                     document.getElementById("carilayanan").value = "";

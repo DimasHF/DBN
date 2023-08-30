@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DBN</title>
@@ -32,8 +32,8 @@
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo mr-5" href="/"><img src="{{ asset('assets/images/plant.png') }}"
                         class="mr-2" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="/"><img src="{{ asset('assets/images/plant.png') }}"
-                        alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="/"><img
+                        src="{{ asset('assets/images/plant.png') }}" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -81,40 +81,93 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.purchase') }}">
-                                <i class="icon-layout menu-icon"></i>
+                                <i class="ti-clipboard menu-icon"></i>
                                 <span class="menu-title">Purchase Order</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.pelanggan.aktif') }}">
-                                <i class="icon-layout menu-icon"></i>
-                                <span class="menu-title">Pelanggan Aktif</span>
+                                <i class="ti-world menu-icon"></i>
+                                <span class="menu-title">Layanan Pelanggan</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#list" aria-expanded="false"
-                                aria-controls="list">
-                                <i class="icon-columns menu-icon"></i>
-                                <span class="menu-title">List</span>
+                            <a class="nav-link" data-toggle="collapse" href="#data_admin" aria-expanded="false"
+                                aria-controls="data_admin">
+                                <i class="ti-files menu-icon"></i>
+                                <span class="menu-title">Data Admin</span>
                                 <i class="menu-arrow"></i>
                             </a>
-                            <div class="collapse" id="list">
+                            <div class="collapse" id="data_admin">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('admin.pelanggan') }}">List Pelanggan</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.layanan') }}">List
-                                            Layanan</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.mitra') }}">List
-                                            Mitra</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.pelanggan') }}">Data Pelanggan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.layanan') }}">Data Layanan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.mitra') }}">Data Mitra</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.barang') }}">
-                                <i class="icon-layout menu-icon"></i>
-                                <span class="menu-title">Kelola Barang</span>
+                            <a class="nav-link" data-toggle="collapse" href="#databarang" aria-expanded="false"
+                                aria-controls="databarang">
+                                <i class="ti-package menu-icon"></i>
+                                <span class="menu-title">Barang</span>
+                                <i class="menu-arrow"></i>
                             </a>
+                            <div class="collapse" id="databarang">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.barang') }}">Kelola Barang</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.pinjaman') }}">Peminjaman</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#admintagihan" aria-expanded="false"
+                                aria-controls="admintagihan">
+                                <i class="ti-wallet menu-icon"></i>
+                                <span class="menu-title">Tagihan</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="admintagihan">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link">Tagihan Mitra</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link">Tagihan Pelanggan</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#adminrekap" aria-expanded="false"
+                                aria-controls="adminrekap">
+                                <i class="ti-receipt menu-icon"></i>
+                                <span class="menu-title">Rekap Admin</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="adminrekap">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link">Tagihan Mitra</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link">Tagihan Pelanggan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.rekap.pinjaman') }}">Peminjaman</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     @elseif(auth()->guard('mitra')->check())
                         <li class="nav-header">Mitra</li>
@@ -126,50 +179,46 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('mitra.profil') }}">
-                                <i class="ti-home menu-icon"></i>
+                                <i class="ti-user menu-icon"></i>
                                 <span class="menu-title">Profil Mitra</span>
                             </a>
                         </li>
                         @if (auth()->guard('mitra')->user()->status == 1)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.po') }}">
-                                    <i class="icon-layout menu-icon"></i>
+                                <a class="nav-link" data-toggle="collapse" href="#purchase_order"
+                                    aria-expanded="false" aria-controls="purchase_order">
+                                    <i class="ti-clipboard menu-icon"></i>
                                     <span class="menu-title">Purchase Order</span>
+                                    <i class="menu-arrow"></i>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.spk') }}">
-                                    <i class="icon-layout menu-icon"></i>
-                                    <span class="menu-title">SPK</span>
-                                </a>
+                                <div class="collapse" id="purchase_order">
+                                    <ul class="nav flex-column sub-menu">
+                                        @if (
+                                            !PurchaseOrder::where('status', 1)->where(
+                                                    'id_mitra',
+                                                    auth()->guard('mitra')->user()->id_mitra)->exists())
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ route('mitra.po') }}">Kirim Dokumen</a>
+                                            </li>
+                                        @endif
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('mitra.spk') }}">SPK</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="">BA</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         @endif
                         @if (PurchaseOrder::where('status', 1)->where(
                                     'id_mitra',
                                     auth()->guard('mitra')->user()->id_mitra)->exists())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.pelanggan.aktif') }}">
-                                    <i class="icon-layout menu-icon"></i>
-                                    <span class="menu-title">Pelanggan Aktif</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.pinjaman') }}">
-                                    <i class="icon-layout menu-icon"></i>
-                                    <span class="menu-title">Peminjaman Barang</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.cetak.tagihan') }}">
-                                    <i class="icon-layout menu-icon"></i>
-                                    <span class="menu-title">Cetak Tagihan</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
                                     aria-controls="mitra">
-                                    <i class="icon-columns menu-icon"></i>
-                                    <span class="menu-title">Data</span>
+                                    <i class="ti-file menu-icon"></i>
+                                    <span class="menu-title">Data Mitra</span>
                                     <i class="menu-arrow"></i>
                                 </a>
                                 <div class="collapse" id="mitra">
@@ -180,8 +229,63 @@
                                         <li class="nav-item"> <a class="nav-link"
                                                 href="{{ route('mitra.layanan') }}">List Layanan</a>
                                         </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#layanan" aria-expanded="false"
+                                    aria-controls="layanan">
+                                    <i class="ti-printer menu-icon"></i>
+                                    <span class="menu-title">Layanan Aktif</span>
+                                    <i class="menu-arrow"></i>
+                                </a>
+                                <div class="collapse" id="layanan">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item"> <a class="nav-link"
+                                                href="{{ route('mitra.pelanggan.aktif') }}">Pelanggan Aktif</a>
+                                        </li>
+                                        <li class="nav-item"> <a class="nav-link"
+                                                href="{{ route('mitra.cetak.tagihan') }}">Cetak Tagihan</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#peminjaman_barang"
+                                    aria-expanded="false" aria-controls="peminjaman_barang">
+                                    <i class="ti-package menu-icon"></i>
+                                    <span class="menu-title">Peminjaman Barang</span>
+                                    <i class="menu-arrow"></i>
+                                </a>
+                                <div class="collapse" id="peminjaman_barang">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item"> <a class="nav-link"
+                                                href="{{ route('mitra.pinjaman') }}">Pinjam Barang</a>
+                                        </li>
                                         <li class="nav-item"> <a class="nav-link"
                                                 href="{{ route('mitra.barang') }}">List Barang</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#mitrarekap" aria-expanded="false"
+                                    aria-controls="mitrarekap">
+                                    <i class="ti-receipt menu-icon"></i>
+                                    <span class="menu-title">Rekap Mitra</span>
+                                    <i class="menu-arrow"></i>
+                                </a>
+                                <div class="collapse" id="mitrarekap">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('mitra.transaksi') }}">Transaksi</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link">Tagihan Pelanggan</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                href="{{ route('mitra.rekap.pinjaman') }}">Peminjaman</a>
                                         </li>
                                     </ul>
                                 </div>

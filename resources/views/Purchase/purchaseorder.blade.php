@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label>SPK</label>
-                        <input type="file" name="spk" id="spk" class="file-upload-default">
+                        <input type="file" name="spk" id="spk" class="file-upload-default" accept=".pdf" required>
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled placeholder="Upload SPK">
                             <span class="input-group-append">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label>BA</label>
-                        <input type="file" name="ba" id="ba" class="file-upload-default">
+                        <input type="file" name="ba" id="ba" class="file-upload-default" accept=".pdf" required>
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled placeholder="Upload BA">
                             <span class="input-group-append">

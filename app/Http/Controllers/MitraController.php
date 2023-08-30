@@ -75,6 +75,12 @@ class MitraController extends Controller
             'password' => ['required'],
         ]);
 
+        $user = Mitra::where('username', $request->username)->first();
+
+        if ($user && $user->status === 0) {
+            return back()->with('alert', 'Akun Anda dinonaktifkan. Silakan hubungi administrator.');
+        }
+        
         if (Auth::guard('mitra')->attempt($credentials)) {
             $request->session()->regenerate();
 
