@@ -110,7 +110,11 @@ Route::prefix('mitra')->group(function(){
     Route::get('/tagihan/cetak/{tgl_awal}/{tgl_akhir}', [App\Http\Controllers\TagihanController::class, 'cetak'])->name('mitra.cetak.tagihan.proses');
     Route::get('/tagihan/cetakperbulan', [App\Http\Controllers\TagihanController::class, 'viewcetakperbulan'])->name('mitra.cetak.perbulan');
     Route::get('/tagihan/cetakbulan/{tglAwal}/{tglAkhir}', [App\Http\Controllers\TagihanController::class, 'cetakTagihan'])->name('mitra.cetak.perbulan.proses');
-    Route::get('/tagihan/bayar/{status}/{id_bayar}', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.bayar');
+    // Route::post('/tagihan/bayar/{id_laypel}', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.bayar');
+    Route::post('/tagihan/bayar', [App\Http\Controllers\TagihanController::class, 'update'])->name('mitra.bayar.proses');
+
+    Route::get('/tagihan/bayar/{id_laypel}', [App\Http\Controllers\TagihanController::class, 'detail'])->name('mitra.bayar.detail');
+    Route::put('/tagihan/bayar/', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.tagihan.bayar');
 
     Route::get('/rekap/pinjaman', [App\Http\Controllers\RekapController::class, 'pinjaman'])->name('mitra.rekap.pinjaman');
 

@@ -11,7 +11,7 @@ class Tagihan extends Model
 
     protected $fillable = [
         'id_tagihan',
-        'id_bayar',
+        'id_laypel',
         'tanggal_bayar',
         'tanggal_deadline',
         'pajak',
@@ -23,14 +23,4 @@ class Tagihan extends Model
 
     protected $primaryKey = 'id_tagihan';
     public $incrementing = false;
-
-    public function laypel()
-    {
-        return $this->belongsTo(Laypel::class, 'id_laypel', 'id_laypel');
-    }
-
-    public function bayar()
-    {
-        return $this->belongsTo(Bayar::class, 'id_bayar', 'id_bayar');
-    }
 }

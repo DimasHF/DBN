@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bayar;
 use App\Models\Laypel;
+use App\Models\Rekap;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
 use Carbon\Carbon;
@@ -36,80 +37,115 @@ class TagihanController extends Controller
         return view('Tagihan.cetakperbulan');
     }
 
-    public function cetakTagihan($tglAwal, $tglAkhir)
+    public function cetakTagihan($tglAwal)
     {
 
         $startDate = Carbon::createFromFormat('Y-m-d', $tglAwal);
+        $telat = Carbon::createFromFormat('Y-m-d', $tglAwal);
         $endDate = $startDate->copy()->subDays(30);
 
         $bayar = new Bayar();
-        $bayarget = $bayar->where(function ($query) use ($endDate) {
-            $query->where('status', 0)
-                ->orWhereDate('tanggal_bayar', $endDate);
-        })->get();
+        $bayarget = $bayar->join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
+            ->join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')
+            ->where(function ($query) use ($endDate) {
+                $query->where('statusbayar', 0)
+                    ->orWhereDate('tanggal_bayar', $endDate);
+            })->get();
 
         foreach ($bayarget as $item) {
-            $daysLate = now()->diffInDays($item->tanggal_bayar, false);
+            $daysLate = $telat->diffInDays($item->tanggal_bayar, false);
             $item->daysLate = $daysLate;
         }
 
-        $layanan = $bayar->laypel()->join('layanans', 'layanans.id_layanan', '=', 'laypels.id_layanan')->get();
-        $pelanggan = $bayar->laypel()->join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')->get();
-
         return view('Tagihan.cetakperbulan', [
             'bayar' => $bayarget,
-            'layanan' => $layanan,
-            'pelanggan' => $pelanggan,
             'tglAwal' => $tglAwal,
-            'tglAkhir' => $tglAkhir,
             'daysLate' => $daysLate,
         ]);
     }
 
-    public function bayar(Request $request, $status, $id_bayar)
+    //View Edit
+    public function detail($id_laypel)
     {
-        $model = Bayar::join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
-            ->select('bayars.*', 'laypels.*')
-            ->where('bayars.id_bayar', $id_bayar)
-            ->first();
-        $model->status = $status;
+        $bayar = Laypel::join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')
+            ->join('bayars', 'bayars.id_laypel', '=', 'laypels.id_laypel')
+            ->find($id_laypel);
+        return response()->json([
+            'status' => 200,
+            'bayar' => $bayar
+        ]);
+    }
 
-        //dd($model);
-        // if ($model->save()) {
-
-        //     $notice = ['alert' => 'Status Telah Diganti'];
-        // }
-
-        $autoId = DB::table('tagihans')->select(DB::raw('MAX(RIGHT(id_tagihans,5)) as autoId'));
-        $kdt = "";
+    //Update
+    public function bayar(Request $request)
+    {
+        $autoId = DB::table('rekaps')->select(DB::raw('MAX(RIGHT(id_rekap,4)) as autoId'));
+        $kdr = "";
         if ($autoId->count() > 0) {
             foreach ($autoId->get() as $a) {
                 $tmp = ((int)$a->autoId) + 1;
-                $kdt = sprintf("%05s", $tmp);
+                $kdr = sprintf("%04s", $tmp);
             }
         } else {
-            $kdt = "00001";
+            $kdr = "0001";
         }
 
-        $tagihan = new Tagihan;
-        $tagihandet = $tagihan->laypel()->first();
-        $tagihanbay = $tagihan->bayar()->first();
-
-        $tagihan->id_tagihan = ('TAG' . date('Y-m-d') . $kdt);
-        $tagihan->id_bayar = $id_bayar;
-        $tagihan->tanggal_bayar = date('Y-m-d');
-        $tagihan->tanggal_deadline = $request->endDate;
-        if ($tagihandet) {
-            $tagihan->pajak = $tagihandet->pajak;
+        $autoId = DB::table('tagihans')->select(DB::raw('MAX(RIGHT(id_tagihans,4)) as autoId'));
+        $kd = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        } else {
+            $kd = "0001";
         }
-        $tagihan->telat = $request->daysLate;
-        if ($tagihanbay) {
-            $tagihan->bayar = $tagihanbay->total;
-        }        // $tagihan->sisa = $tagihanbay->total - $tagihanbay->bayar;
-        $tagihan->status = 1;
-        dd($tagihan);
 
-        
-        // return redirect()->back()->with($notice);
+        $id = $request->input('id');
+        $bayarid = $request->input('id_laypel');
+        $bayardet = Bayar::where('id_laypel', '=', $bayarid)->select('total', 'tanggal_bayar')->first();
+
+        if (!$bayardet) {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+
+        $inputBayar = (float) $request->input('bayar'); // Konversi input ke angka
+
+        if ($inputBayar > 0 && $inputBayar <= $bayardet->total) {
+            $bayar = new Tagihan();
+            $bayar->id_tagihan = ('TAG-' . $kd);
+            $bayar->id_laypel = $request->input('id_laypel');
+            $bayar->tanggal_bayar = date('Y-m-d');
+            $bayar->tanggal_deadline = $request->input('tanggal_deadline');
+            $bayar->pajak = $request->input('pajak');
+            $bayar->telat = $request->input('telat');
+            $bayar->bayar = $inputBayar;
+            $bayar->sisa = $bayardet->total - $inputBayar;
+            if ($bayar->sisa == 0) {
+                $bayar->status = 1;
+            } else {
+                $bayar->status = 0;
+            }
+            // $bayar->save();
+
+            $bayarsta = Bayar::where('id_laypel', '=', $bayarid)->first();
+            if ($bayar->sisa == 0) {
+                $bayarsta->statusbayar = 1;
+            } else {
+                $bayarsta->statusbayar = 0;
+            }
+
+            $rekap = new Rekap();
+            $rekap->id_rekap = ('REK-' . $kdr);
+            $rekap->id_tagihan = ('TAG-' . $kd);
+            $rekap->status = 1;
+
+            dd($bayar, $bayarsta, $rekap);
+
+            return response()->json(['message' => 'Pembayaran berhasil disimpan']);
+        } else {
+            return response()->json(['message' => 'Jumlah pembayaran tidak valid'], 422);
+        }
     }
 }
