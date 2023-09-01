@@ -12,7 +12,7 @@ class Rekap extends Model
     protected $fillable = [
         'id_rekap',
         'id_tagihan',
-        'status',
+        'statusrek',
     ];
 
     protected $primaryKey = 'id_rekap';

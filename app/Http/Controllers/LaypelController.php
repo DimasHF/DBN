@@ -7,6 +7,7 @@ use App\Models\Layanan;
 use App\Models\Laypel;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,13 +30,13 @@ class LaypelController extends Controller
             $cari = DB::table('pelanggans')->orderBy('nama_pel', 'asc')
                 ->select('pelanggans.*')
                 ->where('id_mitra', '=', $mitra)
-                ->where('status', '=', '1')
+                ->where('statuspel', '=', '1')
                 ->get();
         } else {
             $cari = DB::table('pelanggans')->orderBy('nama_pel', 'asc')
                 ->select('pelanggans.*')
                 ->where('id_mitra', '=', $mitra)
-                ->where('status', '=', '1')
+                ->where('statuspel', '=', '1')
                 ->where('nama_pel', 'like', '%' . $search . '%')
                 ->get();
         }
@@ -58,13 +59,13 @@ class LaypelController extends Controller
             $cari = Layanan::orderBy('nama_lay', 'asc')
                 ->select('layanans.*')
                 ->where('id_mitra', '=', $mitra)
-                ->where('status', '=', '1')
+                ->where('statuslay', '=', '1')
                 ->get();
         } else {
             $cari = Layanan::orderBy('nama_lay', 'asc')
                 ->select('layanans.*')
                 ->where('id_mitra', '=', $mitra)
-                ->where('status', '=', '1')
+                ->where('statuslay', '=', '1')
                 ->where('nama_lay', 'like', '%' . $search . '%')
                 ->get();
         }
@@ -101,6 +102,11 @@ class LaypelController extends Controller
             $kds = "0001";
         }
 
+        $today = Carbon::now();  // Membuat objek Carbon untuk mewakili hari ini
+        $futureDate = $today->addDays(30);  // Menambahkan 30 hari ke tanggal saat ini
+        
+        $formattedFutureDate = $futureDate->format('Y-m-d'); 
+
         if ($request->nomor == null) {
             //Gagal
             // dd($request);
@@ -125,7 +131,7 @@ class LaypelController extends Controller
                 $lay->harga = $request->harga[$i];
                 $lay->pajak = $request->pajak[$i];
                 $lay->subtotal = $request->subtotal[$i];
-                $lay->status = 1;
+                $lay->statuslaypel = 1;
                 // dd($lay);
                 $lay->save();
 
@@ -133,10 +139,11 @@ class LaypelController extends Controller
                 $bayar = new Bayar;
                 $bayar->id_bayar = $autoIdb[$i];
                 $bayar->id_laypel = $autoIds[$i];
-                $bayar->tanggal_bayar = date('Y-m-d');
+                $bayar->tanggal_bayar = $formattedFutureDate;
+                $bayar->tanggal_lunas = date('Y-m-d');
                 $bayar->total = $request->subtotal[$i];
-                $bayar->status = 1;
-                // dd($bayar);
+                $bayar->statusbayar = 1;
+                //dd($bayar);
                 $bayar->save();
             }
 
@@ -146,7 +153,7 @@ class LaypelController extends Controller
             $transaksi->id_mitra = Auth::guard('mitra')->user()->id_mitra;
             $transaksi->tanggal = $request->tanggal;
             $transaksi->total = $request->total;
-            $transaksi->status = 1;
+            $transaksi->statustrans = 1;
             // dd($transaksi);
             $transaksi->save();
 
@@ -159,7 +166,8 @@ class LaypelController extends Controller
     }
 
     //View Transaksi
-    public function trans(){
+    public function trans()
+    {
 
         if (Auth::guard('mitra')->check()) {
 

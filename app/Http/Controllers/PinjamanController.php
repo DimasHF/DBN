@@ -25,20 +25,20 @@ class PinjamanController extends Controller
 
         if ($search == '') {
             $cari = DB::table('barangs')->orderBy('nama_bar', 'asc')
-                ->select('id_barang', 'nama_bar', 'stok', 'status')
-                ->where('status', '=', '1')
+                ->select('id_barang', 'nama_bar', 'stok', 'statusbar')
+                ->where('statusbar', '=', '1')
                 ->get();
         } else {
             $cari = DB::table('barangs')->orderBy('nama_bar', 'asc')
-                ->select('id_barang', 'nama_bar', 'stok', 'status')
-                ->where('status', '=', '1')
+                ->select('id_barang', 'nama_bar', 'stok', 'statusbar')
+                ->where('statusbar', '=', '1')
                 ->where('nama_bar', 'like', '%' . $search . '%')
                 ->get();
         }
 
         $response = array();
         foreach ($cari as $suppli) {
-            $response[] = array("value" => $suppli->nama_bar, "label1" => $suppli->id_barang, "label2" => $suppli->stok, "status" => $suppli->status);
+            $response[] = array("value" => $suppli->nama_bar, "label1" => $suppli->id_barang, "label2" => $suppli->stok, "status" => $suppli->statusbar);
         }
 
         return response()->json($response);
@@ -89,7 +89,7 @@ class PinjamanController extends Controller
             $pinjam->id_pinjaman = ('PIN' . $kd);
             $pinjam->id_mitra = $user;
             $pinjam->tanggal = date('Y-m-d');
-            $pinjam->status = '0';
+            $pinjam->statuspinj = '0';
             //dd($pinjam);
             $pinjam->save();
         }
@@ -100,7 +100,7 @@ class PinjamanController extends Controller
     //View Pinjaman
     public function list()
     {
-        $pinjaman = Pinjaman::where('status', 0)->get();
+        $pinjaman = Pinjaman::where('statuspinj', 0)->get();
         return view('Pinjaman.daftar', ['pinjaman' => $pinjaman]);
     }
 
@@ -114,7 +114,7 @@ class PinjamanController extends Controller
     public function status($id_pinjaman)
     {
         $pinjaman = Pinjaman::where('id_pinjaman', $id_pinjaman)->first();
-        $pinjaman->status = 1;
+        $pinjaman->statuspinj = 1;
         $pinjaman->save();
 
         return redirect()->back()->with('alert', 'Data Berhasil Diubah');

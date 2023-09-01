@@ -13,10 +13,10 @@ class RekapController extends Controller
 
         if (Auth::guard('mitra')->check()) {
             $mitra = auth()->guard('mitra')->user()->id_mitra;
-            $pinjaman = Pinjaman::where('id_mitra', $mitra)->where('status', 1)->get();
+            $pinjaman = Pinjaman::where('id_mitra', $mitra)->where('statuspinj', 1)->get();
             return view('Rekap.pinjaman', ['pinjaman' => $pinjaman, 'mitra' => $mitra]);
         } else {
-            $pinjaman = Pinjaman::where('status', 1)->get();
+            $pinjaman = Pinjaman::where('statuspinj', 1)->get();
             return view('Rekap.pinjaman', ['pinjaman' => $pinjaman]);
         }
     }

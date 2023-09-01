@@ -61,11 +61,11 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 1)
+                                            @if ($t->statuspinj == 1)
                                                 <a>
                                                     <span class="btn btn-sm btn-success btn-icon-text">Sudah Kembali</span>
                                                 </a>
-                                            @elseif ($t->status == 0)
+                                            @elseif ($t->statuspinj == 0)
                                                 <a href="/admin/pinjaman/1/{{ $t->id_pinjaman }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Belum Kembali</span></a>
                                             @endif

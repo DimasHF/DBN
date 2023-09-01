@@ -70,11 +70,11 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 1)
+                                            @if ($t->statusbar == 1)
                                                 <a href="/admin/statusbar/0/{{ $t->id_barang }}">
                                                     <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
                                                 </a>
-                                            @elseif ($t->status == 0)
+                                            @elseif ($t->statusbar == 0)
                                                 <a href="/admin/statusbar/1/{{ $t->id_barang }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
                                             @endif

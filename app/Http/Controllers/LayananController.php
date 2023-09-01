@@ -52,7 +52,7 @@ class LayananController extends Controller
         $layanan->nama_lay = $request->nama_lay;
         $layanan->harga = $request->harga;
         $layanan->bandwidth = $request->bandwidth;
-        $layanan->status = 1;
+        $layanan->statuslay = 1;
         $layanan->save();
 
         //View Alert
@@ -84,7 +84,7 @@ class LayananController extends Controller
     public function status($status, $id_layanan)
     {
         $model = Layanan::findOrFail($id_layanan);
-        $model->status = $status;
+        $model->statuslay = $status;
 
         //dd($model);
         if ($model->save()) {

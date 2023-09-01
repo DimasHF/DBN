@@ -183,7 +183,7 @@
                                 <span class="menu-title">Profil Mitra</span>
                             </a>
                         </li>
-                        @if (auth()->guard('mitra')->user()->status == 1)
+                        @if (auth()->guard('mitra')->user()->statusmitra == 1)
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#purchase_order"
                                     aria-expanded="false" aria-controls="purchase_order">
@@ -194,7 +194,7 @@
                                 <div class="collapse" id="purchase_order">
                                     <ul class="nav flex-column sub-menu">
                                         @if (
-                                            !PurchaseOrder::where('status', 1)->where(
+                                            !PurchaseOrder::where('statuspo', 1)->where(
                                                     'id_mitra',
                                                     auth()->guard('mitra')->user()->id_mitra)->exists())
                                             <li class="nav-item">
@@ -211,7 +211,7 @@
                                 </div>
                             </li>
                         @endif
-                        @if (PurchaseOrder::where('status', 1)->where(
+                        @if (PurchaseOrder::where('statuspo', 1)->where(
                                     'id_mitra',
                                     auth()->guard('mitra')->user()->id_mitra)->exists())
                             <li class="nav-item">

@@ -37,7 +37,7 @@
                                     <span class="input-group-text">+62</span>
                                 </div>
                                 <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp" name="no_telp"
-                                    placeholder="No. Telp" value="{{ (substr($mitra->no_telp, 2)) }}" required>
+                                    placeholder="No. Telp" value="{{ (substr($p->no_telp, 3)) }}" required>
                             </div>
                         </div>
                         <div class="form-group">

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->string('email');
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statusadmin')->default(1)->nullable();
             $table->timestamps();
         });
     }

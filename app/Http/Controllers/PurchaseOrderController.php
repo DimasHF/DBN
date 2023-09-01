@@ -72,7 +72,7 @@ class PurchaseOrderController extends Controller
         $po->tanggal = $request->tanggal;
         $po->spk = $filespk;
         $po->ba = $fileba;
-        $po->status = 0;
+        $po->statuspo = 0;
 
         $po->save();
 
@@ -82,7 +82,7 @@ class PurchaseOrderController extends Controller
     //View Purchase Order Admin
     public function index()
     {
-        $po = PurchaseOrder::where('status', '=', 0)->get();
+        $po = PurchaseOrder::where('statuspo', '=', 0)->get();
         return view('Purchase.list', ['po' => $po]);
     }
 

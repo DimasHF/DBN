@@ -3,7 +3,7 @@
     {{-- Button Print --}}
     <div class="row">
         <div class="col-md-6 d-grid gap-2 d-md-flex">
-            <a href="/mitra/pelanggan/aktif" class="btn btn-info btn-icon-text">
+            <a href="{{url()->previous()}}" class="btn btn-info btn-icon-text">
                 Kembali
                 <i class="ti-arrow-left btn-icon-append"></i>
             </a>

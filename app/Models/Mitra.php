@@ -26,7 +26,7 @@ class Mitra extends Authenticatable
         'longitude',
         'latitude',
         'logo',
-        'status',
+        'statusmitra',
     ];
 
     protected $primaryKey = 'id_mitra';

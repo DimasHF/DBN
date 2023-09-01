@@ -48,7 +48,7 @@ class StaffController extends Controller
             'email' => $request->email,
             'alamat' => $request->alamat,
             'no_telp' => $request->no_telp,
-            'status' => 1,
+            'statusstaff' => 1,
         ]);
 
         return redirect('/staff/login')->with('alert', 'Registrasi Berhasil');
@@ -90,7 +90,7 @@ class StaffController extends Controller
     //View Data Mitra
     public function mitra()
     {
-        $mitra = Mitra::select('id_mitra', 'nama', 'logo', 'status')->get();
+        $mitra = Mitra::select('id_mitra', 'nama', 'logo', 'statusmitra')->get();
 
         return view('Staff.mitra', ['mitra' => $mitra]);
     }

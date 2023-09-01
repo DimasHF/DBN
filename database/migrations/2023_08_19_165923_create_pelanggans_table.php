@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nik')->nullable();
             $table->string('npwp')->nullable();
             $table->string('foto')->nullable();
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statuspel')->default(1)->nullable();
             $table->timestamps();
         });
     }

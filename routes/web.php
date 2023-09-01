@@ -115,6 +115,8 @@ Route::prefix('mitra')->group(function(){
 
     Route::get('/tagihan/bayar/{id_laypel}', [App\Http\Controllers\TagihanController::class, 'detail'])->name('mitra.bayar.detail');
     Route::put('/tagihan/bayar/', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.tagihan.bayar');
+    Route::get('/tagihan/updatetanggal/{id_bayar}', [App\Http\Controllers\TagihanController::class, 'updatetanggal'])->name('mitra.tagihan.updatetanggal');
+    Route::get('/tagihan/updatetelat/{id_bayar}', [App\Http\Controllers\TagihanController::class, 'updatetelat'])->name('mitra.tagihan.updatetelat');
 
     Route::get('/rekap/pinjaman', [App\Http\Controllers\RekapController::class, 'pinjaman'])->name('mitra.rekap.pinjaman');
 

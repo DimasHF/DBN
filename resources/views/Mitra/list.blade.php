@@ -49,14 +49,14 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 0)
+                                            @if ($t->statusmitra == 0)
                                                 <form action="/api/mitra/konfimasi/1/{{ $t->id_mitra }}" method="POST">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-danger btn-icon-text">Konfirmasi
                                                         <i class="ti-alert btn-icon-append"></i>
                                                     </button>
                                                 </form>
-                                            @elseif ($t->status == 1)
+                                            @elseif ($t->statusmitra == 1)
                                                 <form action="/api/mitra/konfimasi/0/{{ $t->id_mitra }}" method="POST">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-success btn-icon-text">Menjadi Mitra
@@ -89,13 +89,6 @@
 
     <!--JS Modal-->
     @push('page-script')
-        <script>
-            var msg = '{{ Session::get('alert') }}';
-            var exist = '{{ Session::has('alert') }}';
-            if (exist) {
-                alert(msg);
-            }
-        </script>
 
         <script>
             $(document).ready(function() {

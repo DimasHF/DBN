@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('harga')->nullable();
             $table->string('pajak')->nullable();
             $table->string('subtotal')->nullable();
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statuslaypel')->default(1)->nullable();
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class Pinjaman extends Model
         'id_pinjaman',
         'id_mitra',
         'tanggal',
-        'status',
+        'statuspinj',
     ];
 
     protected $primaryKey = 'id_pinjaman';

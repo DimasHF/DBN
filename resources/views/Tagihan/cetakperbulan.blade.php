@@ -49,7 +49,7 @@
                                 <th>
                                     <center>Status</center>
                                 </th>
-                                <th>
+                                <th width="300px">
                                     <center>Action</center>
                                 </th>
                             </tr>
@@ -78,19 +78,23 @@
                                         <center>{{ $t->tanggal_bayar }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->total }}</center>
+                                        <center>{{ $t->finalTotal }}</center>
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->statusbayar == 1)
-                                                <a href="/mitra/statuslay/0/{{ $t->id_bayar }}">
+                                            @if ($t->daysLate < 0)
+                                                <a data-dayslate="{{ $t->daysLate }}">
+                                                    <span class="btn btn-sm btn-danger btn-icon-text">{{ $t->daysLate }}
+                                                        Hari</span>
+                                                </a>
+                                            @elseif ($t->daysLate == 0)
+                                                <a>
                                                     <span class="btn btn-sm btn-success btn-icon-text">Jatuh Tempo</span>
                                                 </a>
-                                            @elseif ($t->statusbayar == 0)
-                                                <a href="/mitra/statuslay/1/{{ $t->id_bayar }}"
-                                                    data-dayslate="{{ $t->daysLate }}"><span
-                                                        class="btn btn-sm btn-danger btn-icon-text">{{ $t->daysLate }}
-                                                        Hari</span></a>
+                                            @else
+                                                <a>
+                                                    <span class="btn btn-sm btn-warning btn-icon-text">Error</span>
+                                                </a>
                                             @endif
                                         </center>
                                     </td>
@@ -101,6 +105,19 @@
                                                 Bayar
                                                 <i class="ti-money btn-icon-append"></i>
                                             </a>
+                                            <a href="{{ route('mitra.tagihan.updatetelat', $t->id_bayar) }}"
+                                                class="btn btn-sm btn-warning btn-icon-text" value="{{ $t->id_bayar }}">
+                                                Update Telat
+                                                <i class="ti-settings btn-icon-append"></i>
+                                            </a>
+                                            @if ($t->tanggal_bayar == $tglAwal)
+                                                <a href="{{ route('mitra.tagihan.updatetanggal', $t->id_bayar) }}"
+                                                    class="btn btn-sm btn-tanggal btn-icon-text"
+                                                    value="{{ $t->id_bayar }}">
+                                                    Update Tanggal
+                                                    <i class="ti-calendar btn-icon-append"></i>
+                                                </a>
+                                            @endif
                                         </center>
                                     </td>
                                 </tr>
@@ -194,11 +211,11 @@
                             $('#nama_pel').val(response.bayar.nama_pel);
                             $('#tanggal_deadline').val(response.bayar.tanggal_bayar);
                             $('#pajak').val(response.bayar.pajak);
-                            
+
                             var tanggalBayar = new Date($('#tglAwal').data('tgl'));
                             var tanggalDeadline = new Date(response.bayar.tanggal_bayar);
                             var timeDifference = tanggalBayar - tanggalDeadline;
-                            var daysLate = timeDifference  / (1000 * 60 * 60 * 24);
+                            var daysLate = timeDifference / (1000 * 60 * 60 * 24);
                             var roundedDaysLate = Math.floor(daysLate);
 
                             console.log(roundedDaysLate);

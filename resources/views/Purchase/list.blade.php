@@ -67,7 +67,7 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 0)
+                                            @if ($t->statuspo == 0)
                                                 <form action="/api/mitra/aktif/1/{{ $t->id_purchase_order }}"
                                                     method="POST">
                                                     <button type="submit"
@@ -75,7 +75,7 @@
                                                         <i class="ti-alert btn-icon-append"></i>
                                                     </button>
                                                 </form>
-                                            @elseif ($t->status == 1)
+                                            @elseif ($t->statuspo == 1)
                                                 <form action="/api/mitra/aktif/0/{{ $t->id_purchase_order }}"
                                                     method="POST">
                                                     <button type="submit"

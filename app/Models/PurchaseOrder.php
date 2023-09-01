@@ -15,7 +15,7 @@ class PurchaseOrder extends Model
         'tanggal',
         'spk',
         'ba',
-        'status',
+        'statuspo',
     ];
 
     protected $primaryKey = 'id_purchase_order';

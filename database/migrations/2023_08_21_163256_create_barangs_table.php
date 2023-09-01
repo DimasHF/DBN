@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama_bar');
             $table->integer('stok');
             $table->string('foto');
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statusbar')->default(1)->nullable();
             $table->timestamps();
         });
     }

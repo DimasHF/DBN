@@ -99,7 +99,7 @@ class PelangganController extends Controller
         $pel->nik = $request->nik;
         $pel->npwp = $request->npwp;
         $pel->foto = 'pelanggan/' . $filename;
-        $pel->status = 1;
+        $pel->statuspel = 1;
         $pel->save();
 
         //dd($pel);
@@ -126,10 +126,16 @@ class PelangganController extends Controller
     //View Edit
     public function show($id_pelanggan)
     {
+        if(Auth::guard('mitra')->check()){
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+            $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->where('id_mitra', $mitra)->get();
+
+            return view('Pelanggan.edit', ['pelanggan' => $pelanggan, 'mitra' => $mitra]);
+        }
         //dd($id_pelanggan);
-        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->first();
+        $pelanggan = Pelanggan::where('id_pelanggan', $id_pelanggan)->get();
         return view('Pelanggan.edit', ['pelanggan' => $pelanggan]);
-    }
+    } 
 
     //Edit Pelanggan
     public function edit(Request $request, $id_pelanggan)
@@ -150,7 +156,7 @@ class PelangganController extends Controller
     public function status($status, $id_pelanggan)
     {
         $model = Pelanggan::findOrFail($id_pelanggan);
-        $model->status = $status;
+        $model->statuspel = $status;
 
         //dd($model);
         if ($model->save()) {

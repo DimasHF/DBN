@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('id_mitra');
             $table->date('tanggal');
             $table->string('total');
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statustrans')->default(1)->nullable();
             $table->timestamps();
         });
     }

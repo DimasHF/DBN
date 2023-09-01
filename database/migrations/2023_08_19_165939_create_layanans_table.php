@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama_lay');
             $table->string('harga')->nullable();
             $table->string('bandwidth')->nullable();
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statuslay')->default(1)->nullable();
             $table->timestamps();
         });
     }

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->string('logo')->nullable();
-            $table->tinyInteger('status')->default(0)->nullable();
+            $table->tinyInteger('statusmitra')->default(0)->nullable();
             $table->timestamps();
         });
     }

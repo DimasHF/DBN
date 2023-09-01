@@ -20,7 +20,7 @@ class Staff extends Authenticatable
         'email',
         'alamat',
         'no_telp',
-        'status',
+        'statusstaff',
     ];
 
     protected $primaryKey = 'id_staff';

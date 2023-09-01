@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('id_rekap');
             $table->string('id_tagihan');
-            $table->string('status')->default('0')->nullable();
+            $table->string('statusrek')->default('0')->nullable();
             $table->timestamps();
         });
     }

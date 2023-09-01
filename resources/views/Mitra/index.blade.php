@@ -69,7 +69,8 @@
         </div>
     </div>
 
-    @if (PurchaseOrder::where('status', 1)->where(
+
+    @if (PurchaseOrder::where('statuspo', 1)->where(
                 'id_mitra',
                 auth()->guard('mitra')->user()->id_mitra)->exists())
         {{-- Card Informasi --}}
@@ -95,7 +96,7 @@
                 </div>
             </div>
         </div>
-    @elseif (PurchaseOrder::where('status', 0)->where(
+    @elseif (PurchaseOrder::where('statuspo', 0)->where(
                 'id_mitra',
                 auth()->guard('mitra')->user()->id_mitra)->exists())
         <div class="col-md-12 grid-margin transparent">
@@ -110,7 +111,7 @@
                 </div>
             </div>
         </div>
-    @elseif (auth()->guard('mitra')->user()->status == 1)
+    @elseif (auth()->guard('mitra')->user()->statusmitra == 1)
         <div class="col-md-12 grid-margin transparent">
             <div class="row">
                 <div class="col-md-12 mb-4 stretch-card transparent">
@@ -138,7 +139,7 @@
                 </div>
             </div>
         </div>
-    @elseif (auth()->guard('mitra')->user()->status == 0)
+    @elseif (auth()->guard('mitra')->user()->statusmitra == 0)
         <div class="col-md-12 grid-margin transparent">
             <div class="row">
                 <div class="col-md-12 mb-4 stretch-card transparent">

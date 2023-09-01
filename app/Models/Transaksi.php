@@ -18,7 +18,7 @@ class Transaksi extends Model
         'id_mitra',
         'tanggal',
         'biaya',
-        'status',
+        'statustrans',
     ];
 
     //Primary Key

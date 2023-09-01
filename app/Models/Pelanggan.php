@@ -19,7 +19,7 @@ class Pelanggan extends Model
         'nik',
         'npwp',
         'foto',
-        'status',
+        'statuspel',
     ];
 
     protected $primaryKey = 'id_pelanggan';

@@ -15,7 +15,7 @@ class Layanan extends Model
         'nama_lay',
         'harga',
         'bandwidth',
-        'status',
+        'statuslay',
     ];
 
     protected $primaryKey = 'id_layanan';

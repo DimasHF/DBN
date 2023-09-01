@@ -18,7 +18,7 @@ class Tagihan extends Model
         'telat',
         'bayar',
         'sisa',
-        'status',
+        'statustagihan',
     ];
 
     protected $primaryKey = 'id_tagihan';

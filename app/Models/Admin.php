@@ -19,7 +19,7 @@ class Admin extends Authenticatable
         'username',
         'password',
         'email',
-        'status',
+        'statusadmin',
     ];
 
     protected $primaryKey = 'id_admin';

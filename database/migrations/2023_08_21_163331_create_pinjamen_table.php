@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('id_pinjaman');
             $table->string('id_mitra');
             $table->date('tanggal');
-            $table->tinyInteger('status')->default(0)->nullable();
+            $table->tinyInteger('statuspinj')->default(0)->nullable();
             $table->timestamps();
         });
     }

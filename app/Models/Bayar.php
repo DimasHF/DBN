@@ -13,8 +13,9 @@ class Bayar extends Model
         'id_bayar',
         'id_laypel',
         'tanggal_bayar',
+        'tanggal_lunas',
         'total',
-        'status',
+        'statusbayar',
     ];
 
     protected $primaryKey = 'id_bayar';

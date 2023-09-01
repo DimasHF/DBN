@@ -20,10 +20,10 @@ class AdminController extends Controller
     {
         $admin = Auth::guard('admin')->check();
 
-        $mitra = Mitra::where('status', 0)->paginate(10);
+        $mitra = Mitra::where('statusmitra', 0)->paginate(10);
 
-        $jumlahmitra = Mitra::where('status', 1)->count();
-        $jumlahpelanggan = Pelanggan::where('status', 1)->count();
+        $jumlahmitra = Mitra::where('statusmitra', 1)->count();
+        $jumlahpelanggan = Pelanggan::where('statuspel', 1)->count();
 
         return view('Admin.index', ['admin' => $admin, 'mitra' => $mitra, 'jumlahmitra' => $jumlahmitra, 'jumlahpelanggan' => $jumlahpelanggan]);
     }
@@ -66,7 +66,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'email' => $request->email,
-            'status' => 1,
+            'statusadmin' => 1,
         ]);
 
         return redirect('/admin/login')->with('alert', 'Registrasi Berhasil');
@@ -117,7 +117,7 @@ class AdminController extends Controller
     public function konfirmasi($status, $id_mitra)
     {
         $model = Mitra::findOrFail($id_mitra);
-        $model->status = $status;
+        $model->statusmitra = $status;
 
         //dd($model);
 
@@ -158,7 +158,7 @@ class AdminController extends Controller
     public function aktif($status, $id_purchase_order)
     {
         $model = PurchaseOrder::findOrFail($id_purchase_order);
-        $model->status = $status;
+        $model->statuspo = $status;
 
         //$model->dd();
         $mitra = Mitra::where('id_mitra', $model->id_mitra)->first();

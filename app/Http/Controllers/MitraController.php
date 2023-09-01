@@ -52,7 +52,7 @@ class MitraController extends Controller
         $mitra->password = bcrypt($request->password);
         $mitra->email = $request->email;
         $mitra->no_telp = ("62".$request->no_telp);
-        $mitra->status = 0;
+        $mitra->statusmitra = 0;
         $mitra->save();
 
         // dd($request);

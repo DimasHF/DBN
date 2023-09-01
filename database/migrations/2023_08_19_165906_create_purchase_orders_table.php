@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('spk')->nullable();
             $table->string('ba')->nullable();
-            $table->tinyInteger('status')->default(0)->nullable();
+            $table->tinyInteger('statuspo')->default(0)->nullable();
             $table->timestamps();
         });
     }

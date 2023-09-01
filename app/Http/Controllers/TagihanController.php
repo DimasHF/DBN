@@ -40,28 +40,76 @@ class TagihanController extends Controller
     public function cetakTagihan($tglAwal)
     {
 
-        $startDate = Carbon::createFromFormat('Y-m-d', $tglAwal);
-        $telat = Carbon::createFromFormat('Y-m-d', $tglAwal);
-        $endDate = $startDate->copy()->subDays(30);
+        if (Auth::guard('mitra')->check()) {
 
-        $bayar = new Bayar();
-        $bayarget = $bayar->join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
-            ->join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')
-            ->where(function ($query) use ($endDate) {
-                $query->where('statusbayar', 0)
-                    ->orWhereDate('tanggal_bayar', $endDate);
-            })->get();
+            $startDate = Carbon::createFromFormat('Y-m-d', $tglAwal);
+            $telat = Carbon::createFromFormat('Y-m-d', $tglAwal);
 
-        foreach ($bayarget as $item) {
-            $daysLate = $telat->diffInDays($item->tanggal_bayar, false);
-            $item->daysLate = $daysLate;
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+            $bayar = new Bayar();
+            $bayarget = $bayar->join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
+                ->join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')
+                ->where('id_mitra', $mitra)
+                ->where(function ($query) use ($startDate) {
+                    $query->where('statusbayar', 0)
+                        ->orWhereDate('tanggal_bayar', $startDate);
+                })->get();
+
+            $daysLateArray = [];
+            $totalMultiplier = 1; // Faktor pengganda awal
+            $totalLateMultiplier = -30;
+
+            foreach ($bayarget as $item) {
+                $daysLate = $telat->diffInDays($item->tanggal_bayar, false);
+
+                if ($item->statusbayar == 0) {
+                    $item->daysLate = $daysLate;
+                } else {
+                    $item->daysLate = 0;
+                }
+
+                dump($daysLate);
+
+                $total = $item->total;
+                $daysLateArray[] = $daysLate;
+
+                if ($daysLate < -30) {
+                    $multiplier = floor($daysLate / $totalLateMultiplier); // Hitung pengganda
+                    $totalMultiplier = $multiplier + 1; // Tambahkan pengganda ke total
+                    $item->finalTotal = $total * $totalMultiplier; // Hitung finalTotal untuk objek $item
+                } else {
+                    $item->finalTotal = $total;
+                }
+            }
+
+            return view('Tagihan.cetakperbulan', [
+                'bayar' => $bayarget,
+                'tglAwal' => $tglAwal,
+            ]);
+        } else {
+
+            $startDate = Carbon::createFromFormat('Y-m-d', $tglAwal);
+            $telat = Carbon::createFromFormat('Y-m-d', $tglAwal);
+
+            $bayar = new Bayar();
+            $bayarget = $bayar->join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
+                ->join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')
+                ->where(function ($query) use ($startDate) {
+                    $query->where('statusbayar', 0)
+                        ->orWhereDate('tanggal_bayar', $startDate);
+                })->get();
+
+            foreach ($bayarget as $item) {
+                $daysLate = $telat->diffInDays($item->tanggal_bayar, false);
+                $item->daysLate = $daysLate;
+            }
+
+            return view('Tagihan.cetakperbulan', [
+                'bayar' => $bayarget,
+                'tglAwal' => $tglAwal,
+                'daysLate' => $daysLate,
+            ]);
         }
-
-        return view('Tagihan.cetakperbulan', [
-            'bayar' => $bayarget,
-            'tglAwal' => $tglAwal,
-            'daysLate' => $daysLate,
-        ]);
     }
 
     //View Edit
@@ -90,7 +138,7 @@ class TagihanController extends Controller
             $kdr = "0001";
         }
 
-        $autoId = DB::table('tagihans')->select(DB::raw('MAX(RIGHT(id_tagihans,4)) as autoId'));
+        $autoId = DB::table('tagihans')->select(DB::raw('MAX(RIGHT(id_tagihan,4)) as autoId'));
         $kd = "";
         if ($autoId->count() > 0) {
             foreach ($autoId->get() as $a) {
@@ -123,11 +171,11 @@ class TagihanController extends Controller
             $bayar->bayar = $inputBayar;
             $bayar->sisa = $bayardet->total - $inputBayar;
             if ($bayar->sisa == 0) {
-                $bayar->status = 1;
+                $bayar->statustagihan = 1;
             } else {
-                $bayar->status = 0;
+                $bayar->statustagihan = 0;
             }
-            // $bayar->save();
+            $bayar->save();
 
             $bayarsta = Bayar::where('id_laypel', '=', $bayarid)->first();
             if ($bayar->sisa == 0) {
@@ -135,17 +183,56 @@ class TagihanController extends Controller
             } else {
                 $bayarsta->statusbayar = 0;
             }
+            $bayarsta->save();
 
             $rekap = new Rekap();
             $rekap->id_rekap = ('REK-' . $kdr);
             $rekap->id_tagihan = ('TAG-' . $kd);
-            $rekap->status = 1;
+            $rekap->statusrek = 1;
+            $rekap->save();
 
-            dd($bayar, $bayarsta, $rekap);
+            //dd($bayar, $bayarsta, $rekap);
 
-            return response()->json(['message' => 'Pembayaran berhasil disimpan']);
+            return redirect()->back()->with('alert', 'Pembayaran Diterima');
         } else {
             return response()->json(['message' => 'Jumlah pembayaran tidak valid'], 422);
         }
+    }
+
+    public function updatetanggal($id_bayar)
+    {
+        $tanggal_bayar = Bayar::select('tanggal_bayar')->where('id_bayar', $id_bayar)->first();
+        // dd($tanggal_bayar);
+        $telat = $tanggal_bayar->tanggal_bayar;
+        $lunas = $tanggal_bayar->tanggal_lunas;
+        //dd($today);
+        $telat = Carbon::parse($telat);
+        $lunas = Carbon::parse($lunas);
+        // Membuat objek Carbon untuk mewakili hari ini
+        $telatdata = $telat->addDays(30);
+        $lunasdata = $lunas->addDays(30);  // Menambahkan 30 hari ke tanggal saat ini        // Menambahkan 30 hari ke tanggal saat ini
+
+        $nextbayar = $telatdata->format('Y-m-d');
+        $nextlunas = $lunasdata->format('Y-m-d');
+
+        $bayar = Bayar::where('id_bayar', $id_bayar)->first();
+        $bayar->tanggal_lunas = $nextlunas;
+        $bayar->tanggal_bayar = $nextbayar;
+        $bayar->save();
+        //dd($bayar);
+
+        return redirect()->back()->with('alert', 'Data Berhasil Diubah');
+    }
+
+    public function updatetelat(Request $request, $id_bayar)
+    {
+
+        $bayar = Bayar::where('id_bayar', $id_bayar)->first();
+        $bayar->tanggal_bayar = $request->tglAwal;
+        $bayar->statusbayar = 0;
+        //$bayar->save();
+        dd($bayar);
+
+        return redirect()->back()->with('alert', 'Data Berhasil Diubah');
     }
 }

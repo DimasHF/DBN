@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('alamat')->nullable();
             $table->string('no_telp')->nullable();
-            $table->tinyInteger('status')->default(1)->nullable();
+            $table->tinyInteger('statusstaff')->default(1)->nullable();
             $table->timestamps();
         });
     }

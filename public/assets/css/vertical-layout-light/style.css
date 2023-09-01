@@ -11159,6 +11159,43 @@ fieldset:disabled .wizard > .actions a,
   box-shadow: 0 0 0 0.2rem rgba(144, 145, 146, 0.5);
 }
 
+.btn-tanggal {
+  color: #fff;
+  background-color: #08D9D6;
+  border-color: #08D9D6;
+}
+
+.btn-tanggal:hover {
+  color: #fff;
+  background-color: #71C9CE;
+  border-color: #CBF1F5;
+}
+
+.btn-tanggal:focus, .btn-tanggal.focus {
+  color: #fff;
+  background-color: #71C9CE;
+  border-color: #CBF1F5;
+  box-shadow: 0 0 0 0.2rem rgba(112, 193, 112, 0.5);
+}
+
+.btn-tanggal.disabled, .btn-tanggal:disabled {
+  color: #fff;
+  background-color: #08D9D6;
+  border-color: #08D9D6;
+}
+
+.btn-tanggal:not(:disabled):not(.disabled):active, .btn-tanggal:not(:disabled):not(.disabled).active,
+.show > .btn-tanggal.dropdown-toggle {
+  color: #fff;
+  background-color: #CBF1F5;
+  border-color: #3e8f3e;
+}
+
+.btn-tanggal:not(:disabled):not(.disabled):active:focus, .btn-tanggal:not(:disabled):not(.disabled).active:focus,
+.show > .btn-tanggal.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(112, 193, 112, 0.5);
+}
+
 .btn-success {
   color: #fff;
   background-color: #57B657;

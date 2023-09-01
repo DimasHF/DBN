@@ -50,7 +50,7 @@ class BarangController extends Controller
         $barang->id_barang = $request->id_barang;
         $barang->nama_bar = $request->nama_bar;
         $barang->stok = $request->stok;
-        $barang->status = 1;
+        $barang->statusbar = 1;
         $barang->foto = 'barang/' . $filename;
         $barang->save();
 
@@ -91,7 +91,7 @@ class BarangController extends Controller
     public function status($status, $id_barang)
     {
         $model = Barang::findOrFail($id_barang);
-        $model->status = $status;
+        $model->statusbar = $status;
 
         //dd($model);
         if ($model->save()) {

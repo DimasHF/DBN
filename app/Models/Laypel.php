@@ -17,7 +17,7 @@ class Laypel extends Model
         'harga',
         'pajak',
         'subtotal',
-        'status',
+        'statuslaypel',
     ];
 
     protected $primaryKey = 'id_laypel';

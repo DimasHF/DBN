@@ -78,11 +78,11 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->status == 1)
+                                            @if ($t->statuspel == 1)
                                                 <a href="mitra/status/0/{{ $t->id_pelanggan }}">
                                                     <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
                                                 </a>
-                                            @elseif ($t->status == 0)
+                                            @elseif ($t->statuspel == 0)
                                                 <a href="mitra/status/1/{{ $t->id_pelanggan }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
                                             @endif

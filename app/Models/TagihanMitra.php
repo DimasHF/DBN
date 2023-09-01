@@ -15,7 +15,7 @@ class TagihanMitra extends Model
         'bayar',
         'sisa',
         'total',
-        'status',
+        'statustag',
     ];
 
     protected $primaryKey = 'id_tagmit';

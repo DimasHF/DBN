@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('bayar')->nullable();
             $table->string('sisa')->nullable();
             $table->string('total')->nullable();
-            $table->string('status')->default('0')->nullable();
+            $table->string('statustag')->default('0')->nullable();
             $table->timestamps();
         });
     }
