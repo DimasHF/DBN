@@ -39,6 +39,8 @@ Route::prefix('admin')->group(function(){
     Route::post('/barang/add', [App\Http\Controllers\BarangController::class, 'add'])->name('admin.tambah.barang');
     Route::get('/barang/edit/{id_barang}', [App\Http\Controllers\BarangController::class, 'show'])->name('admin.edit.barang');
     Route::post('/barang/edit/{id_barang}', [App\Http\Controllers\BarangController::class, 'edit'])->name('admin.proses.edit');
+    Route::get('/barang/detail/{id_barang}', [App\Http\Controllers\BarangController::class, 'detail'])->name('admin.detail.barang');
+    Route::get('/barang/{status}/{id_barang}', [App\Http\Controllers\BarangController::class, 'status'])->name('admin.status.barang');
 
     Route::get('/mitra', [App\Http\Controllers\AdminController::class, 'mitra'])->name('admin.mitra');
     Route::get('/mitra/{id_mitra}', [App\Http\Controllers\AdminController::class, 'detail'])->name('admin.mitra.detail');
@@ -77,6 +79,8 @@ Route::prefix('mitra')->group(function(){
     Route::post('/pelanggan/add', [App\Http\Controllers\PelangganController::class, 'add'])->name('mitra.tambah.pelanggan');
     Route::get('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'show'])->name('mitra.edit.pelanggan');
     Route::post('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'edit'])->name('mitra.proses.edit');
+    Route::get('/pelanggan/detail/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'detail'])->name('mitra.detail.pelanggan');
+    Route::get('/pelanggan/{status}/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'status'])->name('mitra.status.pelanggan');
 
     Route::get('/po', [App\Http\Controllers\PurchaseOrderController::class, 'po'])->name('mitra.po');
     Route::post('/send/po', [App\Http\Controllers\PurchaseOrderController::class, 'proses'])->name('mitra.send.po');
@@ -92,6 +96,8 @@ Route::prefix('mitra')->group(function(){
     Route::post('/layanan/add', [App\Http\Controllers\LayananController::class, 'add'])->name('mitra.tambah.layanan');
     Route::get('/layanan/edit/{id_layanan}', [App\Http\Controllers\LayananController::class, 'show'])->name('mitra.edit.layanan');
     Route::post('/layanan/edit/{id_layanan}', [App\Http\Controllers\LayananController::class, 'edit'])->name('mitra.proses.editlay');
+    Route::get('/layanan/detail/{id_layanan}', [App\Http\Controllers\LayananController::class, 'detail'])->name('mitra.detail.layanan');
+    Route::get('/statuslay/{status}/{id_layanan}', [App\Http\Controllers\LayananController::class, 'status'])->name('mitra.status.layanan');
 
     Route::get('/laypel', [App\Http\Controllers\LaypelController::class, 'index'])->name('mitra.laypel');
     Route::post('/pelanggan/search', [App\Http\Controllers\LaypelController::class, 'pelanggan'])->name('mitra.search.pelanggan');
@@ -119,7 +125,11 @@ Route::prefix('mitra')->group(function(){
     Route::get('/tagihan/updatetelat/{id_bayar}', [App\Http\Controllers\TagihanController::class, 'updatetelat'])->name('mitra.tagihan.updatetelat');
 
     Route::get('/rekap/pinjaman', [App\Http\Controllers\RekapController::class, 'pinjaman'])->name('mitra.rekap.pinjaman');
+    Route::get('/rekap/tagihan', [App\Http\Controllers\RekapController::class, 'tagihan'])->name('mitra.rekap.tagihan');
+    Route::get('/rekap/detailtagpel/{id_tagihan}', [App\Http\Controllers\RekapController::class, 'detailtagpel'])->name('mitra.detailtagpel');
 
+    Route::get('/rekap/view/export', [App\Http\Controllers\RekapController::class, 'viewtagpel'])->name('mitra.view.export');
+    route::get('/rekap/tagihan/export', [App\Http\Controllers\RekapController::class, 'export'])->name('mitra.export');
 });
 
 Route::prefix('staff')->group(function(){

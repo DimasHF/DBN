@@ -117,6 +117,14 @@ class PinjamanController extends Controller
         $pinjaman->statuspinj = 1;
         $pinjaman->save();
 
+        $stok = DetailPinjam::where('id_pinjaman', $id_pinjaman)->get();
+        $barang = $stok->join('barangs', 'barangs.id_barang', '=', 'detail_pinjams.id_barang')->get();
+        foreach ($barang as $b) {
+            $barang = Barang::where('id_barang', $b->id_barang)->first();
+            $barang->stok = ((float)($barang->stok)) + ((float)($b->jumlah));
+            $barang->save();
+        }
+
         return redirect()->back()->with('alert', 'Data Berhasil Diubah');
     }
     

@@ -33,9 +33,6 @@
                                 <th width="200px">
                                     <center>Kirim Pesan</center>
                                 </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,15 +83,6 @@
                                             @endif
                                         </center>
 
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a onclick="javascript:void(0)" data-id="{{ $t->id_purchase_order }}"
-                                                class="btn btn-sm btn-info btn-icon-text edit">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
-                                        </center>
                                     </td>
                                 </tr>
                             @endforeach

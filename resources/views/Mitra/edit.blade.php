@@ -89,7 +89,7 @@
                     </div>
                     @endif
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="/mitra/profil" class="btn btn-light">Kembali</a>&nbsp;
+                        <a href="/mitra/profil" class="btn btn-outline-secondary">Kembali</a>&nbsp;
                         <button type="submit" class="btn btn-primary btn-icon-text">
                             Submit
                             {{-- <i class="ti-printer btn-icon-append"></i> --}}

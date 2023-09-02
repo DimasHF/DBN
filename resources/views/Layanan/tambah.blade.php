@@ -7,7 +7,8 @@
                 <p class="card-description">
                     Form Layanan Baru
                 </p>
-                <form class="forms-sample" method="post" action="{{route('mitra.tambah.layanan')}}" enctype="multipart/form-data">
+                <form class="forms-sample" method="post" action="{{ route('mitra.tambah.layanan') }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="nama">Nama Layanan</label>
@@ -16,16 +17,16 @@
                     </div>
                     <div class="form-group">
                         <label for="bandwidth">Bandwidth</label>
-                        <input type="text" class="form-control" id="bandwidth" name="bandwidth"
-                            placeholder="Bandwidth">
+                        <input type="text" class="form-control" id="bandwidth" name="bandwidth" placeholder="Bandwidth">
                     </div>
                     <div class="form-group">
                         <label for="harga">Harga</label>
-                        <input type="number" class="form-control" id="harga" name="harga"
-                            placeholder="Harga">
+                        <input type="number" class="form-control" id="harga" name="harga" placeholder="Harga">
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <input type="reset" class="btn btn-light" value="Reset">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <input type="reset" class="btn btn-outline-secondary" value="Reset">&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

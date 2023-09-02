@@ -119,7 +119,7 @@ class PelangganController extends Controller
     //View Data Detail Pelanggan Setiap Mitra
     public function detail($id_pelanggan)
     {
-        $pelanggan = Pelanggan::whereIdPelanggan($id_pelanggan);
+        $pelanggan = Pelanggan::whereIdPelanggan($id_pelanggan)->first();
         return view('Pelanggan.detail', ['pelanggan' => $pelanggan]);
     }
 

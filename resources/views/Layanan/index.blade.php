@@ -13,10 +13,12 @@
                         @endif
                     </div>
                     @if (auth()->guard('mitra')->check())
-                        <!--Button Modal-->
                         <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a type="button" class="btn btn-primary" href="{{ route('mitra.form.layanan') }}">Tambahkan
-                                Layanan</a>
+                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
+                                <a href="{{ route('mitra.form.layanan') }}">
+                                    <i class="ti-plus"></i>
+                                </a>
+                            </button>
                         </div>
                     @endif
                 </div>
@@ -89,11 +91,11 @@
                                     <td>
                                         <center>
                                             @if ($t->statuslay == 1)
-                                                <a href="/mitra/statuslay/0/{{ $t->id_layanan }}">
+                                                <a href="statuslay/0/{{ $t->id_layanan }}">
                                                     <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
                                                 </a>
                                             @elseif ($t->statuslay == 0)
-                                                <a href="/mitra/statuslay/1/{{ $t->id_layanan }}"><span
+                                                <a href="statuslay/1/{{ $t->id_layanan }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
                                             @endif
                                         </center>

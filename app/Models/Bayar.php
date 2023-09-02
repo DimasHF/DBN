@@ -13,7 +13,7 @@ class Bayar extends Model
         'id_bayar',
         'id_laypel',
         'tanggal_bayar',
-        'tanggal_lunas',
+        'tanggal_telat',
         'total',
         'statusbayar',
     ];

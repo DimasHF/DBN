@@ -140,7 +140,7 @@ class LaypelController extends Controller
                 $bayar->id_bayar = $autoIdb[$i];
                 $bayar->id_laypel = $autoIds[$i];
                 $bayar->tanggal_bayar = $formattedFutureDate;
-                $bayar->tanggal_lunas = date('Y-m-d');
+                $bayar->tanggal_telat = $formattedFutureDate;
                 $bayar->total = $request->subtotal[$i];
                 $bayar->statusbayar = 1;
                 //dd($bayar);

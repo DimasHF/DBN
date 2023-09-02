@@ -5,23 +5,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
-                        @if (auth()->guard('admin')->check() ||
-                                auth()->guard('staff')->check())
-                            <h3 class="font-weight-bold">List Pelanggan Semua Mitra</h3>
-                        @elseif(auth()->guard('mitra')->check())
-                            <h3 class="font-weight-bold">List Pelanggan</h3>
-                        @endif
+                        <h3 class="font-weight-bold">Rekap Tagihan Pelanggan</h3>
                     </div>
-                    @if (auth()->guard('mitra')->check())
-                        <!--Button Modal-->
-                        <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
-                                <a href="{{ route('mitra.form.pelanggan') }}">
-                                    <i class="ti-plus"></i>
-                                </a>
-                            </button>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -38,26 +23,22 @@
                                 <th>
                                     <center>No</center>
                                 </th>
-                                @if (auth()->guard('admin')->check() ||
-                                        auth()->guard('staff')->check())
+                                @if (auth()->guard('admin')->check())
                                     <th>
                                         <center>ID Mitra</center>
                                     </th>
                                 @endif
                                 <th>
-                                    <center>ID Pelanggan</center>
+                                    <center>ID Tagihan</center>
                                 </th>
                                 <th>
-                                    <center>Nama Pelanggan</center>
-                                </th>
-                                <th>
-                                    <center>Status</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
+                                    <center>ID Layanan Pelanggan</center>
                                 </th>
                                 <th>
                                     <center>Detail</center>
+                                </th>
+                                <th>
+                                    <center>Status</center>
                                 </th>
                             </tr>
                         </thead>
@@ -65,51 +46,38 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($pelanggan as $t)
+                            @foreach ($tagihan as $t)
                                 <tr>
                                     <td>
                                         <center>{{ $no++ }}</center>
                                     </td>
-                                    @if (auth()->guard('admin')->check() ||
-                                            auth()->guard('staff')->check())
+                                    @if (auth()->guard('admin')->check())
                                         <td>
                                             <center>{{ $t->id_mitra }}</center>
                                         </td>
                                     @endif
                                     <td>
-                                        <center>{{ $t->id_pelanggan }}</center>
+                                        <center>{{ $t->id_tagihan }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->nama_pel }}</center>
+                                        <center>{{ $t->id_laypel }}</center>
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->statuspel == 1)
-                                                <a href="pelanggan/0/{{ $t->id_pelanggan }}">
-                                                    <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
+                                            <a href="{{route('mitra.detailtagpel', $t->id_tagihan)}}">
+                                                <span class="btn btn-sm btn-primary btn-icon-text">Detail</span>
+                                            </a>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            @if ($t->statustagihan == 1)
+                                                <a><span class="btn btn-sm btn-success btn-icon-text">Sudah Lunas</span>
                                                 </a>
-                                            @elseif ($t->statuspel == 0)
-                                                <a href="pelanggan/1/{{ $t->id_pelanggan }}"><span
-                                                        class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
+                                            @elseif ($t->statustagihan == 0)
+                                                <a><span class="btn btn-sm btn-danger btn-icon-text">Belum
+                                                        Lunas</span></a>
                                             @endif
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ route('mitra.edit.pelanggan', $t->id_pelanggan) }}"
-                                                class="btn btn-sm btn-info btn-icon-text edit">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ route('mitra.detail.pelanggan', $t->id_pelanggan) }}"
-                                                class="btn btn-sm btn-warning btn-icon-text">
-                                                Detail
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
                                         </center>
                                     </td>
                                 </tr>

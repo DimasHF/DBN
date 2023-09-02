@@ -89,7 +89,7 @@ class AdminController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/admin');
+            return redirect()->intended('/admin')->with('alert', 'Login Berhasil');
         }
 
         return back()->with('alert', 'Login Gagal');

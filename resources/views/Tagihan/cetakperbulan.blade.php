@@ -114,7 +114,7 @@
                                                 <a href="{{ route('mitra.tagihan.updatetanggal', $t->id_bayar) }}"
                                                     class="btn btn-sm btn-tanggal btn-icon-text"
                                                     value="{{ $t->id_bayar }}">
-                                                    Update Tanggal
+                                                    Update Lunas
                                                     <i class="ti-calendar btn-icon-append"></i>
                                                 </a>
                                             @endif
@@ -136,7 +136,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Menambahkan Tanaman</h4>
+                    <h4 class="modal-title">Konfirmasi Tagihan</h4>
                 </div>
                 <form action="{{ route('mitra.tagihan.bayar') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -169,10 +169,10 @@
                                         <label for="pajak">Pajak</label>
                                         <input type="text" class="form-control" id="pajak" name="pajak" readonly>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="telat">Telat</label>
                                         <input type="text" class="form-control" id="telat" name="telat" readonly>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group">
                                         <label for="bayar">Bayar</label>
                                         <input type="text" class="form-control" id="bayar" name="bayar">

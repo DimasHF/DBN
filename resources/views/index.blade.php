@@ -20,6 +20,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/dashboard.css') }}">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
 
+    <style>
+        .btn-icon a:visited {
+            text-decoration: none;
+            color: black;
+            /* Ganti dengan warna teks yang Anda inginkan */
+        }
+    </style>
+
     @php
         use App\Models\PurchaseOrder;
     @endphp
@@ -281,7 +289,12 @@
                                             <a class="nav-link" href="{{ route('mitra.transaksi') }}">Transaksi</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link">Tagihan Pelanggan</a>
+                                            <a class="nav-link" href="{{ route('mitra.rekap.tagihan') }}">Tagihan
+                                                Pelanggan</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('mitra.view.export') }}">Cetak
+                                                Tagihan</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link"

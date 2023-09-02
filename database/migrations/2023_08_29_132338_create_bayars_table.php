@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('id_bayar');
             $table->string('id_laypel');
             $table->date('tanggal_bayar');
-            $table->date('tanggal_lunas');
+            $table->date('tanggal_telat');
             $table->integer('total');
             $table->string('statusbayar')->default('1')->nullable();
             $table->timestamps();
