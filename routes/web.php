@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Row;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,9 @@ Route::prefix('admin')->group(function(){
     Route::get('/mitra', [App\Http\Controllers\AdminController::class, 'mitra'])->name('admin.mitra');
     Route::get('/mitra/{id_mitra}', [App\Http\Controllers\AdminController::class, 'detail'])->name('admin.mitra.detail');
 
-    Route::get('/spk/{id_mitra}', [App\Http\Controllers\PurchaseOrderController::class, 'spk'])->name('admin.spk');
+    Route::get('/spk', [App\Http\Controllers\PurchaseOrderController::class, 'spkindex'])->name('admin.spk');
+    Route::post('/spk/save', [App\Http\Controllers\PurchaseOrderController::class, 'savespk'])->name('admin.dokumen.spk');
+    Route::get('/spk/{id_mitra}', [App\Http\Controllers\PurchaseOrderController::class, 'spk'])->name('admin.spk.mitra');
 
     Route::get('/layanan', [App\Http\Controllers\LayananController::class, 'index'])->name('admin.layanan');
 
@@ -81,6 +84,10 @@ Route::prefix('mitra')->group(function(){
     Route::post('/pelangggan/edit/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'edit'])->name('mitra.proses.edit');
     Route::get('/pelanggan/detail/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'detail'])->name('mitra.detail.pelanggan');
     Route::get('/pelanggan/{status}/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'status'])->name('mitra.status.pelanggan');
+
+    Route::get('/pelanggan/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'modal'])->name('mitra.modal.pelanggan');
+    Route::get('/laypel/edit/{id_laypel}', [App\Http\Controllers\PelangganController::class, 'viewlaypel'])->name('mitra.laypel.pelanggan');
+    Route::post('/laypel/edit/{id_laypel}', [App\Http\Controllers\LaypelController::class, 'editlaypel'])->name('mitra.proses.editlaypel');
 
     Route::get('/po', [App\Http\Controllers\PurchaseOrderController::class, 'po'])->name('mitra.po');
     Route::post('/send/po', [App\Http\Controllers\PurchaseOrderController::class, 'proses'])->name('mitra.send.po');
@@ -130,6 +137,8 @@ Route::prefix('mitra')->group(function(){
 
     Route::get('/rekap/view/export', [App\Http\Controllers\RekapController::class, 'viewtagpel'])->name('mitra.view.export');
     route::get('/rekap/tagihan/export', [App\Http\Controllers\RekapController::class, 'export'])->name('mitra.export');
+
+    Route::get('/tagihan/cetak', [App\Http\Controllers\TagihanController::class, 'cetakindex'])->name('mitra.cetak.tagihan.index');
 });
 
 Route::prefix('staff')->group(function(){

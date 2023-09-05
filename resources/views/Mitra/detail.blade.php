@@ -1,18 +1,20 @@
 @extends('index')
 @section('content')
     <!--Info Detail-->
+
     <div class="row">
-        <div class="col-lg-12 grid-margin">
-            <div class="row">
-                @if (auth()->guard('admin')->check())
+        @if (auth()->guard('admin')->check())
+            <div class="col-lg-12 grid-margin">
+                <div class="row">
                     <div class="col-md-12 d-grid gap-2 d-md-flex">
                         <a href="{{ url()->previous() }}" class="btn btn-info">
                             Kembali
                         </a>
                     </div>
-                @endif
+                </div>
             </div>
-        </div>
+        @endif
+
         <div class="col-md-6 stretch-card grid-margin">
             <div class="card">
                 <div class="card-body">

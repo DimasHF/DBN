@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
+                    <div class="col-md-4 col-xl-8 mb-4 mb-xl-0">
                         @if (auth()->guard('admin')->check() ||
                                 auth()->guard('staff')->check())
                             <h3 class="font-weight-bold">List Pelanggan Semua Mitra</h3>
@@ -16,7 +16,8 @@
                         <!--Button Modal-->
                         <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
-                                <a href="{{ route('mitra.form.pelanggan') }}">
+                                <a href="{{ route('mitra.form.pelanggan') }}" data-target="#modal" data-toggle="modal"
+                                    class="tambah">
                                     <i class="ti-plus"></i>
                                 </a>
                             </button>
@@ -124,8 +125,88 @@
         </div>
     </div>
 
+    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Pelanggan</h4>
+                </div>
+                <form class="forms-sample" method="post" action="{{ route('mitra.tambah.pelanggan') }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="nama">Nama Pelanggan</label>
+                                    <input type="text" class="form-control" id="nama_pel" name="nama_pel"
+                                        placeholder="Nama Pelanggan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="alamat">Alamat Pelanggan</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat"
+                                        placeholder="Alamat Pelanggan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Pelanggan</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Email Pelanggan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_telp">No. Telp</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">+62</span>
+                                        </div>
+                                        <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp"
+                                            name="no_telp" placeholder="No. Telp" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="npwp">NPWP Pelanggan</label>
+                                    <input type="text" class="form-control" id="npwp" name="npwp"
+                                        placeholder="NPWP Pelanggan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nik">NIK Pelanggan</label>
+                                    <input type="text" pattern="[0-9]*" class="form-control" id="nik"
+                                        name="nik" placeholder="NIK Pelanggan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Foto Pelanggan</label>
+                                    <input type="file" name="foto" id="foto" class="file-upload-default"
+                                        accept=".jpg, .jpeg, .png" required>
+                                    <div class="input-group col-xs-12">
+                                        <input type="text" class="form-control file-upload-info" disabled
+                                            id="imageInput" placeholder="Upload Foto">
+                                        <span class="input-group-append">
+                                            <button class="file-upload-browse btn btn-primary"
+                                                type="button">Upload</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <input type="reset" class="btn btn-outline-secondary" value="Reset">&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!--JS Modal-->
     @push('page-script')
+        <script>
+            $(document).ready(function() {
+                $('.tambah').on('click', function() {
+                    $('#tambah').modal('show');
+                });
+
+            });
+        </script>
         <script>
             @if (auth()->guard('mitra')->check())
                 $(document).ready(function() {

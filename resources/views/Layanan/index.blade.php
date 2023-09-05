@@ -15,7 +15,8 @@
                     @if (auth()->guard('mitra')->check())
                         <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
-                                <a href="{{ route('mitra.form.layanan') }}">
+                                <a href="{{ route('mitra.form.layanan') }}" data-target="#modal" data-toggle="modal"
+                                    class="tambah">
                                     <i class="ti-plus"></i>
                                 </a>
                             </button>
@@ -37,7 +38,7 @@
                                 <th>
                                     <center>No</center>
                                 </th>
-                                <th style="display: none;">
+                                <th style="display: none">
                                     <center>ID Layanan</center>
                                 </th>
                                 @if (auth()->guard('admin')->check())
@@ -71,7 +72,7 @@
                                     <td>
                                         <center>{{ $no++ }}</center>
                                     </td>
-                                    <td style="display: none;">
+                                    <td style="display: none">
                                         <center>{{ $t->id_layanan }}</center>
                                     </td>
                                     @if (auth()->guard('admin')->check())
@@ -121,8 +122,55 @@
         </div>
     </div>
 
+    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Layanan</h4>
+                </div>
+                <form class="forms-sample" action="{{ route('mitra.tambah.layanan') }}" method="POST">
+                    <input type="hidden" name="ver" id="ver" value="0">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="nama">Nama Layanan</label>
+                                    <input type="text" class="form-control" id="nama_lay" name="nama_lay"
+                                        placeholder="Nama Pelanggan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bandwidth">Bandwidth</label>
+                                    <input type="text" class="form-control" id="bandwidth" name="bandwidth"
+                                        placeholder="Bandwidth">
+                                </div>
+                                <div class="form-group">
+                                    <label for="harga">Harga</label>
+                                    <input type="number" class="form-control" id="harga" name="harga"
+                                        placeholder="Harga">
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <input type="reset" class="btn btn-outline-secondary" value="Reset">&nbsp;&nbsp;
+                                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!--JS Modal-->
     @push('page-script')
+        <script>
+            $(document).ready(function() {
+                $('.tambah').on('click', function() {
+                    $('#tambah').modal('show');
+                    $('ver').val('0');
+                });
+            });
+        </script>
         <script>
             @if (auth()->guard('mitra')->check())
                 $(document).ready(function() {

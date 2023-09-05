@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mitra;
 use App\Models\PurchaseOrder;
+use App\Models\SPK;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,27 +101,70 @@ class PurchaseOrderController extends Controller
         return response()->download(public_path('/bas/' . $download));
     }
 
+    //VIew Edit Spk
+    public function spkindex()
+    {
+        $spk = SPK::first();
+        return view('Dokumen.spk', ['spk' => $spk]);
+    }
+
+    public function savespk(Request $request)
+    {
+
+        //dd($request->all());
+        $spk = SPK::first();
+        $spk->update([
+            'spk' => $request->spk,
+        ]);
+
+        return redirect('/admin/spk')->with('alert', 'SPK Berhasil Ditambahkan');
+    }
+
     //SPK
     public function spk(Request $request)
     {
         if (Auth::guard('mitra')->check()) {
             $mitra = Auth::guard('mitra')->user()->id_mitra;
 
-            $po = DB::table('mitras')
-                ->select('mitras.*')
-                ->where('mitras.id_mitra', $mitra)
-                ->first();
+            $spk = SPK::first();
+            //dd($spk->spk);
+            if ($spk) {
+                $po = DB::table('mitras')
+                    ->select('mitras.*')
+                    ->where('mitras.id_mitra', $mitra)
+                    ->first();
 
-            $today = Carbon::now();
+                $spkText = $spk->spk;
+                $nama = $po->nama;
+                $alamat = $po->alamat;
+                //dd($nama);
 
-            $day = $today->dayName;
-            $tanggal = $today->day; // Tanggal (hari)
-            $bulan = $today->monthName;   // Bulan
-            $tahun = $today->year;  // Tahun
-            $jamSekarang = $today->format('H:i:s'); // Jam
-            
-            return view('Mitra.spk', ['mitra' => $mitra, 'po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
+                $today = Carbon::now();
+
+                $day = $today->dayName;
+                $tanggal = $today->day; // Tanggal (hari)
+                $bulan = $today->monthName;   // Bulan
+                $tahun = $today->year;  // Tahun
+                $jamSekarang = $today->format('H:i:s'); // Jam
+                // Menggantikan placeholder dengan nilai yang sesuai
+                $spkText = str_replace('{{nama}}', $nama, $spkText);
+                $spkText = str_replace('{{alamat}}', $alamat, $spkText);
+                $spkText = str_replace('{{day}}', $day, $spkText);
+                $spkText = str_replace('{{tanggal}}', $tanggal, $spkText);
+                $spkText = str_replace('{{bulan}}', $bulan, $spkText);
+                $spkText = str_replace('{{tahun}}', $tahun, $spkText);
+
+                // Sekarang, simpan teks SPK yang sudah diperbarui ke dalam model SPK
+                $spk->spk = $spkText;
+            } else {
+                echo "SPK Belum Diatur";
+            }
+
+
+            return view('Mitra.spk', ['mitra' => $mitra, 'po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang, 'spk' => $spk]);
         }
+
+
 
         $mitra = Mitra::where('id_mitra', '=', $request->id_mitra)->first();
 

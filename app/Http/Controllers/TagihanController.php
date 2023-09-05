@@ -20,15 +20,21 @@ class TagihanController extends Controller
         return view('Tagihan.index');
     }
 
+    //View Tagihan
+    public function cetakindex()
+    {
+        return view('Cetak.index');
+    }
+
     //cetak
     public function cetak($tgl_awal, $tgl_akhir)
     {
         // $cetak = collect("Awal".$tgl_awal." ".$tgl_akhir);
         // $cetak->dd();
 
-        $cetak = DB::table('transaksis')->whereBetween('tanggal', [$tgl_awal, $tgl_akhir])->get();
+        $cetak = DB::table('tagihans')->whereBetween('tanggal_bayar', [$tgl_awal, $tgl_akhir])->get();
         //$cetak->dd();
-        return view('Tagihan.cetak', compact('cetak'));
+        return view('Cetak.homecetak', compact('cetak'));
     }
 
     //View Cetak Perbulan
@@ -95,19 +101,40 @@ class TagihanController extends Controller
             $bayarget = $bayar->join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
                 ->join('pelanggans', 'pelanggans.id_pelanggan', '=', 'laypels.id_pelanggan')
                 ->where(function ($query) use ($startDate) {
-                    $query->where('statusbayar', 0)
+                    $query->whereDate('tanggal_telat', '<', $startDate)
                         ->orWhereDate('tanggal_bayar', $startDate);
                 })->get();
 
+            $daysLateArray = [];
+            $totalMultiplier = 1; // Faktor pengganda awal
+            $totalLateMultiplier = -30;
+
             foreach ($bayarget as $item) {
-                $daysLate = $telat->diffInDays($item->tanggal_bayar, false);
-                $item->daysLate = $daysLate;
+                $daysLate = $telat->diffInDays($item->tanggal_telat, false);
+
+                if ($item->statusbayar == 0) {
+                    $item->daysLate = $daysLate;
+                } else {
+                    $item->daysLate = 0;
+                }
+
+                //dump($daysLate);
+
+                $total = $item->total;
+                $daysLateArray[] = $daysLate;
+
+                if ($daysLate < -30) {
+                    $multiplier = floor($daysLate / $totalLateMultiplier); // Hitung pengganda
+                    $totalMultiplier = $multiplier + 1; // Tambahkan pengganda ke total
+                    $item->finalTotal = $total * $totalMultiplier; // Hitung finalTotal untuk objek $item
+                } else {
+                    $item->finalTotal = $total;
+                }
             }
 
             return view('Tagihan.cetakperbulan', [
                 'bayar' => $bayarget,
                 'tglAwal' => $tglAwal,
-                'daysLate' => $daysLate,
             ]);
         }
     }
@@ -159,7 +186,6 @@ class TagihanController extends Controller
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
 
-
         $inputBayar = (float) $request->input('bayar'); // Konversi input ke angka
 
         if ($inputBayar >= 0 && $inputBayar <= $bayardet->total) {
@@ -168,7 +194,7 @@ class TagihanController extends Controller
             $bayar->id_laypel = $request->input('id_laypel');
             $bayar->tanggal_bayar = date('Y-m-d');
             $bayar->tanggal_deadline = $request->input('tanggal_deadline');
-            $bayar->pajak = $request->input('pajak');
+            // $bayar->pajak = $request->input('pajak');
             $bayar->telat = $request->input('telat');
             $bayar->bayar = $inputBayar;
             $bayar->sisa = $bayardet->total - $inputBayar;

@@ -109,12 +109,6 @@
                             <div class="collapse" id="data_admin">
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.spk') }}">Data SPK</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.spk') }}">Data BA</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.pelanggan') }}">Data Pelanggan</a>
                                     </li>
                                     <li class="nav-item">
@@ -249,7 +243,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#layanan" aria-expanded="false"
                                     aria-controls="layanan">
-                                    <i class="ti-desktop menu-icon"></i>
+                                    <i class="ti-printer menu-icon"></i>
                                     <span class="menu-title">Layanan Aktif</span>
                                     <i class="menu-arrow"></i>
                                 </a>
@@ -259,7 +253,7 @@
                                                 href="{{ route('mitra.pelanggan.aktif') }}">Pelanggan Aktif</a>
                                         </li>
                                         <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.cetak.tagihan') }}">Cek Tagihan</a>
+                                                href="{{ route('mitra.cetak.tagihan') }}">Cetak Tagihan</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -299,17 +293,15 @@
                                                 Pelanggan</a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('mitra.view.export') }}">Cetak
+                                                Tagihan</a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link"
                                                 href="{{ route('mitra.rekap.pinjaman') }}">Peminjaman</a>
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.cetak.tagihan.index') }}">
-                                    <i class="ti-printer menu-icon"></i>
-                                    <span class="menu-title">Cetak Tagihan</span>
-                                </a>
                             </li>
                         @endif
                     @elseif(auth()->guard('staff')->check())
@@ -374,7 +366,7 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="content">
-                        @yield('content')
+                        @include('Cetak.cetaktagihan')
                     </div>
                 </div>
             </div>

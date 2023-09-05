@@ -49,6 +49,9 @@
                                 <th>
                                     <center>Status</center>
                                 </th>
+                                <th>
+                                    <center>Pesan</center>
+                                </th>
                                 <th width="300px">
                                     <center>Action</center>
                                 </th>
@@ -96,6 +99,13 @@
                                                     <span class="btn btn-sm btn-warning btn-icon-text">Error</span>
                                                 </a>
                                             @endif
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <a href="https://wa.me/{{$t->no_telp}}?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20produk%20Anda" target="_blank">
+                                                <span class="btn btn-sm btn-success btn-icon-text">Kirim Pesan</span>
+                                            </a>
                                         </center>
                                     </td>
                                     <td>

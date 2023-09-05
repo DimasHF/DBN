@@ -58,6 +58,9 @@
                                 <th>
                                     <center>Aksi</center>
                                 </th>
+                                <th>
+                                    <center>Edit</center>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,6 +100,15 @@
                                                 value="{{ $t->id_laypel }}" data-target="#modal">
                                                 Bayar
                                                 <i class="ti-money btn-icon-append"></i>
+                                            </a>
+                                        </center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <a class="btn btn-sm btn-info btn-icon-text editlay" data-toggle="modal"
+                                                value="{{ $t->id_bayar }}" data-target="#modal">
+                                                Edit
+                                                <i class="ti-file btn-icon-append"></i>
                                             </a>
                                         </center>
                                     </td>
@@ -171,6 +183,77 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editlay" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Konfirmasi Tagihan</h4>
+                </div>
+                <form action="{{ route('mitra.proses.editlaypel', $t->id_bayar) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="ids" id="ids">
+                                    <input type="hidden" id="daysLateInput">
+                                    <div class="form-group">
+                                        <label for="id_laypel">ID Layanan Pelanggan</label>
+                                        <input type="text" class="form-control" id="id_laypel1" name="id_laypel1"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_pelanggan">ID Pelanggan</label>
+                                        <input type="text" class="form-control" id="id_pelanggan1"
+                                            name="id_pelanggan1" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_layanan">ID Layanan</label>
+                                        <select class="form-control" id="id_layanan1" name="id_layanan1">
+                                            <option value="">--Pilih Layanan--</option>
+                                            @foreach ($layanan as $l)
+                                                <option value="{{ $l->id_layanan }}" data-harga="{{ $l->harga }}">
+                                                    {{ $l->nama_lay }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="harga">Harga</label>
+                                        <input type="text" class="form-control" id="harga" name="harga"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pajak">Pajak</label>
+                                        <select class="form-control" id="pajak1" name="pajak1">
+                                            <option value="1">Ya</option>
+                                            <option value="0">Tidak</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subtotal">Total Pajak</label>
+                                        <input type="text" class="form-control" id="pajaknilai" name="pajaknilai"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subtotal">Total</label>
+                                        <input type="text" class="form-control" id="subtotal" name="subtotal"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <span id="taskError" class="alert-message"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
+                        <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!--JS Modal-->
     @push('page-script')
         <script>
@@ -179,6 +262,7 @@
                 $(document).on('click', '.bayarmodal', function() {
 
                     var id = $(this).attr('value');
+                    //console.log(id);
                     $('#bayarmodal').modal('show');
 
                     $.ajax({
@@ -207,6 +291,80 @@
                 })
             })
         </script>
+
+        <script>
+            $(document).ready(function() {
+
+                $(document).on('click', '.editlay', function() {
+
+                    var ids = $(this).attr('value');
+                    console.log(ids);
+                    $('#editlay').modal('show');
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/mitra/laypel/edit/' + ids,
+                        success: function(response) {
+                            console.log(response);
+                            $('#ids').val(response.laypel.id_bayar);
+                            $('#id_laypel1').val(response.laypel.id_laypel);
+                            $('#id_pelanggan1').val(response.laypel.id_pelanggan);
+                            $('#id_layanan1').val(response.laypel.id_layanan);
+
+                            var selectLayanan = document.getElementById('id_layanan1');
+                            var inputHarga = document.getElementById('harga');
+
+                            selectLayanan.addEventListener('change', function() {
+
+                                var selectedOption = selectLayanan.options[selectLayanan
+                                    .selectedIndex];
+                                var hargaLayanan = selectedOption.getAttribute(
+                                    'data-harga');
+
+                                inputHarga.value = hargaLayanan;
+                            });
+
+                            var dropdownPajak = document.getElementById('pajak1');
+                            var inputPajak = document.getElementById('pajak1');
+
+                            dropdownPajak.addEventListener('change', function() {
+
+                                var selectedValue = parseInt(dropdownPajak.value);
+
+                                if (selectedValue === 1) {
+                                    let pajakv = parseInt(inputHarga.value) * 0.11;
+                                    let formattedPajakv = pajakv.toFixed(2);
+                                    inputPajak.value = formattedPajakv;
+                                    //console.log(formattedPajakv);
+
+                                    $('#pajaknilai').val(formattedPajakv);
+                                } else {
+                                    inputPajak.value = '0.00';
+
+                                    $('#pajaknilai').val('0.00');
+                                }
+                            });
+
+                            var nilaiPajak = document.getElementById('pajaknilai');
+                            //console.log(nilaiPajak.value);
+                            var inputSubtotal = document.getElementById('subtotal');
+
+                            dropdownPajak.addEventListener('change', function() {
+                                //console.log('Harga berubah');
+                                var harga = parseInt(inputHarga.value);
+                                var pajak = parseFloat(nilaiPajak.value); 
+
+                                var total = harga + pajak;
+
+                                // Update nilai "subtotal" dengan total yang baru
+                                inputSubtotal.value = total;
+                            });
+                        }
+                    })
+                })
+            })
+        </script>
+
         <script>
             @if (auth()->guard('mitra')->check())
                 $(document).ready(function() {

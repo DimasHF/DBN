@@ -104,8 +104,8 @@ class LaypelController extends Controller
 
         $today = Carbon::now();  // Membuat objek Carbon untuk mewakili hari ini
         $futureDate = $today->addDays(30);  // Menambahkan 30 hari ke tanggal saat ini
-        
-        $formattedFutureDate = $futureDate->format('Y-m-d'); 
+
+        $formattedFutureDate = $futureDate->format('Y-m-d');
 
         if ($request->nomor == null) {
             //Gagal
@@ -163,6 +163,26 @@ class LaypelController extends Controller
         }
 
         return view('Laypel.index');
+    }
+
+    //Edit Laypel
+    public function editlaypel(Request $request, $id_laypel)
+    {
+        dd($request->all());
+        $laypel = Bayar::where('id_bayar', '=', $request->ids)->first();
+        $laypel->total = $request->subtotal;
+        //$laypel->save();
+
+        $laypel = Laypel::find($id_laypel);
+        $laypel->id_layanan = $request->id_layanan1;
+        $laypel->harga = $request->harga;
+        $laypel->pajak = $request->pajaknilai;
+        $laypel->subtotal = $request->subtotal;
+        dd($laypel);
+        //$laypel->save();
+
+        //View Alert
+        return redirect('/mitra/laypel')->with('alert', 'Layanan Berhasil Diubah');
     }
 
     //View Transaksi

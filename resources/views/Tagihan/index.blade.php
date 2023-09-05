@@ -10,7 +10,7 @@
                         </center>
                     </div>
                 </div><br>
-                <center><label for="tgl_awal">Tanggal</label></center>
+                <center><label for="tgl_awal">Tanggal Awal</label></center>
                 <div class="form-group">
                     <input type="date" class="form-control" id="tgl_awal" placeholder="Pilih Tanggal Awal">
                 </div>

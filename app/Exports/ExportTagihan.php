@@ -13,7 +13,7 @@ class ExportTagihan implements FromView
     */
     public function view() : View
     {
-        $tagihan = Tagihan::all();
-        return view('Rekap.export', ['tagihan' => $tagihan]);
+        $tagihan = Tagihan::orderBy('id_tagihan', 'desc')->get();
+        return view('Cetak.cetaktagihan', ['cetak' => $tagihan]);
     }
 }

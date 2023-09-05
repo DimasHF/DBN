@@ -64,6 +64,8 @@ class LayananController extends Controller
     {
         $layanan = Layanan::where('id_layanan', $id_layanan)->first();
         return view('Layanan.edit', ['layanan' => $layanan]);
+        // return response()->json($layanan);
+
     }
 
     //Edit Layanan
@@ -78,6 +80,8 @@ class LayananController extends Controller
 
         //View Alert
         return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Diperbarui');
+        // return response()->json(['success' => true, 'alert' => 'Data Tanaman Diubah'], 200);
+
     }
 
     //Status Layanan
