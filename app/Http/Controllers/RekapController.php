@@ -18,10 +18,10 @@ class RekapController extends Controller
 
         if (Auth::guard('mitra')->check()) {
             $mitra = auth()->guard('mitra')->user()->id_mitra;
-            $pinjaman = Pinjaman::where('id_mitra', $mitra)->where('statuspinj', 1)->get();
+            $pinjaman = Pinjaman::where('id_mitra', $mitra)->get();
             return view('Rekap.pinjaman', ['pinjaman' => $pinjaman, 'mitra' => $mitra]);
         } else {
-            $pinjaman = Pinjaman::where('statuspinj', 1)->get();
+            $pinjaman = Pinjaman::get();
             return view('Rekap.pinjaman', ['pinjaman' => $pinjaman]);
         }
     }
@@ -47,12 +47,13 @@ class RekapController extends Controller
         }
     }
 
-    public function detailtagpel($id_tagihan){
+    public function detailtagpel($id_tagihan)
+    {
 
         $tagihan = new Tagihan();
         $tagihan = $tagihan->whereIdTagihan($id_tagihan)->firstOrFail();
         $detaillayanan = $tagihan->laypel()->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')->get();
-        $detailpelanggan =$tagihan->laypel()->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
+        $detailpelanggan = $tagihan->laypel()->join('pelanggans', 'laypels.id_pelanggan', '=', 'pelanggans.id_pelanggan')
             ->join('mitras', 'pelanggans.id_mitra', '=', 'mitras.id_mitra')->select('pelanggans.*', 'mitras.nama as nama_mitra')
             ->first();
 
@@ -61,15 +62,15 @@ class RekapController extends Controller
         return view('Rekap.detailtagpel', ['tagihan' => $tagihan, 'detaillayanan' => $detaillayanan, 'detailpelanggan' => $detailpelanggan]);
     }
 
-    public function viewtagpel(){
+    public function viewtagpel()
+    {
 
         $tagihan = Rekap::all();
         return view('Rekap.export', ['tagihan' => $tagihan]);
     }
 
-    public function export() 
+    public function export($tgl_awal, $tgl_akhir)
     {
-        return Excel::download(new ExportTagihan, 'invoices.xlsx');
+        return Excel::download(new ExportTagihan($tgl_awal, $tgl_akhir), 'tagihan.xlsx');
     }
 }
- 

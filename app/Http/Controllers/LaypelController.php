@@ -166,23 +166,24 @@ class LaypelController extends Controller
     }
 
     //Edit Laypel
-    public function editlaypel(Request $request, $id_laypel)
+    public function editlaypel(Request $request)
     {
-        dd($request->all());
-        $laypel = Bayar::where('id_bayar', '=', $request->ids)->first();
-        $laypel->total = $request->subtotal;
-        //$laypel->save();
+        //dd($request->all());
+        $bayar = Bayar::where('id_bayar', '=', $request->ids)->first();
+        $bayar->total = $request->subtotal;
+        //dd($laypel);
+        $bayar->save();
 
-        $laypel = Laypel::find($id_laypel);
+        $laypel = Laypel::find($bayar->id_laypel);
         $laypel->id_layanan = $request->id_layanan1;
         $laypel->harga = $request->harga;
         $laypel->pajak = $request->pajaknilai;
         $laypel->subtotal = $request->subtotal;
-        dd($laypel);
-        //$laypel->save();
+        //dd($laypel);
+        $laypel->save();
 
         //View Alert
-        return redirect('/mitra/laypel')->with('alert', 'Layanan Berhasil Diubah');
+        return redirect('/mitra/pelanggan/aktif')->with('alert', 'Layanan Berhasil Diubah');
     }
 
     //View Transaksi

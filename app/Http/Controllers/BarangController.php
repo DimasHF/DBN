@@ -12,7 +12,19 @@ class BarangController extends Controller
     public function index()
     {
         $barang = Barang::all();
-        return view('Barang.index', ['barang' => $barang]);
+
+        $autoId = DB::table('barangs')->select(DB::raw('MAX(RIGHT(id_barang,3)) as autoId'));
+        $kd = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kd = sprintf("%03s", $tmp);
+            }
+        } else {
+            $kd = "001";
+        }
+
+        return view('Barang.index', ['barang' => $barang, 'kd' => $kd]);
     }
 
     //Form Add
@@ -81,6 +93,10 @@ class BarangController extends Controller
 
         }
 
+        if (!isset($data['foto'])) {
+            unset($data['foto']);
+        }
+
         Barang::where('id_barang', $request->id_barang)->update($data);
 
         //View Alert
@@ -104,7 +120,7 @@ class BarangController extends Controller
     //View Barang Katalog
     public function daftar()
     {
-        $barang = Barang::all();
+        $barang = Barang::where('statusbar', 1)->get();
         return view('Barang.daftar', ['barang' => $barang]);
     }
 }

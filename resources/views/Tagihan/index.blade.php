@@ -30,16 +30,15 @@
             // Parsing input tanggal menjadi objek Date
             var startDate = new Date(tglAwal);
 
-            // Menambahkan 30 hari
-            var endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() - 30);
-
             // Format tanggal untuk URL (YYYY-MM-DD)
             var formattedStartDate = formatDate(startDate);
-            var formattedEndDate = formatDate(endDate);
 
-            // Membuat URL untuk mencetak
-            var printURL = '/mitra/tagihan/cetakbulan/' + formattedStartDate + '/' + formattedEndDate;
+            @if (auth()->guard('admin')->check())
+                // Membuat URL untuk mencetak
+                var printURL = '/admin/tagihan/cetakbulan/' + formattedStartDate;
+            @elseif (auth()->guard('mitra')->check()) 
+                var printURL = '/mitra/tagihan/cetakbulan/' + formattedStartDate;
+            @endif
 
             // Redirect ke URL cetak
             window.location.href = printURL;

@@ -1,5 +1,6 @@
 @extends('index')
 @section('content')
+    {{-- Tabel Pelanggan --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -15,22 +16,13 @@
                     @if (auth()->guard('mitra')->check())
                         <!--Button Modal-->
                         <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
-                                <a href="{{ route('mitra.form.pelanggan') }}" data-target="#modal" data-toggle="modal"
-                                    class="tambah">
-                                    <i class="ti-plus"></i>
-                                </a>
+                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah"
+                                data-target="#modal" data-toggle="modal">
+                                <i class="ti-plus"></i>
                             </button>
                         </div>
                     @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Tabel Pelanggan --}}
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
+                </div><br>
                 <div class="table-responsive">
                     <table class="table table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;" id="datatable">
@@ -239,7 +231,7 @@
                                     $(rows)
                                         .eq(i)
                                         .before(
-                                            '<tr class="group"><td colspan="5">' +
+                                            '<tr class="group"><td colspan="6">' +
                                             group +
                                             '</td></tr>'
                                         );

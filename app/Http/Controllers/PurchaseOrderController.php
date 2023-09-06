@@ -111,6 +111,9 @@ class PurchaseOrderController extends Controller
     public function savespk(Request $request)
     {
 
+        // SPK::create([
+        //     'spk' => $request->spk,
+        // ]);
         //dd($request->all());
         $spk = SPK::first();
         $spk->update([

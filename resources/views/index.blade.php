@@ -157,7 +157,7 @@
                                         <a class="nav-link">Tagihan Mitra</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link">Tagihan Pelanggan</a>
+                                        <a class="nav-link" href="{{route('admin.cetak.tagihan')}}">Tagihan Pelanggan</a>
                                     </li>
                                 </ul>
                             </div>
@@ -175,7 +175,7 @@
                                         <a class="nav-link">Tagihan Mitra</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link">Tagihan Pelanggan</a>
+                                        <a class="nav-link" href="{{ route('admin.cetak.tagihan.index') }}">Tagihan Pelanggan</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.rekap.pinjaman') }}">Peminjaman</a>

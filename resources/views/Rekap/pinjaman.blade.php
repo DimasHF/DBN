@@ -66,11 +66,9 @@
                                     <td>
                                         <center>
                                             @if ($t->statuspinj == 1)
-                                                <a><span class="btn btn-sm btn-success btn-icon-text">Sudah Kembali</span>
-                                                </a>
+                                                <span class="btn btn-sm btn-success btn-icon-text">Sudah Kembali</span>
                                             @elseif ($t->statuspinj == 0)
-                                                <a><span class="btn btn-sm btn-danger btn-icon-text">Belum
-                                                        Kembali</span></a>
+                                                <span class="btn btn-sm btn-danger btn-icon-text">Belum Kembali</span>
                                             @endif
                                         </center>
                                     </td>

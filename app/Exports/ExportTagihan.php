@@ -2,18 +2,61 @@
 
 namespace App\Exports;
 
-use App\Models\Tagihan;
-use Maatwebsite\Excel\Concerns\FromView;
-use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class ExportTagihan implements FromView
+class ExportTagihan implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\View
     */
-    public function view() : View
+
+    use Exportable;
+
+    protected $tgl_awal;
+    protected $tgl_akhir;
+
+    public function __construct($tgl_awal, $tgl_akhir)
     {
-        $tagihan = Tagihan::orderBy('id_tagihan', 'desc')->get();
-        return view('Cetak.cetaktagihan', ['cetak' => $tagihan]);
+        $this->tgl_awal = $tgl_awal;
+        $this->tgl_akhir = $tgl_akhir;
+    }
+
+    public function collection()
+    {
+        return DB::table('tagihans')
+            ->join('laypels', 'laypels.id_laypel', '=', 'tagihans.id_laypel')
+            ->whereBetween('tanggal_bayar', [$this->tgl_awal, $this->tgl_akhir])
+            ->get();
+    }
+
+    public function map($tagihan):array
+    {
+        return [
+
+            $tagihan->id_tagihan,
+            $tagihan->id_laypel,
+            $tagihan->id_pelanggan,
+            $tagihan->id_layanan,
+            $tagihan->bayar,
+            $tagihan->tanggal_bayar,
+        ];
+    }
+
+    public function headings():array
+    {
+        return [
+            //pastikan urut dan jumlahnya sesuai dengan yang ada di mapping-data atau table di database
+            'ID Tagihan',
+            'ID Layanan Pelanggan',
+            'ID Pelanggan',
+            'ID Layanan',
+            'Bayar',
+            'Tanggal Bayar',
+        ];
     }
 }

@@ -34,7 +34,7 @@ class TagihanController extends Controller
 
         $cetak = DB::table('tagihans')->whereBetween('tanggal_bayar', [$tgl_awal, $tgl_akhir])->get();
         //$cetak->dd();
-        return view('Cetak.homecetak', compact('cetak'));
+        return view('Cetak.homecetak', compact('cetak', 'tgl_awal', 'tgl_akhir'));
     }
 
     //View Cetak Perbulan

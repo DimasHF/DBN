@@ -4,14 +4,6 @@
         <div class="card">
             <div class="card-body">
                 <p class="card-title">SPK</p>
-                <form id="save">
-                    @if (auth()->guard('admin')->check())
-                        <textarea id="myTextarea">
-                            {{ $spk->spk }}
-                        </textarea>
-                    @endif
-                    <input type="submit" value="Save">
-                </form>
                 @if (auth()->guard('mitra')->check())
                     <div id="container">
                         {!! $spk->spk !!}

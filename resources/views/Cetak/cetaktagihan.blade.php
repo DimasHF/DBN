@@ -1,6 +1,6 @@
 <div class="col-md-8 col-xl-8 mb-4 mb-xl-0">
     <h3 class="font-weight-bold">Rekap Tagihan Pelanggan</h3>
-    <a href="{{ route('mitra.export') }}" class="btn btn-sm btn-primary btn-icon-text">
+    <a href="{{ route('mitra.export', ['tgl_awal' => $tgl_awal, 'tgl_akhir' => $tgl_akhir]) }}" class="btn btn-sm btn-primary btn-icon-text">
         <i class="mdi mdi-download btn-icon-prepend"></i>
         Download
     </a>

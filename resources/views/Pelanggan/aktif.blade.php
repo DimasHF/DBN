@@ -1,5 +1,10 @@
 @extends('index')
 @section('content')
+
+    @php
+    use App\Models\Bayar;
+    @endphp
+
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -124,135 +129,145 @@
         </div>
     </div>
 
-    <div class="modal fade" id="bayarmodal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Konfirmasi Tagihan</h4>
-                </div>
-                <form action="{{ route('mitra.tagihan.bayar') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="hidden" name="id" id="id">
-                                    <input type="hidden" id="daysLateInput">
+    @if (auth()->guard('mitra')->check())
+        <div class="modal fade" id="bayarmodal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Konfirmasi Tagihan</h4>
+                    </div>
+                    <form action="{{ route('mitra.tagihan.bayar') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="id_laypel">ID Layanan Pelanggan</label>
-                                        <input type="text" class="form-control" id="id_laypel" name="id_laypel" readonly>
+                                        <input type="hidden" name="id" id="id">
+                                        <input type="hidden" id="daysLateInput">
+                                        <div class="form-group">
+                                            <label for="id_laypel">ID Layanan Pelanggan</label>
+                                            <input type="text" class="form-control" id="id_laypel" name="id_laypel"
+                                                readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_pelanggan">ID Pelanggan</label>
+                                            <input type="text" class="form-control" id="id_pelanggan" name="id_pelanggan"
+                                                readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nama_pel">Nama Pelanggan</label>
+                                            <input type="text" class="form-control" id="nama_pel" name="nama_pel"
+                                                readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal_deadline">Tanggal Jatuh Tempo</label>
+                                            <input type="text" class="form-control" id="tanggal_deadline"
+                                                name="tanggal_deadline" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pajak">Pajak</label>
+                                            <input type="text" class="form-control" id="pajak" name="pajak"
+                                                readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="telat">Telat</label>
+                                            <input type="text" class="form-control" id="telat" name="telat"
+                                                readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="bayar">Bayar</label>
+                                            <input type="text" class="form-control" id="bayar" name="bayar">
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="id_pelanggan">ID Pelanggan</label>
-                                        <input type="text" class="form-control" id="id_pelanggan" name="id_pelanggan"
-                                            readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nama_pel">Nama Pelanggan</label>
-                                        <input type="text" class="form-control" id="nama_pel" name="nama_pel" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tanggal_deadline">Tanggal Jatuh Tempo</label>
-                                        <input type="text" class="form-control" id="tanggal_deadline"
-                                            name="tanggal_deadline" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="pajak">Pajak</label>
-                                        <input type="text" class="form-control" id="pajak" name="pajak" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telat">Telat</label>
-                                        <input type="text" class="form-control" id="telat" name="telat" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="bayar">Bayar</label>
-                                        <input type="text" class="form-control" id="bayar" name="bayar">
-                                    </div>
+                                    <span id="taskError" class="alert-message"></span>
                                 </div>
-                                <span id="taskError" class="alert-message"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
-                        <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
+                            <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="modal fade" id="editlay" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Konfirmasi Tagihan</h4>
-                </div>
-                <form action="{{ route('mitra.proses.editlaypel', $t->id_bayar) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="col-sm-12">
+        @if (Bayar::count() > 0)
+            <div class="modal fade" id="editlay" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Konfirmasi Tagihan</h4>
+                        </div>
+                        <form action="{{ route('mitra.proses.editlaypel', $t->id_bayar) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
                                 <div class="form-group">
-                                    <input type="hidden" name="ids" id="ids">
-                                    <input type="hidden" id="daysLateInput">
-                                    <div class="form-group">
-                                        <label for="id_laypel">ID Layanan Pelanggan</label>
-                                        <input type="text" class="form-control" id="id_laypel1" name="id_laypel1"
-                                            readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id_pelanggan">ID Pelanggan</label>
-                                        <input type="text" class="form-control" id="id_pelanggan1"
-                                            name="id_pelanggan1" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id_layanan">ID Layanan</label>
-                                        <select class="form-control" id="id_layanan1" name="id_layanan1">
-                                            <option value="">--Pilih Layanan--</option>
-                                            @foreach ($layanan as $l)
-                                                <option value="{{ $l->id_layanan }}" data-harga="{{ $l->harga }}">
-                                                    {{ $l->nama_lay }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="harga">Harga</label>
-                                        <input type="text" class="form-control" id="harga" name="harga"
-                                            readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="pajak">Pajak</label>
-                                        <select class="form-control" id="pajak1" name="pajak1">
-                                            <option value="1">Ya</option>
-                                            <option value="0">Tidak</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="subtotal">Total Pajak</label>
-                                        <input type="text" class="form-control" id="pajaknilai" name="pajaknilai"
-                                            readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="subtotal">Total</label>
-                                        <input type="text" class="form-control" id="subtotal" name="subtotal"
-                                            readonly>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <input type="hidden" name="ids" id="ids">
+                                            <input type="hidden" id="daysLateInput">
+                                            <div class="form-group">
+                                                <label for="id_laypel">ID Layanan Pelanggan</label>
+                                                <input type="text" class="form-control" id="id_laypel1"
+                                                    name="id_laypel1" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_pelanggan">ID Pelanggan</label>
+                                                <input type="text" class="form-control" id="id_pelanggan1"
+                                                    name="id_pelanggan1" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_layanan">ID Layanan</label>
+                                                <select class="form-control" id="id_layanan1" name="id_layanan1">
+                                                    <option value="">--Pilih Layanan--</option>
+                                                    @foreach ($layanan as $l)
+                                                        <option value="{{ $l->id_layanan }}"
+                                                            data-harga="{{ $l->harga }}">
+                                                            {{ $l->nama_lay }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="harga">Harga</label>
+                                                <input type="text" class="form-control" id="harga" name="harga"
+                                                    readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="pajak">Pajak</label>
+                                                <select class="form-control" id="pajak1" name="pajak1">
+                                                    <option value="1">Ya</option>
+                                                    <option value="0">Tidak</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="subtotal">Total Pajak</label>
+                                                <input type="text" class="form-control" id="pajaknilai"
+                                                    name="pajaknilai" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="subtotal">Total</label>
+                                                <input type="text" class="form-control" id="subtotal"
+                                                    name="subtotal" readonly>
+                                            </div>
+                                        </div>
+                                        <span id="taskError" class="alert-message"></span>
                                     </div>
                                 </div>
-                                <span id="taskError" class="alert-message"></span>
                             </div>
-                        </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary btn-user btn-block" id="tambah"
+                                    type="submit">Save</button>
+                                <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
-                        <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
+        @endif
+    @endif
 
     <!--JS Modal-->
     @push('page-script')
@@ -352,7 +367,7 @@
                             dropdownPajak.addEventListener('change', function() {
                                 //console.log('Harga berubah');
                                 var harga = parseInt(inputHarga.value);
-                                var pajak = parseFloat(nilaiPajak.value); 
+                                var pajak = parseFloat(nilaiPajak.value);
 
                                 var total = harga + pajak;
 

@@ -268,7 +268,7 @@
                                     $(rows)
                                         .eq(i)
                                         .before(
-                                            '<tr class="group"><td colspan="6">' +
+                                            '<tr class="group"><td colspan="7">' +
                                             group +
                                             '</td></tr>'
                                         );

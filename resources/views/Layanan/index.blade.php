@@ -1,5 +1,6 @@
 @extends('index')
 @section('content')
+    {{-- Tabel Pelanggan --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -14,22 +15,13 @@
                     </div>
                     @if (auth()->guard('mitra')->check())
                         <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
-                                <a href="{{ route('mitra.form.layanan') }}" data-target="#modal" data-toggle="modal"
-                                    class="tambah">
-                                    <i class="ti-plus"></i>
-                                </a>
+                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah"
+                                data-target="#modal" data-toggle="modal">
+                                <i class="ti-plus"></i>
                             </button>
                         </div>
                     @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Tabel Pelanggan --}}
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
+                </div><br>
                 <div class="table-responsive">
                     <table class="table table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;" id="datatable">
@@ -137,7 +129,7 @@
                                 <div class="form-group">
                                     <label for="nama">Nama Layanan</label>
                                     <input type="text" class="form-control" id="nama_lay" name="nama_lay"
-                                        placeholder="Nama Pelanggan">
+                                        placeholder="Nama Layanan">
                                 </div>
                                 <div class="form-group">
                                     <label for="bandwidth">Bandwidth</label>
@@ -207,7 +199,6 @@
                                             group +
                                             '</td></tr>'
                                         );
-
                                     last = group;
                                 }
                             });

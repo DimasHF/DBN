@@ -61,8 +61,14 @@ Route::prefix('admin')->group(function(){
     Route::get('/pinjaman/1/{id_pinjaman}', [App\Http\Controllers\PinjamanController::class, 'status'])->name('admin.status.pinjaman');
     Route::get('/pinjaman/kembali', [App\Http\Controllers\PinjamanController::class, 'list'])->name('admin.pinjaman.kembali');
 
+    Route::get('/tagihan', [App\Http\Controllers\TagihanController::class, 'index'])->name('admin.cetak.tagihan');
+    Route::get('/tagihan/cetak/{tgl_awal}/{tgl_akhir}', [App\Http\Controllers\TagihanController::class, 'cetak'])->name('admin.cetak.tagihan.proses');
+    Route::get('/tagihan/cetakperbulan', [App\Http\Controllers\TagihanController::class, 'viewcetakperbulan'])->name('admin.cetak.perbulan');
+    Route::get('/tagihan/cetakbulan/{tglAwal}', [App\Http\Controllers\TagihanController::class, 'cetakTagihan'])->name('admin.cetak.perbulan.proses');
+
     Route::get('/rekap/pinjaman', [App\Http\Controllers\RekapController::class, 'pinjaman'])->name('admin.rekap.pinjaman');
 
+    Route::get('/tagihan/cetak', [App\Http\Controllers\TagihanController::class, 'cetakindex'])->name('admin.cetak.tagihan.index');
 });
 
 Route::prefix('mitra')->group(function(){
@@ -122,7 +128,7 @@ Route::prefix('mitra')->group(function(){
     Route::get('/tagihan', [App\Http\Controllers\TagihanController::class, 'index'])->name('mitra.cetak.tagihan');
     Route::get('/tagihan/cetak/{tgl_awal}/{tgl_akhir}', [App\Http\Controllers\TagihanController::class, 'cetak'])->name('mitra.cetak.tagihan.proses');
     Route::get('/tagihan/cetakperbulan', [App\Http\Controllers\TagihanController::class, 'viewcetakperbulan'])->name('mitra.cetak.perbulan');
-    Route::get('/tagihan/cetakbulan/{tglAwal}/{tglAkhir}', [App\Http\Controllers\TagihanController::class, 'cetakTagihan'])->name('mitra.cetak.perbulan.proses');
+    Route::get('/tagihan/cetakbulan/{tglAwal}', [App\Http\Controllers\TagihanController::class, 'cetakTagihan'])->name('mitra.cetak.perbulan.proses');
     // Route::post('/tagihan/bayar/{id_laypel}', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.bayar');
     Route::post('/tagihan/bayar', [App\Http\Controllers\TagihanController::class, 'update'])->name('mitra.bayar.proses');
 
@@ -136,7 +142,7 @@ Route::prefix('mitra')->group(function(){
     Route::get('/rekap/detailtagpel/{id_tagihan}', [App\Http\Controllers\RekapController::class, 'detailtagpel'])->name('mitra.detailtagpel');
 
     Route::get('/rekap/view/export', [App\Http\Controllers\RekapController::class, 'viewtagpel'])->name('mitra.view.export');
-    route::get('/rekap/tagihan/export', [App\Http\Controllers\RekapController::class, 'export'])->name('mitra.export');
+    Route::get('/rekap/tagihan/export/{tgl_awal}/{tgl_akhir}', [App\Http\Controllers\RekapController::class, 'export'])->name('mitra.export');
 
     Route::get('/tagihan/cetak', [App\Http\Controllers\TagihanController::class, 'cetakindex'])->name('mitra.cetak.tagihan.index');
 });

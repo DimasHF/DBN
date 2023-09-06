@@ -1,5 +1,7 @@
 @extends('index')
 @section('content')
+
+    {{-- Tabel Pelanggan --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -9,16 +11,11 @@
                     </div>
                     <!--Button Modal-->
                     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" class="btn btn-primary" href="{{ route('admin.form.barang') }}">Tambahkan Barang</a>
+                        <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah">
+                            <a><i class="ti-plus"></i></a>
+                        </button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Tabel Pelanggan --}}
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
+                </div><br>
                 <div class="table-responsive">
                     <table class="table table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;" id="datatable">
@@ -71,11 +68,11 @@
                                     <td>
                                         <center>
                                             @if ($t->statusbar == 1)
-                                                <a href="/admin/statusbar/0/{{ $t->id_barang }}">
+                                                <a href="/admin/barang/0/{{ $t->id_barang }}">
                                                     <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
                                                 </a>
                                             @elseif ($t->statusbar == 0)
-                                                <a href="/admin/statusbar/1/{{ $t->id_barang }}"><span
+                                                <a href="/admin/barang/1/{{ $t->id_barang }}"><span
                                                         class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
                                             @endif
                                         </center>
@@ -101,8 +98,73 @@
         </div>
     </div>
 
+    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Konfirmasi Tagihan</h4>
+                </div>
+                <form class="forms-sample" method="post" action="{{ route('admin.tambah.barang') }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="id" id="id">
+                                    <input type="hidden" id="daysLateInput">
+                                    <div class="form-group">
+                                        <label for="nama">ID Barang</label>
+                                        <input type="text" class="form-control" id="id_barang" name="id_barang"
+                                            placeholder="Nama Barang" value="{{ 'B' . $kd }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nama">Nama Barang</label>
+                                        <input type="text" class="form-control" id="nama_bar" name="nama_bar"
+                                            placeholder="Nama Barang">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stok">Stok</label>
+                                        <input type="number" class="form-control" id="stok" name="stok"
+                                            placeholder="Stok Barang">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Foto</label>
+                                        <input type="file" name="foto" id="foto" class="file-upload-default"
+                                            accept=".jpg, .jpeg, .png">
+                                        <div class="input-group col-xs-12">
+                                            <input type="text" class="form-control file-upload-info" disabled
+                                                placeholder="Upload Foto">
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary"
+                                                    type="button">Upload</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="taskError" class="alert-message"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
+                        <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!--JS Modal-->
     @push('page-script')
+        <script>
+            $(document).ready(function() {
+                $('.tambah').on('click', function() {
+                    $('#tambah').modal('show');
+                });
+
+            });
+        </script>
         <script>
             $(document).ready(function() {
                 $('#datatable').DataTable();

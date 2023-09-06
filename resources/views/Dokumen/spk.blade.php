@@ -7,7 +7,7 @@
                 <form method="POST" action="/admin/spk/save">
                     @csrf
                     <textarea id="myTextarea" name="spk">
-                        {{ $spk->spk }}
+                        {{ $spk->spk }}   
                     </textarea>
                     <button type="submit" value="Save">Save</button>
                 </form>
