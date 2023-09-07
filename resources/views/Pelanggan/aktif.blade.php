@@ -1,8 +1,7 @@
 @extends('index')
 @section('content')
-
     @php
-    use App\Models\Bayar;
+        use App\Models\Bayar;
     @endphp
 
     <div class="col-md-12 grid-margin stretch-card">
@@ -60,12 +59,14 @@
                                 <th>
                                     <center>Tagihan</center>
                                 </th>
-                                <th>
-                                    <center>Aksi</center>
-                                </th>
-                                <th>
-                                    <center>Edit</center>
-                                </th>
+                                @if (auth()->guard('mitra')->check())
+                                    <th>
+                                        <center>Aksi</center>
+                                    </th>
+                                    <th>
+                                        <center>Edit</center>
+                                    </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -94,29 +95,37 @@
                                     </td>
                                     <td>
                                         <center>
+                                        @if (auth()->guard('admin')->check())
+                                            <a href="/admin/laypel/detail/{{ $t->id_laypel }}">
+                                        @elseif(auth()->guard('staff')->check())
+                                            <a href="/staff/laypel/detail/{{ $t->id_laypel }}">
+                                        @elseif(auth()->guard('mitra')->check())
                                             <a href="/mitra/laypel/detail/{{ $t->id_laypel }}">
+                                        @endif
                                                 <span class="btn btn-sm btn-primary btn-icon-text">Liat Tagihan</span>
                                             </a>
                                         </center>
                                     </td>
-                                    <td>
-                                        <center>
-                                            <a class="btn btn-sm btn-info btn-icon-text bayarmodal" data-toggle="modal"
-                                                value="{{ $t->id_laypel }}" data-target="#modal">
-                                                Bayar
-                                                <i class="ti-money btn-icon-append"></i>
-                                            </a>
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a class="btn btn-sm btn-info btn-icon-text editlay" data-toggle="modal"
-                                                value="{{ $t->id_bayar }}" data-target="#modal">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
-                                        </center>
-                                    </td>
+                                    @if (auth()->guard('mitra')->check())
+                                        <td>
+                                            <center>
+                                                <a class="btn btn-sm btn-info btn-icon-text bayarmodal" data-toggle="modal"
+                                                    value="{{ $t->id_laypel }}" data-target="#modal">
+                                                    Bayar
+                                                    <i class="ti-money btn-icon-append"></i>
+                                                </a>
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <a class="btn btn-sm btn-info btn-icon-text editlay" data-toggle="modal"
+                                                    value="{{ $t->id_bayar }}" data-target="#modal">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </a>
+                                            </center>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -185,7 +194,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
+                            <button class="btn btn-primary btn-user btn-block" id="tambah"
+                                type="submit">Save</button>
                             <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
                         </div>
                     </form>

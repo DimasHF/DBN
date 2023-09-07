@@ -47,12 +47,14 @@
                                 <th>
                                     <center>Harga</center>
                                 </th>
-                                <th>
-                                    <center>Status</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
+                                @if (auth()->guard('mitra')->check())
+                                    <th>
+                                        <center>Status</center>
+                                    </th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -81,27 +83,29 @@
                                     <td>
                                         <center>{{ $t->harga }}</center>
                                     </td>
-                                    <td>
-                                        <center>
-                                            @if ($t->statuslay == 1)
-                                                <a href="statuslay/0/{{ $t->id_layanan }}">
-                                                    <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
+                                    @if (auth()->guard('mitra')->check())
+                                        <td>
+                                            <center>
+                                                @if ($t->statuslay == 1)
+                                                    <a href="statuslay/0/{{ $t->id_layanan }}">
+                                                        <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
+                                                    </a>
+                                                @elseif ($t->statuslay == 0)
+                                                    <a href="statuslay/1/{{ $t->id_layanan }}"><span
+                                                            class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
+                                                @endif
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <a href="{{ route('mitra.edit.layanan', $t->id_layanan) }}"
+                                                    class="btn btn-sm btn-info btn-icon-text edit">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
                                                 </a>
-                                            @elseif ($t->statuslay == 0)
-                                                <a href="statuslay/1/{{ $t->id_layanan }}"><span
-                                                        class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
-                                            @endif
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ route('mitra.edit.layanan', $t->id_layanan) }}"
-                                                class="btn btn-sm btn-info btn-icon-text edit">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
-                                        </center>
-                                    </td>
+                                            </center>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -114,44 +118,46 @@
         </div>
     </div>
 
-    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Layanan</h4>
-                </div>
-                <form class="forms-sample" action="{{ route('mitra.tambah.layanan') }}" method="POST">
-                    <input type="hidden" name="ver" id="ver" value="0">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="nama">Nama Layanan</label>
-                                    <input type="text" class="form-control" id="nama_lay" name="nama_lay"
-                                        placeholder="Nama Layanan">
-                                </div>
-                                <div class="form-group">
-                                    <label for="bandwidth">Bandwidth</label>
-                                    <input type="text" class="form-control" id="bandwidth" name="bandwidth"
-                                        placeholder="Bandwidth">
-                                </div>
-                                <div class="form-group">
-                                    <label for="harga">Harga</label>
-                                    <input type="number" class="form-control" id="harga" name="harga"
-                                        placeholder="Harga">
-                                </div>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <input type="reset" class="btn btn-outline-secondary" value="Reset">&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+    @if (auth()->guard('mitra')->check())
+        <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Layanan</h4>
+                    </div>
+                    <form class="forms-sample" action="{{ route('mitra.tambah.layanan') }}" method="POST">
+                        <input type="hidden" name="ver" id="ver" value="0">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="nama">Nama Layanan</label>
+                                        <input type="text" class="form-control" id="nama_lay" name="nama_lay"
+                                            placeholder="Nama Layanan">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bandwidth">Bandwidth</label>
+                                        <input type="text" class="form-control" id="bandwidth" name="bandwidth"
+                                            placeholder="Bandwidth">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="harga">Harga</label>
+                                        <input type="number" class="form-control" id="harga" name="harga"
+                                            placeholder="Harga">
+                                    </div>
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <input type="reset" class="btn btn-outline-secondary" value="Reset">&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!--JS Modal-->
     @push('page-script')
@@ -195,7 +201,7 @@
                                     $(rows)
                                         .eq(i)
                                         .before(
-                                            '<tr class="group"><td colspan="6">' +
+                                            '<tr class="group"><td colspan="4">' +
                                             group +
                                             '</td></tr>'
                                         );

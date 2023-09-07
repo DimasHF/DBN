@@ -43,12 +43,14 @@
                                 <th>
                                     <center>Nama Pelanggan</center>
                                 </th>
-                                <th>
-                                    <center>Status</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
+                                @if (auth()->guard('mitra')->check())
+                                    <th>
+                                        <center>Status</center>
+                                    </th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
+                                @endif
                                 <th>
                                     <center>Detail</center>
                                 </th>
@@ -75,34 +77,41 @@
                                     <td>
                                         <center>{{ $t->nama_pel }}</center>
                                     </td>
-                                    <td>
-                                        <center>
-                                            @if ($t->statuspel == 1)
-                                                <a href="pelanggan/0/{{ $t->id_pelanggan }}">
-                                                    <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
+                                    @if (auth()->guard('mitra')->check())
+                                        <td>
+                                            <center>
+                                                @if ($t->statuspel == 1)
+                                                    <a href="pelanggan/0/{{ $t->id_pelanggan }}">
+                                                        <span class="btn btn-sm btn-success btn-icon-text">Unblock</span>
+                                                    </a>
+                                                @elseif ($t->statuspel == 0)
+                                                    <a href="pelanggan/1/{{ $t->id_pelanggan }}"><span
+                                                            class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
+                                                @endif
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <a href="{{ route('mitra.edit.pelanggan', $t->id_pelanggan) }}"
+                                                    class="btn btn-sm btn-info btn-icon-text edit">
+                                                    Edit
+                                                    <i class="ti-file btn-icon-append"></i>
                                                 </a>
-                                            @elseif ($t->statuspel == 0)
-                                                <a href="pelanggan/1/{{ $t->id_pelanggan }}"><span
-                                                        class="btn btn-sm btn-danger btn-icon-text">Block</span></a>
+                                            </center>
+                                        </td>
+                                    @endif
+                                    <td>
+                                        <center>
+                                            @if (auth()->guard('mitra')->check())
+                                                <a href="{{ route('mitra.detail.pelanggan', $t->id_pelanggan) }}" class="btn btn-sm btn-warning btn-icon-text">
+                                            @elseif (auth()->guard('admin')->check())
+                                                <a href="{{ route('admin.detail.pelanggan', $t->id_pelanggan) }}" class="btn btn-sm btn-warning btn-icon-text">
+                                            @elseif (auth()->guard('staff')->check())
+                                                <a href="{{ route('staff.detail.pelanggan', $t->id_pelanggan) }}" class="btn btn-sm btn-warning btn-icon-text">
                                             @endif
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ route('mitra.edit.pelanggan', $t->id_pelanggan) }}"
-                                                class="btn btn-sm btn-info btn-icon-text edit">
-                                                Edit
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
-                                        </center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a href="{{ route('mitra.detail.pelanggan', $t->id_pelanggan) }}"
-                                                class="btn btn-sm btn-warning btn-icon-text">
-                                                Detail
-                                                <i class="ti-file btn-icon-append"></i>
-                                            </a>
+                                                    Detail
+                                                    <i class="ti-file btn-icon-append"></i>
+                                                </a>
                                         </center>
                                     </td>
                                 </tr>
@@ -117,77 +126,80 @@
         </div>
     </div>
 
-    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Pelanggan</h4>
-                </div>
-                <form class="forms-sample" method="post" action="{{ route('mitra.tambah.pelanggan') }}"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="nama">Nama Pelanggan</label>
-                                    <input type="text" class="form-control" id="nama_pel" name="nama_pel"
-                                        placeholder="Nama Pelanggan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="alamat">Alamat Pelanggan</label>
-                                    <input type="text" class="form-control" id="alamat" name="alamat"
-                                        placeholder="Alamat Pelanggan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email Pelanggan</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Email Pelanggan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="no_telp">No. Telp</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">+62</span>
+    @if (auth()->guard('mitra')->check())
+        <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Pelanggan</h4>
+                    </div>
+                    <form class="forms-sample" method="post" action="{{ route('mitra.tambah.pelanggan') }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="nama">Nama Pelanggan</label>
+                                        <input type="text" class="form-control" id="nama_pel" name="nama_pel"
+                                            placeholder="Nama Pelanggan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="alamat">Alamat Pelanggan</label>
+                                        <input type="text" class="form-control" id="alamat" name="alamat"
+                                            placeholder="Alamat Pelanggan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Pelanggan</label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Email Pelanggan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="no_telp">No. Telp</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">+62</span>
+                                            </div>
+                                            <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp"
+                                                name="no_telp" placeholder="No. Telp" required>
                                         </div>
-                                        <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp"
-                                            name="no_telp" placeholder="No. Telp" required>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="npwp">NPWP Pelanggan</label>
-                                    <input type="text" class="form-control" id="npwp" name="npwp"
-                                        placeholder="NPWP Pelanggan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="nik">NIK Pelanggan</label>
-                                    <input type="text" pattern="[0-9]*" class="form-control" id="nik"
-                                        name="nik" placeholder="NIK Pelanggan" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Foto Pelanggan</label>
-                                    <input type="file" name="foto" id="foto" class="file-upload-default"
-                                        accept=".jpg, .jpeg, .png" required>
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled
-                                            id="imageInput" placeholder="Upload Foto">
-                                        <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-primary"
-                                                type="button">Upload</button>
-                                        </span>
+                                    <div class="form-group">
+                                        <label for="npwp">NPWP Pelanggan</label>
+                                        <input type="text" class="form-control" id="npwp" name="npwp"
+                                            placeholder="NPWP Pelanggan" required>
                                     </div>
-                                </div>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <input type="reset" class="btn btn-outline-secondary" value="Reset">&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <div class="form-group">
+                                        <label for="nik">NIK Pelanggan</label>
+                                        <input type="text" pattern="[0-9]*" class="form-control" id="nik"
+                                            name="nik" placeholder="NIK Pelanggan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Foto Pelanggan</label>
+                                        <input type="file" name="foto" id="foto" class="file-upload-default"
+                                            accept=".jpg, .jpeg, .png" required>
+                                        <div class="input-group col-xs-12">
+                                            <input type="text" class="form-control file-upload-info" disabled
+                                                id="imageInput" placeholder="Upload Foto">
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary"
+                                                    type="button">Upload</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <input type="reset" class="btn btn-outline-secondary"
+                                            value="Reset">&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!--JS Modal-->
     @push('page-script')
@@ -231,7 +243,7 @@
                                     $(rows)
                                         .eq(i)
                                         .before(
-                                            '<tr class="group"><td colspan="6">' +
+                                            '<tr class="group"><td colspan="4">' +
                                             group +
                                             '</td></tr>'
                                         );

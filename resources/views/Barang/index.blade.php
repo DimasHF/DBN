@@ -1,6 +1,5 @@
 @extends('index')
 @section('content')
-
     {{-- Tabel Pelanggan --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -11,8 +10,8 @@
                     </div>
                     <!--Button Modal-->
                     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah">
-                            <a><i class="ti-plus"></i></a>
+                        <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah" data-target="#tambah">
+                            <i class="ti-plus"></i>
                         </button>
                     </div>
                 </div><br>
@@ -39,7 +38,7 @@
                                 <th>
                                     <center>Status</center>
                                 </th>
-                                <th>
+                                <th width="300px">
                                     <center>Action</center>
                                 </th>
                             </tr>
@@ -79,6 +78,11 @@
                                     </td>
                                     <td>
                                         <center>
+                                            <button class="btn btn-sm btn-info btn-icon-text stok"
+                                                data-ids="{{ $t->id_barang }}" data-target="#stokModal">
+                                                Tambah Stok
+                                                <i class="ti-plus btn-icon-append"></i>
+                                            </button>
                                             <a href="{{ route('admin.edit.barang', $t->id_barang) }}"
                                                 class="btn btn-sm btn-info btn-icon-text edit">
                                                 Edit
@@ -155,6 +159,39 @@
         </div>
     </div>
 
+    <div class="modal fade" id="stokModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Stok</h4>
+                </div>
+                <form class="forms-sample" method="post" action="{{ route('admin.tambah.stok') }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="idbarang" id="idbarang" value="{{$t->id_barang}}">
+                                    <div class="form-group">
+                                        <label for="stok">Stok</label>
+                                        <input type="number" class="form-control" id="stokplus" name="stokplus"
+                                            placeholder="Stok Barang">
+                                    </div>
+                                </div>
+                                <span id="taskError" class="alert-message"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
+                        <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!--JS Modal-->
     @push('page-script')
         <script>
@@ -163,6 +200,16 @@
                     $('#tambah').modal('show');
                 });
 
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.stok').on('click', function() {
+                    var barangId = $(this).data('ids');
+                    $('#idbarang').val(barangId);
+                    $('#stokplus').val(''); // Kosongkan input stok
+                    $('#stokModal').modal('show');
+                });
             });
         </script>
         <script>

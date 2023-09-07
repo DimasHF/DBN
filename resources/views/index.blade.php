@@ -26,6 +26,88 @@
             color: black;
             /* Ganti dengan warna teks yang Anda inginkan */
         }
+
+        #preloader {
+            background: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 9999;
+            opacity: 1;
+        }
+
+        #loader {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #9370DB;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        #loader:before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #BA55D3;
+            -webkit-animation: spin 3s linear infinite;
+            animation: spin 3s linear infinite;
+        }
+
+        #loader:after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #FF00FF;
+            -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
     </style>
 
     @php
@@ -34,6 +116,9 @@
 </head>
 
 <body>
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
     <div class="container-scroller">
         <!-- Navbar -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -157,7 +242,8 @@
                                         <a class="nav-link">Tagihan Mitra</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{route('admin.cetak.tagihan')}}">Tagihan Pelanggan</a>
+                                        <a class="nav-link" href="{{ route('admin.cetak.tagihan') }}">Tagihan
+                                            Pelanggan</a>
                                     </li>
                                 </ul>
                             </div>
@@ -175,7 +261,8 @@
                                         <a class="nav-link">Tagihan Mitra</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.cetak.tagihan.index') }}">Tagihan Pelanggan</a>
+                                        <a class="nav-link" href="{{ route('admin.cetak.tagihan.index') }}">Tagihan
+                                            Pelanggan</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.rekap.pinjaman') }}">Peminjaman</a>
@@ -437,6 +524,16 @@
         if (exist) {
             alert(msg);
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sembunyikan preloader dan perlihatkan konten
+            var preloader = document.querySelector("#preloader");
+            preloader.style.display = "none";
+
+            // Ganti kelas body untuk mengubah latar belakang atau menyembunyikan konten
+            document.body.classList.remove("preloader-active");
+        });
     </script>
 
 </body>
