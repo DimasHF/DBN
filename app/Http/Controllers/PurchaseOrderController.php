@@ -77,7 +77,7 @@ class PurchaseOrderController extends Controller
 
         $po->save();
 
-        return redirect('/mitra')->with('alert', 'Purchase Order Berhasil Dikirim');
+        return redirect('/mitra')->with('success', 'Purchase Order Berhasil Dikirim');
     }
 
     //View Purchase Order Admin
@@ -120,7 +120,18 @@ class PurchaseOrderController extends Controller
             'spk' => $request->spk,
         ]);
 
-        return redirect('/admin/spk')->with('alert', 'SPK Berhasil Ditambahkan');
+        return redirect('/admin/spk')->with('success', 'SPK Berhasil Dirubah');
+    }
+
+    public function savenew(Request $request)
+    {
+
+        SPK::create([
+            'spk' => $request->spk,
+        ]);
+        //dd($request->all());
+
+        return redirect('/admin/spk')->with('success', 'SPK Berhasil Ditambahkan');
     }
 
     //SPK

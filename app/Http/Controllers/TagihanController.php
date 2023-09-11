@@ -235,9 +235,9 @@ class TagihanController extends Controller
 
             //dd($bayar, $bayarsta, $rekap);
 
-            return redirect()->back()->with('alert', 'Pembayaran Diterima');
+            return redirect()->back()->with('success', 'Pembayaran Diterima');
         } else {
-            return response()->json(['message' => 'Jumlah pembayaran tidak valid'], 422);
+            return response()->json(['error' => 'Jumlah pembayaran tidak valid'], 422);
         }
     }
 
@@ -259,7 +259,7 @@ class TagihanController extends Controller
             //dd($bayar);
         }
 
-        return redirect()->back()->with('alert', 'Data Berhasil Diubah');
+        return redirect()->back()->with('success', 'Data Berhasil Diubah');
     }
 
     public function updatetelat($id_bayar)
@@ -281,6 +281,6 @@ class TagihanController extends Controller
 
         }
 
-        return redirect()->back()->with('alert', 'Data Berhasil Diubah');
+        return redirect()->back()->with('success', 'Data Berhasil Diubah');
     }
 }

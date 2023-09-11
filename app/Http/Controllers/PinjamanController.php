@@ -94,7 +94,7 @@ class PinjamanController extends Controller
             $pinjam->save();
         }
 
-        return redirect()->back()->with('alert', 'Data Berhasil Ditambahkan');
+        return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
     }
 
     //View Pinjaman
@@ -125,7 +125,7 @@ class PinjamanController extends Controller
             $barang->save();
         }
 
-        return redirect()->back()->with('alert', 'Data Berhasil Diubah');
+        return redirect()->back()->with('success', 'Data Berhasil Diubah');
     }
     
     public function kembali()

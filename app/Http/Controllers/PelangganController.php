@@ -86,15 +86,6 @@ class PelangganController extends Controller
             $kd = "00001";
         }
 
-        // Get the uploaded image
-        $image = $request->file('foto');
-
-        // Generate a unique file name for the image
-        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-
-        // Move the uploaded image to the desired location
-        $image->move(('pelanggan'), $filename);
-
         $pel = new Pelanggan;
         $pel->id_pelanggan = ('PEL' . date('Y-m-d') . $kd);
         $pel->id_mitra = $mitra;
@@ -104,14 +95,25 @@ class PelangganController extends Controller
         $pel->email = $request->email;
         $pel->nik = $request->nik;
         $pel->npwp = $request->npwp;
-        $pel->foto = 'pelanggan/' . $filename;
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $maxSize = 2 * 1024; // 2 MB dalam kilobyte
+            if ($foto->getSize() > $maxSize) {
+                return redirect()->back()->with('error', 'Ukuran file foto terlalu besar. Maksimum 2 MB.');
+            }
+            $filename = time() . '_' . uniqid() . '.' . $foto->getClientOriginalExtension();
+            $foto->move(public_path('pelanggan'), $filename);
+            $pel->foto = $filename;
+        }
+
         $pel->statuspel = 1;
         $pel->save();
 
         //dd($pel);
 
         //View Alert
-        return redirect('/mitra/pelanggan')->with('alert', 'Pelanggan Baru Berhasil Ditambahkan');
+        return redirect('/mitra/pelanggan')->with('success', 'Pelanggan Baru Berhasil Ditambahkan');
     }
 
     //View Data Pelanggan Semua Mitra
@@ -156,8 +158,8 @@ class PelangganController extends Controller
     {
 
         $laypel = Bayar::join('laypels', 'laypels.id_laypel', '=', 'bayars.id_laypel')
-        ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
-        ->where('id_bayar', $id_bayar)->first();
+            ->join('layanans', 'laypels.id_layanan', '=', 'layanans.id_layanan')
+            ->where('id_bayar', $id_bayar)->first();
         return response()->json([
             'status' => 200,
             'laypel' => $laypel
@@ -176,7 +178,7 @@ class PelangganController extends Controller
             'npwp' => $request->npwp,
         ]);
 
-        return redirect('/mitra/pelanggan')->with('alert', 'Pelanggan Berhasil Diupdate');
+        return redirect('/mitra/pelanggan')->with('success', 'Pelanggan Berhasil Diupdate');
     }
 
     //Status Pelanggan
@@ -188,8 +190,11 @@ class PelangganController extends Controller
         //dd($model);
         if ($model->save()) {
 
-            $notice = ['alert' => 'Status Telah Diganti'];
+            $notice = ['success' => 'Status Telah Diganti'];
+        } else {
+            $notice = ['error' => 'Status Gagal Diganti'];
         }
+
         return redirect()->back()->with($notice);
     }
 }

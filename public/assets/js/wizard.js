@@ -1,53 +1,35 @@
-(function($) {
-  'use strict';
-  var form = $("#example-form");
-  form.children("div").steps({
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    onFinished: function(event, currentIndex) {
-      alert("Submitted!");
-    }
-  });
-  var validationForm = $("#example-validation-form");
-  validationForm.val({
-    errorPlacement: function errorPlacement(error, element) {
-      element.before(error);
-    },
-    rules: {
-      confirm: {
-        equalTo: "#password"
+$(document).ready(function () {
+  //Initialize tooltips
+  $('.nav-tabs > li a[title]').tooltip();
+  
+  //Wizard
+  $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+      var $target = $(e.target);
+  
+      if ($target.parent().hasClass('disabled')) {
+          return false;
       }
-    }
   });
-  validationForm.children("div").steps({
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    onStepChanging: function(event, currentIndex, newIndex) {
-      validationForm.val({
-        ignore: [":disabled", ":hidden"]
-      })
-      return validationForm.val();
-    },
-    onFinishing: function(event, currentIndex) {
-      validationForm.val({
-        ignore: [':disabled']
-      })
-      return validationForm.val();
-    },
-    onFinished: function(event, currentIndex) {
-      alert("Submitted!");
-    }
+
+  $(".next-step").click(function (e) {
+
+      var $active = $('.wizard .nav-tabs li.active');
+      $active.next().removeClass('disabled');
+      nextTab($active);
+
   });
-  var verticalForm = $("#example-vertical-wizard");
-  verticalForm.children("div").steps({
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    stepsOrientation: "vertical",
-    onFinished: function(event, currentIndex) {
-      alert("Submitted!");
-    }
+  $(".prev-step").click(function (e) {
+
+      var $active = $('.wizard .nav-tabs li.active');
+      prevTab($active);
+
   });
-})(jQuery);
+});
+
+function nextTab(elem) {
+  $(elem).next().find('a[data-toggle="tab"]').click();
+}
+function prevTab(elem) {
+  $(elem).prev().find('a[data-toggle="tab"]').click();
+}

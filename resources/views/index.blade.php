@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vertical-layout-light/dashboard.css') }}">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
 
+    @stack('page-style')
     <style>
         .btn-icon a:visited {
             text-decoration: none;
@@ -194,10 +195,13 @@
                             <div class="collapse" id="data_admin">
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.spk') }}">Data SPK</a>
+                                        <a class="nav-link" href="{{ route('admin.spk') }}">Data PO</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.spk') }}">Data BA</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.spk') }}">Data SPK</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.pelanggan') }}">Data Pelanggan</a>
@@ -285,6 +289,24 @@
                             </a>
                         </li>
                         @if (auth()->guard('mitra')->user()->statusmitra == 1)
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#order_bandwidth"
+                                    aria-expanded="false" aria-controls="order_bandwidth">
+                                    <i class="ti-dashboard menu-icon"></i>
+                                    <span class="menu-title">Bandwidth</span>
+                                    <i class="menu-arrow"></i>
+                                </a>
+                                <div class="collapse" id="order_bandwidth">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('mitra.order') }}">Order Baru</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{route('mitra.order.list')}}">List Order</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#purchase_order"
                                     aria-expanded="false" aria-controls="purchase_order">
@@ -408,15 +430,22 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('staff.pelanggan.aktif') }}">
+                                <i class="ti-world menu-icon"></i>
+                                <span class="menu-title">Layanan Pelanggan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#staff" aria-expanded="false"
                                 aria-controls="staff">
-                                <i class="icon-columns menu-icon"></i>
-                                <span class="menu-title">Data</span>
+                                <i class="ti-files menu-icon"></i>
+                                <span class="menu-title">Data Staff</span>
                                 <i class="menu-arrow"></i>
                             </a>
                             <div class="collapse" id="staff">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" href="/">List Pelanggan</a></li>
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('staff.pelanggan') }}">List Pelanggan</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="/">List Layanan</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="/">List Pinjaman</a></li>
                                 </ul>
@@ -432,7 +461,7 @@
                             <a class="nav-link" data-toggle="collapse" href="#laporan" aria-expanded="false"
                                 aria-controls="laporan">
                                 <i class="icon-paper menu-icon"></i>
-                                <span class="menu-title">Laporan</span>
+                                <span class="menu-title">Rekap</span>
                                 <i class="menu-arrow"></i>
                             </a>
                             <div class="collapse" id="laporan">
@@ -460,6 +489,31 @@
             <!-- Content -->
             <div class="main-panel">
                 <div class="content-wrapper">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if (session()->has('success'))
+                        <div class="col-md-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <div id="success" class="alert alert-success">
+                                {{ session('success') }} &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span> </button>
+                            </div>
+                        </div>
+                    @endif
+                    @if (session()->has('error'))
+                        <div class="col-md-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <div id="error" class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        </div>
+                    @endif
                     <div class="content">
                         @yield('content')
                     </div>
@@ -525,6 +579,7 @@
             alert(msg);
         }
     </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Sembunyikan preloader dan perlihatkan konten
@@ -534,6 +589,13 @@
             // Ganti kelas body untuk mengubah latar belakang atau menyembunyikan konten
             document.body.classList.remove("preloader-active");
         });
+    </script>
+
+    <script>
+        setTimeout(function() {
+            var successAlert = document.getElementById('success');
+            successAlert.style.display = 'none';
+        }, 5000); // Menyembunyikan pemberitahuan setelah 5 detik (5000 milidetik)
     </script>
 
 </body>

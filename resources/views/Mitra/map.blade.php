@@ -17,20 +17,36 @@
     </head>
 
     <body>
-        <div id="leafletMap-registration"></div>
-
-        <form>
-            <div class="form-group">
-                <label for="latitude">Latitude</label>
-                <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude">
+        <div class="col-md-12 stretch-card grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title">MAP</p>
+                    <div id="leafletMap-registration"></div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="longitude">Longitude</label>
-                <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude">
+        </div>
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Koordinat</h4>
+                    <form class="forms-sample" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" class="form-control" id="latitude" name="latitude"
+                                placeholder="Latitude">
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" class="form-control" id="longitude" name="longitude"
+                                placeholder="Longitude">
+                        </div>
+                    </form>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button id="kirim" type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
             </div>
-        </form>
-
-        <button id="kirim">Simpan Koordinat</button>
+        </div>
     </body>
 
     </html>
@@ -77,9 +93,10 @@
 
             konfirmasi.addEventListener('click', function() {
                 if (window.confirm('Apakah Anda ingin pindah ke halaman tujuan?')) {
-                    if(mitraId) {
-                    window.location.href = '/mitra/edit/' + mitraId + '?latitude=' + latitude + '&longitude=' +
-                        longitude;
+                    if (mitraId) {
+                        window.location.href = '/mitra/edit/' + mitraId + '?latitude=' + latitude +
+                            '&longitude=' +
+                            longitude;
                     } else {
                         return false;
                     }

@@ -29,13 +29,13 @@
                             <div class="brand-logo">
                                 <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
                             </div>
-                            <h4>New here?</h4>
+                            <h4>New Staff?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                            <form class="pt-3" action="{{route('staff.regstaff')}}" method="POST">
+                            <form class="pt-3" action="{{ route('staff.regstaff') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="nama"
-                                        id="nama" placeholder="nama">
+                                        id="nama" placeholder="Nama">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="username"
@@ -43,19 +43,24 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password"
-                                        id="password" placeholder="password">
+                                        id="password" placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email"
                                         placeholder="Email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="no_telp" class="form-control form-control-lg"
-                                        id="no_telp" placeholder="no_telp">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">+62</span>
+                                        </div>
+                                        <input type="tel" pattern="[0-9]*" class="form-control" id="no_telp"
+                                            name="no_telp" placeholder="No. Telp" required>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="alamat" class="form-control form-control-lg"
-                                        id="alamat" placeholder="alamat">
+                                    <input type="alamat" class="form-control form-control-lg" id="alamat" name="alamat"
+                                        placeholder="Alamat">
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">
@@ -66,10 +71,13 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN UP</button>
+                                    <button type="submit"
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN
+                                        UP</button>
                                 </div>
                                 <div class="text-center mt-4 font-weight-light">
-                                    Already have an account? <a href="{{route('staff.login')}}" class="text-primary">Login</a>
+                                    Already have an account? <a href="{{ route('staff.login') }}"
+                                        class="text-primary">Login</a>
                                 </div>
                             </form>
                         </div>

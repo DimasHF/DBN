@@ -103,15 +103,18 @@
                                     <td>
                                         <center>
                                             @if (auth()->guard('mitra')->check())
-                                                <a href="{{ route('mitra.detail.pelanggan', $t->id_pelanggan) }}" class="btn btn-sm btn-warning btn-icon-text">
-                                            @elseif (auth()->guard('admin')->check())
-                                                <a href="{{ route('admin.detail.pelanggan', $t->id_pelanggan) }}" class="btn btn-sm btn-warning btn-icon-text">
-                                            @elseif (auth()->guard('staff')->check())
-                                                <a href="{{ route('staff.detail.pelanggan', $t->id_pelanggan) }}" class="btn btn-sm btn-warning btn-icon-text">
+                                                <a href="{{ route('mitra.detail.pelanggan', $t->id_pelanggan) }}"
+                                                    class="btn btn-sm btn-warning btn-icon-text">
+                                                @elseif (auth()->guard('admin')->check())
+                                                    <a href="{{ route('admin.detail.pelanggan', $t->id_pelanggan) }}"
+                                                        class="btn btn-sm btn-warning btn-icon-text">
+                                                    @elseif (auth()->guard('staff')->check())
+                                                        <a href="{{ route('staff.detail.pelanggan', $t->id_pelanggan) }}"
+                                                            class="btn btn-sm btn-warning btn-icon-text">
                                             @endif
-                                                    Detail
-                                                    <i class="ti-file btn-icon-append"></i>
-                                                </a>
+                                            Detail
+                                            <i class="ti-file btn-icon-append"></i>
+                                            </a>
                                         </center>
                                     </td>
                                 </tr>
@@ -132,6 +135,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Tambah Pelanggan</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
                     </div>
                     <form class="forms-sample" method="post" action="{{ route('mitra.tambah.pelanggan') }}"
                         enctype="multipart/form-data">
@@ -177,7 +183,7 @@
                                     <div class="form-group">
                                         <label>Foto Pelanggan</label>
                                         <input type="file" name="foto" id="foto" class="file-upload-default"
-                                            accept=".jpg, .jpeg, .png" required>
+                                            accept=".jpg, .jpeg, .png">
                                         <div class="input-group col-xs-12">
                                             <input type="text" class="form-control file-upload-info" disabled
                                                 id="imageInput" placeholder="Upload Foto">

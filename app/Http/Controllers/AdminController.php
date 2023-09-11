@@ -89,7 +89,7 @@ class AdminController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/admin')->with('alert', 'Login Berhasil');
+            return redirect()->intended('/admin')->with('success', 'Login Berhasil');
         }
 
         return back()->with('alert', 'Login Gagal');
@@ -148,7 +148,7 @@ class AdminController extends Controller
 
         if ($model->save()) {
 
-            $notice = ['alert' => 'Status Telah Diganti'];
+            $notice = ['success' => 'Status Telah Diganti'];
         }
 
         return redirect()->back()->with($notice);
@@ -190,7 +190,7 @@ class AdminController extends Controller
 
         if ($model->save()) {
 
-            $notice = ['alert' => 'Status Telah Diganti'];
+            $notice = ['success' => 'Status Telah Diganti'];
         }
 
 

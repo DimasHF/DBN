@@ -93,7 +93,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">Koordinat</label>:
                                     <div class="col-sm-9">
-                                        {{ $mitra->latitude }}, {{ $mitra->longitude }}
+                                        {{ $mitra->latitude }}, {{ $mitra->longitude }} &nbsp;&nbsp;
+                                        <a class="btn btn-sm btn-primary" href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}" target="_blank">Lihat Lokasi</a>
                                     </div>
                                 </div>
                             </div>

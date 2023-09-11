@@ -78,13 +78,13 @@ class MitraController extends Controller
         $user = Mitra::where('username', $request->username)->first();
 
         if ($user && $user->status === 0) {
-            return back()->with('alert', 'Akun Anda dinonaktifkan. Silakan hubungi administrator.');
+            return back()->with('error', 'Akun Anda dinonaktifkan. Silakan hubungi administrator.');
         }
         
         if (Auth::guard('mitra')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/mitra')->with('alert', 'Login Berhasil');
+            return redirect()->intended('/mitra')->with('success', 'Login Berhasil');
         }
 
         return back()->with('alert', 'Login Gagal');
@@ -140,7 +140,7 @@ class MitraController extends Controller
 
         Mitra::where('id_mitra', $id_mitra)->update($data);
 
-        return redirect('/mitra/profil')->with('alert', 'Data Berhasil Diubah');
+        return redirect('/mitra/profil')->with('success', 'Data Berhasil Diubah');
     }
 
     //View SPK Mitra

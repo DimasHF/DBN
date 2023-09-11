@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('id_pinjaman');
             $table->string('id_barang');
             $table->integer('jumlah');
+            $table->string('harga');
+            $table->string('subtotal');
             $table->timestamps();
         });
     }

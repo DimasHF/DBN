@@ -56,7 +56,7 @@ class LayananController extends Controller
         $layanan->save();
 
         //View Alert
-        return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Ditambahkan');
+        return redirect()->route('mitra.layanan')->with('success', 'Layanan Berhasil Ditambahkan');
     }
 
     //View Edit
@@ -79,7 +79,7 @@ class LayananController extends Controller
         ]);
 
         //View Alert
-        return redirect()->route('mitra.layanan')->with('alert', 'Layanan Berhasil Diperbarui');
+        return redirect()->route('mitra.layanan')->with('success', 'Layanan Berhasil Diperbarui');
         // return response()->json(['success' => true, 'alert' => 'Data Tanaman Diubah'], 200);
 
     }
@@ -93,7 +93,7 @@ class LayananController extends Controller
         //dd($model);
         if ($model->save()) {
 
-            $notice = ['alert' => 'Status Telah Diganti'];
+            $notice = ['success' => 'Status Telah Diganti'];
         }
         return redirect()->back()->with($notice);
     }

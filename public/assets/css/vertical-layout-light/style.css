@@ -8827,6 +8827,24 @@ a:not([href]):not([class]):hover {
   text-decoration: none;
 }
 
+a.penting {
+  color: red;
+  text-decoration: none;
+  background-color: transparent;
+  position: relative;
+}
+
+a.penting:hover::after {
+  content: "Wajib";
+  display: block;
+  color: #0056b3;
+  font-size: 12px;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  text-decoration: underline;
+}
+
 pre,
 code,
 kbd,
@@ -10708,6 +10726,11 @@ textarea.tt-hint {
 
 .form-check-label {
   margin-bottom: 0;
+}
+
+.reset-form {
+  display: inline-flex;
+  align-items: center;
 }
 
 .form-check-inline {
@@ -14902,7 +14925,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 .close {
   float: right;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 1;
   color: #000;

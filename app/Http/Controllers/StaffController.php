@@ -22,34 +22,33 @@ class StaffController extends Controller
     //View Register Staff
     public function register()
     {
-        $autoId = DB::table('staffs')->select(DB::raw('MAX(RIGHT(id_staff,2)) as autoId'));
-        $kd = "";
-        if ($autoId->count() > 0) {
-            foreach ($autoId->get() as $a) {
-                $tmp = ((int)$a->autoId) + 1;
-                $kd = sprintf("%02s", $tmp);
-            }
-        } else {
-            $kd = "01";
-        }
-
-        return view('Staff.registrasi', ['kd' => $kd]);
+        return view('Staff.registrasi');
     }
 
     //Register Staff
     public function regstaff(Request $request)
     {
+        $autoId = DB::table('staff')->select(DB::raw('MAX(RIGHT(id_staff,2)) as autoId'));
+        $kd = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        } else {
+            $kd = "01";
+        }
+
         //Create Table
-        Staff::create([
-            'id_staff' => $request->id_staff,
-            'nama' => $request->nama,
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'alamat' => $request->alamat,
-            'no_telp' => $request->no_telp,
-            'statusstaff' => 1,
-        ]);
+        $staff = new Staff;
+        $staff->id_staff = ("ST" . $kd);
+        $staff->nama = $request->nama;
+        $staff->username = $request->username;
+        $staff->password = bcrypt($request->password);
+        $staff->email = $request->email;
+        $staff->no_telp = ("62" . $request->no_telp);
+        $staff->statusstaff = 0;
+        $staff->save();
 
         return redirect('/staff/login')->with('alert', 'Registrasi Berhasil');
     }
@@ -71,7 +70,7 @@ class StaffController extends Controller
         if (Auth::guard('staff')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->intended('/staff')->with('success', 'Login Berhasil');
         }
 
         return back()->with('alert', 'Login Gagal');

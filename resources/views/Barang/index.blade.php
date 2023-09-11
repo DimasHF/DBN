@@ -1,5 +1,8 @@
 @extends('index')
 @section('content')
+    @php
+        use App\Models\Barang;
+    @endphp
     {{-- Tabel Pelanggan --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -10,7 +13,8 @@
                     </div>
                     <!--Button Modal-->
                     <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah" data-target="#tambah">
+                        <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah"
+                            data-target="#tambah">
                             <i class="ti-plus"></i>
                         </button>
                     </div>
@@ -106,7 +110,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Konfirmasi Tagihan</h4>
+                    <h4 class="modal-title">Tambah Barang</h4>
                 </div>
                 <form class="forms-sample" method="post" action="{{ route('admin.tambah.barang') }}"
                     enctype="multipart/form-data">
@@ -158,39 +162,42 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="stokModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Stok</h4>
-                </div>
-                <form class="forms-sample" method="post" action="{{ route('admin.tambah.stok') }}"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="hidden" name="idbarang" id="idbarang" value="{{$t->id_barang}}">
+    @if (Barang::count() > 0)
+        <div class="modal fade" id="stokModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Stok</h4>
+                    </div>
+                    <form class="forms-sample" method="post" action="{{ route('admin.tambah.stok') }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label for="stok">Stok</label>
-                                        <input type="number" class="form-control" id="stokplus" name="stokplus"
-                                            placeholder="Stok Barang">
+                                        <input type="hidden" name="idbarang" id="idbarang"
+                                            value="{{ $t->id_barang }}">
+                                        <div class="form-group">
+                                            <label for="stok">Stok</label>
+                                            <input type="number" class="form-control" id="stokplus" name="stokplus"
+                                                placeholder="Stok Barang">
+                                        </div>
                                     </div>
+                                    <span id="taskError" class="alert-message"></span>
                                 </div>
-                                <span id="taskError" class="alert-message"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary btn-user btn-block" id="tambah" type="submit">Save</button>
-                        <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-user btn-block" id="tambah"
+                                type="submit">Save</button>
+                            <button class="btn btn-google btn-user btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!--JS Modal-->
     @push('page-script')

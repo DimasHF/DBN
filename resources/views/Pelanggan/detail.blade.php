@@ -86,7 +86,7 @@
                 <div class="card-body">
                     <p class="card-title">Foto Pelanggan</p>
                     <center>
-                        <img src="{{ asset($pelanggan->foto) }}" alt="image" style="max-width: 300px; max-heigth: 300px;"
+                        <img src="{{ asset('pelanggan/'.$pelanggan->foto) }}" alt="image" style="max-width: 300px; max-heigth: 300px;"
                             class="mx-auto">
                     </center>
                 </div>

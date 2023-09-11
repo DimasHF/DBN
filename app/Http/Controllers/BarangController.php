@@ -61,7 +61,7 @@ class BarangController extends Controller
         $barang->save();
 
         //View Alert
-        return redirect('/admin/barang')->with('alert', 'Barang Baru Berhasil Ditambahkan');
+        return redirect('/admin/barang')->with('success', 'Barang Baru Berhasil Ditambahkan');
     }
 
     public function show($id_barang)
@@ -91,7 +91,7 @@ class BarangController extends Controller
         Barang::where('id_barang', $request->id_barang)->update($data);
 
         //View Alert
-        return redirect('/admin/barang')->with('alert', 'Barang Berhasil Diperbarui');
+        return redirect('/admin/barang')->with('success', 'Barang Berhasil Diperbarui');
     }
 
     public function status($status, $id_barang)
@@ -102,7 +102,7 @@ class BarangController extends Controller
         //dd($model);
         if ($model->save()) {
 
-            $notice = ['alert' => 'Status Telah Diganti'];
+            $notice = ['success' => 'Status Telah Diganti'];
         }
         return redirect()->back()->with($notice);
     }
@@ -128,7 +128,7 @@ class BarangController extends Controller
             ]);
 
             //dd($barang);
-            return redirect()->back()->with('alert', 'Stok Berhasil Ditambahkan');
+            return redirect()->back()->with('success', 'Stok Berhasil Ditambahkan');
         } else {
             // Handle jika barang tidak ditemukan
             return redirect()->back()->with('error', 'Barang tidak ditemukan.');

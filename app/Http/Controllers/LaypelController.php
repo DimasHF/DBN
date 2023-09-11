@@ -159,7 +159,7 @@ class LaypelController extends Controller
 
             //dd($lay, $bayar, $transaksi);
             //View Alert
-            return redirect()->route('mitra.pelanggan.aktif')->with('alert', 'Layanan Berhasil Ditambahkan');
+            return redirect()->route('mitra.pelanggan.aktif')->with('success', 'Layanan Berhasil Ditambahkan');
         }
 
         return view('Laypel.index');
@@ -183,7 +183,7 @@ class LaypelController extends Controller
         $laypel->save();
 
         //View Alert
-        return redirect('/mitra/pelanggan/aktif')->with('alert', 'Layanan Berhasil Diubah');
+        return redirect('/mitra/pelanggan/aktif')->with('success', 'Layanan Berhasil Diubah');
     }
 
     //View Transaksi
