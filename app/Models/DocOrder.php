@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class DocOrder extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    protected $primaryKey = 'id_order';
-    public $incrementing = false;
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'id_order', 'id_order');
+    }
 }

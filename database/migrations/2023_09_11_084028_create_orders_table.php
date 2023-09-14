@@ -23,7 +23,10 @@ return new class extends Migration
             $table->string('harga')->nullable();
             $table->string('pajak')->nullable();
             $table->string('total')->nullable();
-            $table->string('statusorder')->nullable();
+            $table->tinyInteger('statusadmin')->nullable();
+            $table->tinyInteger('statusmitra')->nullable();
+            $table->string('terakhir')->nullable();
+            $table->tinyInteger('statusorder')->nullable();
             $table->timestamps();
         });
     }

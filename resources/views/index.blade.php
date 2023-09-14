@@ -174,9 +174,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.purchase') }}">
+                            <a class="nav-link" href="{{ route('admin.order.list') }}">
                                 <i class="ti-clipboard menu-icon"></i>
-                                <span class="menu-title">Purchase Order</span>
+                                <span class="menu-title">Daftar Order</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -195,7 +195,7 @@
                             <div class="collapse" id="data_admin">
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.spk') }}">Data PO</a>
+                                        <a class="nav-link" href="{{ route('admin.list.doc') }}">Data Order</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.spk') }}">Data BA</a>
@@ -288,139 +288,142 @@
                                 <span class="menu-title">Profil Mitra</span>
                             </a>
                         </li>
-                        @if (auth()->guard('mitra')->user()->statusmitra == 1)
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#order_bandwidth"
-                                    aria-expanded="false" aria-controls="order_bandwidth">
-                                    <i class="ti-dashboard menu-icon"></i>
-                                    <span class="menu-title">Bandwidth</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="order_bandwidth">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('mitra.order') }}">Order Baru</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{route('mitra.order.list')}}">List Order</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#purchase_order"
-                                    aria-expanded="false" aria-controls="purchase_order">
-                                    <i class="ti-clipboard menu-icon"></i>
-                                    <span class="menu-title">Purchase Order</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="purchase_order">
-                                    <ul class="nav flex-column sub-menu">
-                                        @if (
-                                            !PurchaseOrder::where('statuspo', 1)->where(
-                                                    'id_mitra',
-                                                    auth()->guard('mitra')->user()->id_mitra)->exists())
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="{{ route('mitra.po') }}">Kirim Dokumen</a>
-                                            </li>
-                                        @endif
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('mitra.spk') }}">SPK</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="">BA</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        @endif
-                        @if (PurchaseOrder::where('statuspo', 1)->where(
-                                    'id_mitra',
-                                    auth()->guard('mitra')->user()->id_mitra)->exists())
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
-                                    aria-controls="mitra">
-                                    <i class="ti-file menu-icon"></i>
-                                    <span class="menu-title">Data Mitra</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="mitra">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.pelanggan') }}">List Pelanggan</a>
-                                        </li>
-                                        <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.layanan') }}">List Layanan</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#layanan" aria-expanded="false"
-                                    aria-controls="layanan">
-                                    <i class="ti-desktop menu-icon"></i>
-                                    <span class="menu-title">Layanan Aktif</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="layanan">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.pelanggan.aktif') }}">Pelanggan Aktif</a>
-                                        </li>
-                                        <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.cetak.tagihan') }}">Cek Tagihan</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#peminjaman_barang"
-                                    aria-expanded="false" aria-controls="peminjaman_barang">
-                                    <i class="ti-package menu-icon"></i>
-                                    <span class="menu-title">Peminjaman Barang</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="peminjaman_barang">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.pinjaman') }}">Pinjam Barang</a>
-                                        </li>
-                                        <li class="nav-item"> <a class="nav-link"
-                                                href="{{ route('mitra.barang') }}">List Barang</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#mitrarekap" aria-expanded="false"
-                                    aria-controls="mitrarekap">
-                                    <i class="ti-receipt menu-icon"></i>
-                                    <span class="menu-title">Rekap Mitra</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="mitrarekap">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('mitra.transaksi') }}">Transaksi</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('mitra.rekap.tagihan') }}">Tagihan
-                                                Pelanggan</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                                href="{{ route('mitra.rekap.pinjaman') }}">Peminjaman</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('mitra.cetak.tagihan.index') }}">
-                                    <i class="ti-printer menu-icon"></i>
-                                    <span class="menu-title">Cetak Tagihan</span>
-                                </a>
-                            </li>
-                        @endif
+                        {{-- @if (auth()->guard('mitra')->user()->statusmitra == 1) --}}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#purchase_order" aria-expanded="false"
+                                aria-controls="purchase_order">
+                                <i class="ti-clipboard menu-icon"></i>
+                                <span class="menu-title">Purchase Order</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="purchase_order">
+                                <ul class="nav flex-column sub-menu">
+                                    {{-- @if (PurchaseOrder::where('statuspo', 1)->where(
+            'id_mitra',
+            auth()->guard('mitra')->user()->id_mitra,
+        )->exists()) --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.po') }}">Kirim Dokumen</a>
+                                    </li>
+                                    {{-- @endif --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.spk') }}">SPK</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="">BA</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#order_bandwidth" aria-expanded="false"
+                                aria-controls="order_bandwidth">
+                                <i class="ti-dashboard menu-icon"></i>
+                                <span class="menu-title">Bandwidth</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="order_bandwidth">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.order') }}">Order Baru</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.order.list') }}">List Order</a>
+                                    </li>
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('mitra.order.dokumen') }}">Upload Dokumen</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#pinjambarang" aria-expanded="false"
+                                aria-controls="pinjambarang">
+                                <i class="ti-package menu-icon"></i>
+                                <span class="menu-title">Barang</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="pinjambarang">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.barang') }}">Daftar Barang</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.pinjaman.list') }}">Order Barang</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        {{-- @endif --}}
+                        {{-- @if (PurchaseOrder::where('statuspo', 1)->where(
+            'id_mitra',
+            auth()->guard('mitra')->user()->id_mitra,
+        )->exists()) --}}
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#mitra" aria-expanded="false"
+                                aria-controls="mitra">
+                                <i class="ti-file menu-icon"></i>
+                                <span class="menu-title">Data Mitra</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="mitra">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('mitra.pelanggan') }}">List Pelanggan</a>
+                                    </li>
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('mitra.layanan') }}">List Layanan</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#layanan" aria-expanded="false"
+                                aria-controls="layanan">
+                                <i class="ti-desktop menu-icon"></i>
+                                <span class="menu-title">Layanan Aktif</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="layanan">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('mitra.pelanggan.aktif') }}">Pelanggan Aktif</a>
+                                    </li>
+                                    <li class="nav-item"> <a class="nav-link"
+                                            href="{{ route('mitra.cetak.tagihan') }}">Cek Tagihan</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#mitrarekap" aria-expanded="false"
+                                aria-controls="mitrarekap">
+                                <i class="ti-receipt menu-icon"></i>
+                                <span class="menu-title">Rekap Mitra</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="mitrarekap">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.transaksi') }}">Transaksi</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.rekap.tagihan') }}">Tagihan
+                                            Pelanggan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('mitra.rekap.pinjaman') }}">Peminjaman</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('mitra.cetak.tagihan.index') }}">
+                                <i class="ti-printer menu-icon"></i>
+                                <span class="menu-title">Cetak Tagihan</span>
+                            </a>
+                        </li>
+                        {{-- @endif --}}
                     @elseif(auth()->guard('staff')->check())
                         <li class="nav-header">Staff</li>
                         <li class="nav-item">
@@ -595,7 +598,11 @@
         setTimeout(function() {
             var successAlert = document.getElementById('success');
             successAlert.style.display = 'none';
-        }, 5000); // Menyembunyikan pemberitahuan setelah 5 detik (5000 milidetik)
+        }, 5000);
+        setTimeout(function() {
+            var successAlert = document.getElementById('error');
+            successAlert.style.display = 'none';
+        }, 5000);
     </script>
 
 </body>

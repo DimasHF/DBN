@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4 col-xl-8 mb-4 mb-xl-0">
+                    <div class="col-md-6 d-grid gap-2 d-md-flex">
                         @if (auth()->guard('admin')->check() ||
                                 auth()->guard('staff')->check())
                             <h3 class="font-weight-bold">List Pelanggan Semua Mitra</h3>
@@ -15,10 +15,14 @@
                     </div>
                     @if (auth()->guard('mitra')->check())
                         <!--Button Modal-->
-                        <div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-outline-primary btn-rounded btn-icon tambah"
                                 data-target="#modal" data-toggle="modal">
                                 <i class="ti-plus"></i>
+                            </button> &nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary btn-rounded btn-icon import"
+                                data-target="#modal" data-toggle="modal">
+                                <i class="ti-folder"></i>
                             </button>
                         </div>
                     @endif
@@ -148,7 +152,7 @@
                                     <div class="form-group">
                                         <label for="nama">Nama Pelanggan</label>
                                         <input type="text" class="form-control" id="nama_pel" name="nama_pel"
-                                            placeholder="Nama Pelanggan" required>
+                                            placeholder="Nama Pelanggan" value="{{old('nama_pel')}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="alamat">Alamat Pelanggan</label>
@@ -181,12 +185,53 @@
                                             name="nik" placeholder="NIK Pelanggan" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Foto Pelanggan</label>
+                                        <label>Foto Pelanggan (Maks 2 Mb)</label>
                                         <input type="file" name="foto" id="foto" class="file-upload-default"
                                             accept=".jpg, .jpeg, .png">
                                         <div class="input-group col-xs-12">
                                             <input type="text" class="form-control file-upload-info" disabled
                                                 id="imageInput" placeholder="Upload Foto">
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary"
+                                                    type="button">Upload</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <input type="reset" class="btn btn-outline-secondary"
+                                            value="Reset">&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="import" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Import Data Pelanggan</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <form class="forms-sample" method="post" action="{{ route('mitra.import.pelanggan') }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Import Pelanggan</label>
+                                        <input type="file" name="import" id="import" class="file-upload-default"
+                                            accept=".xlsx">
+                                        <div class="input-group col-xs-12">
+                                            <input type="text" class="form-control file-upload-info" disabled
+                                                id="imageInput" placeholder="Upload Excel">
                                             <span class="input-group-append">
                                                 <button class="file-upload-browse btn btn-primary"
                                                     type="button">Upload</button>
@@ -213,6 +258,14 @@
             $(document).ready(function() {
                 $('.tambah').on('click', function() {
                     $('#tambah').modal('show');
+                });
+
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.import').on('click', function() {
+                    $('#import').modal('show');
                 });
 
             });

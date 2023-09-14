@@ -1,12 +1,16 @@
 @extends('index')
 @section('content')
+    @push('page-style')
+        <link rel="stylesheet" href="{{ asset('assets/vendors/select2/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+    @endpush
     <!--Form Edit-->
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit Profil Mitra</h4>
                 <form class="forms-sample" method="post" action="{{ route('mitra.edit.proses', $mitra->id_mitra) }}"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" id="wilayah-form">
                     @csrf
                     <p class="card-description">
                         Informasi Mitra
@@ -63,7 +67,8 @@
                     </p>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>Longtitude<a class="penting">*</a><a href="/mitra/map/{{ $mitra->id_mitra }}"> Lihat Map</a></label>
+                            <label>Longtitude<a class="penting">*</a><a href="/mitra/map/{{ $mitra->id_mitra }}"> Lihat
+                                    Map</a></label>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="longitude" name="longitude"
                                     value="{{ isset($longitudeFromURL) ? $longitudeFromURL : $mitra->longitude }}"
@@ -81,52 +86,47 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="jalan">Jalan<a class="penting">*</a></label>
-                                <input type="text" class="form-control" id="jalan" name="jalan" placeholder="Jalan"
-                                    value="{{ $mitra->jalan }}" required>
+                                <label for="provinsi">Provinsi<a class="penting">*</a></label>
+                                <select id="provinsi" name="provinsi" class="form-control" required>
+                                    <option value="">Pilih Provinsi</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nomor">Nomor<a class="penting">*</a></label>
-                                <input type="text" class="form-control" id="nomor" name="nomor" placeholder="Nomor"
-                                    value="{{ $mitra->nomor }}" required>
+                                <label for="kota/kab">Kabupaten/Kota<a class="penting">*</a></label>
+                                <select id="kota/kab" name="kota/kab" class="form-control" required>
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="kecamatan">Kecamatan<a class="penting">*</a></label>
+                                <select id="kecamatan" name="kecamatan" class="form-control" required>
+                                    <option value="">Pilih Kecamatan</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="kelurahan">Kelurahan<a class="penting">*</a></label>
-                                <input type="text" class="form-control" id="kelurahan" name="kelurahan"
-                                    placeholder="Kelurahan" value="{{ $mitra->kelurahan }}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="kecamatan">kecamatan<a class="penting">*</a></label>
-                                <input type="text" class="form-control" id="kecamatan" name="kecamatan"
-                                    placeholder="Kecamatan" value="{{ $mitra->kecamatan }}" required>
+                                <select id="kelurahan" name="kelurahan" class="form-control" required>
+                                    <option value="">Pilih Kelurahan</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="kota">Kota<a class="penting">*</a></label>
-                                <input type="text" class="form-control" id="kota" name="kota"
-                                    placeholder="Kota" value="{{ $mitra->kota }}" required>
+                                <label for="jalan">Alamat<a class="penting">*</a></label>
+                                <input type="text" class="form-control" id="jalan" name="jalan"
+                                    placeholder="Jalan" value="{{ $mitra->jalan }}" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="provinsi">Provinsi<a class="penting">*</a></label>
-                                <input type="text" class="form-control" id="provinsi" name="provinsi"
-                                    placeholder="Provinsi" value="{{ $mitra->provinsi }}" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="kodepos">Kode Pos<a class="penting">*</a></label>
@@ -165,7 +165,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Logo Mitra<a class="penting">*</a></label>
+                                <label>Logo Mitra (Maks 3 Mb)<a class="penting">*</a></label>
                                 <input type="file" name="logo" id="logo" class="file-upload-default"
                                     accept=".jpg, .jpeg, .png">
                                 <div class="input-group col-xs-12">
@@ -207,6 +207,92 @@
                 document.getElementById("latitude").value = latitude || document.getElementById("latitude").value;
                 document.getElementById("longitude").value = longitude || document.getElementById("longitude").value;
             });
+        </script>
+
+        <script>
+            // Mendefinisikan elemen-elemen dropdown
+            const provinsiDropdown = document.getElementById('provinsi');
+            const kabupatenDropdown = document.getElementById('kota/kab');
+            const kecamatanDropdown = document.getElementById('kecamatan');
+            const kelurahanDropdown = document.getElementById('kelurahan');
+
+            // Kode JavaScript untuk mengisi dropdown provinsi
+            fetch(`https://mitsafata.github.io/api-wilayah-indonesia/api/provinces.json`)
+                .then(response => response.json())
+                .then(provinces => {
+                    provinsiDropdown.innerHTML = '<option value="">Pilih Provinsi</option>';
+                    provinces.forEach(provinsi => {
+                        provinsiDropdown.innerHTML += `<option data-dist="${provinsi.id}" value="${provinsi.name}">${provinsi.name}</option>`;
+                    });
+                });
+
+            // Event listener untuk mengisi dropdown kabupaten/kota saat provinsi dipilih
+            provinsiDropdown.addEventListener('change', function() {
+                const selectedProvinsiOption = provinsiDropdown.options[provinsiDropdown.selectedIndex];
+                const selectedProvinsiId = selectedProvinsiOption.getAttribute('data-dist');
+                console.log(selectedProvinsiId);
+                if (selectedProvinsiId !== '') {
+                    // Mengosongkan dropdown yang lebih rendah jika provinsi berubah
+                    kabupatenDropdown.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                    kecamatanDropdown.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                    kelurahanDropdown.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+
+                    // Mengambil data kabupaten/kota berdasarkan provinsi yang dipilih
+                    fetch(`https://mitsafata.github.io/api-wilayah-indonesia/api/regencies/${selectedProvinsiId}.json`)
+                        .then(response => response.json())
+                        .then(regencies => {
+                            kabupatenDropdown.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                            regencies.forEach(regency => {
+                                kabupatenDropdown.innerHTML +=
+                                    `<option data-dist="${regency.id}" value="${regency.name}">${regency.name}</option>`;
+                            });
+                        });
+                }
+            });
+
+            // Event listener untuk mengisi dropdown kecamatan saat kabupaten/kota dipilih
+            kabupatenDropdown.addEventListener('change', function() {
+                const selectedKabOption = kabupatenDropdown.options[kabupatenDropdown.selectedIndex];
+                const selectedKabupatenId = selectedKabOption.getAttribute('data-dist');
+                if (selectedKabupatenId !== '') {
+                    // Mengosongkan dropdown yang lebih rendah jika kabupaten/kota berubah
+                    kecamatanDropdown.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                    kelurahanDropdown.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+
+                    // Mengambil data kecamatan berdasarkan kabupaten/kota yang dipilih
+                    fetch(`https://mitsafata.github.io/api-wilayah-indonesia/api/districts/${selectedKabupatenId}.json`)
+                        .then(response => response.json())
+                        .then(districts => {
+                            kecamatanDropdown.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                            districts.forEach(district => {
+                                kecamatanDropdown.innerHTML +=
+                                    `<option data-dist="${district.id}" value="${district.name}">${district.name}</option>`;
+                            });
+                        });
+                }
+            });
+
+            // Event listener untuk mengisi dropdown kelurahan saat kecamatan dipilih
+            kecamatanDropdown.addEventListener('change', function() {
+                const selectedKecOption = kecamatanDropdown.options[kecamatanDropdown.selectedIndex];
+                const selectedKecamatanId = selectedKecOption.getAttribute('data-dist');
+                if (selectedKecamatanId !== '') {
+                    // Mengosongkan dropdown yang lebih rendah jika kecamatan berubah
+                    kelurahanDropdown.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+
+                    // Mengambil data kelurahan/desa berdasarkan kecamatan yang dipilih
+                    fetch(`https://mitsafata.github.io/api-wilayah-indonesia/api/villages/${selectedKecamatanId}.json`)
+                        .then(response => response.json())
+                        .then(villages => {
+                            kelurahanDropdown.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                            villages.forEach(village => {
+                                kelurahanDropdown.innerHTML +=
+                                    `<option data-dist="${village.id}" value="${village.name}">${village.name}</option>`;
+                            });
+                        });
+                }
+            });
+
         </script>
     @endpush
 @endsection

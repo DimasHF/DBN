@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PelangganImport;
 use App\Models\Bayar;
 use App\Models\Layanan;
 use App\Models\Laypel;
@@ -10,6 +11,7 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 use function Laravel\Prompts\alert;
 
@@ -98,7 +100,7 @@ class PelangganController extends Controller
 
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
-            $maxSize = 2 * 1024; // 2 MB dalam kilobyte
+            $maxSize = 2 * 1024 * 1024; // 2 MB dalam kilobyte
             if ($foto->getSize() > $maxSize) {
                 return redirect()->back()->with('error', 'Ukuran file foto terlalu besar. Maksimum 2 MB.');
             }
@@ -196,5 +198,20 @@ class PelangganController extends Controller
         }
 
         return redirect()->back()->with($notice);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import' => 'required|mimes:xlsx,csv',
+        ]);
+
+        try {
+            Excel::import(new PelangganImport(), $request->file('import'));
+
+            return redirect()->back()->with('success', 'Data pelanggan berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data pelanggan: ' . $e->getMessage());
+        }
     }
 }

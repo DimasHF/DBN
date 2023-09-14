@@ -16,8 +16,13 @@ return new class extends Migration
             $table->string('id_purchase_order')->unique();
             $table->string('id_mitra');
             $table->date('tanggal');
+            $table->string('form')->nullable();
             $table->string('spk')->nullable();
             $table->string('ba')->nullable();
+            $table->string('ktp')->nullable();
+            $table->string('npwp')->nullable();
+            $table->string('akta')->nullable();
+            $table->string('izp')->nullable();
             $table->tinyInteger('statuspo')->default(0)->nullable();
             $table->timestamps();
         });

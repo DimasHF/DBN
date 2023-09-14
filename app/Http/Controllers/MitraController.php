@@ -23,6 +23,32 @@ class MitraController extends Controller
         return view('Mitra.index', ['mitra' => $mitra, 'pelanggan' => $pelanggan, 'layanan' => $layanan]);
     }
 
+    public function test()
+    {
+
+        $bulanIni = Carbon::now();
+        $tanggalMendaftar = 5;
+        $total = 5000;
+        
+        if ($tanggalMendaftar == 1) {
+            $jumlahHariDalamBulanIni = $bulanIni->daysInMonth;
+            $perhari = $total / $jumlahHariDalamBulanIni;
+            $bayar = $total;
+        } else {
+
+            $tanggalSaatIni = $bulanIni->day;
+            $hariTerakhirDiBulanIni = $bulanIni->endOfMonth()->day;
+
+            $hariTersisa = $hariTerakhirDiBulanIni - $tanggalSaatIni + 1;
+
+            $perhari = $total / $hariTerakhirDiBulanIni;
+            $bayar = $perhari * $hariTersisa;
+        }
+
+        dump($perhari);
+        echo "Jumlah yang harus dibayar: " . $bayar;
+    }
+
     //View Register Mitra
     public function register()
     {
@@ -51,7 +77,7 @@ class MitraController extends Controller
         $mitra->username = $request->username;
         $mitra->password = bcrypt($request->password);
         $mitra->email = $request->email;
-        $mitra->no_telp = ("62".$request->no_telp);
+        $mitra->no_telp = ("62" . $request->no_telp);
         $mitra->statusmitra = 0;
         $mitra->save();
 
@@ -80,7 +106,7 @@ class MitraController extends Controller
         if ($user && $user->status === 0) {
             return back()->with('error', 'Akun Anda dinonaktifkan. Silakan hubungi administrator.');
         }
-        
+
         if (Auth::guard('mitra')->attempt($credentials)) {
             $request->session()->regenerate();
 
@@ -126,14 +152,14 @@ class MitraController extends Controller
         $data = $request->except(['_token', '_method']);
 
         if ($request->hasFile('logo')) {
-            // Get the uploaded image
             $logo = $request->file('logo');
-            // Generate a unique file name for the logo
+            $maxSize = 3 * 1024 * 1024;
+            if ($logo->getSize() > $maxSize) {
+                return redirect()->back()->with('error', 'Ukuran file foto terlalu besar. Maksimum 3 MB.');
+            }
             $filename = time() . '_' . uniqid() . '.' . $logo->getClientOriginalExtension();
-            // Move the uploaded logo to the desired location
             $logo->move(public_path('logo'), $filename);
             $data['logo'] = $filename;
-
         }
 
         $data['no_telp'] = '62' . $request->no_telp;
@@ -158,20 +184,20 @@ class MitraController extends Controller
             $today = Carbon::now();
 
             $day = $today->dayName;
-            $tanggal = $today->day; // Tanggal (hari)
-            $bulan = $today->monthName;   // Bulan
-            $tahun = $today->year;  // Tahun
-            $jamSekarang = $today->format('H:i:s'); // Jam
+            $tanggal = $today->day; 
+            $bulan = $today->monthName;   
+            $tahun = $today->year;  
+            $jamSekarang = $today->format('H:i:s'); 
             return view('Dokumen.spk', ['po' => $po, 'day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
         }
 
         $today = Carbon::now();
 
         $day = $today->dayName;
-        $tanggal = $today->day; // Tanggal (hari)
-        $bulan = $today->monthName;   // Bulan
-        $tahun = $today->year;  // Tahun
-        $jamSekarang = $today->format('H:i:s'); // Jam
+        $tanggal = $today->day; 
+        $bulan = $today->monthName;   
+        $tahun = $today->year;  
+        $jamSekarang = $today->format('H:i:s'); 
 
         return view('Dokumen.spk', ['day' => $day, 'tanggal' => $tanggal, 'bulan' => $bulan, 'tahun' => $tahun, 'jamSekarang' => $jamSekarang]);
     }

@@ -13,6 +13,8 @@ class DetailPinjam extends Model
         'id_pinjaman',
         'id_barang',
         'jumlah',
+        'harga',
+        'subtotal',
     ];
 
     public function pinjaman()

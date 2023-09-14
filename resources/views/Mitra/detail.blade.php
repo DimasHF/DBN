@@ -1,7 +1,9 @@
 @extends('index')
 @section('content')
+    @php
+        use App\Models\Mitra;
+    @endphp
     <!--Info Detail-->
-
     <div class="row">
         @if (auth()->guard('admin')->check())
             <div class="col-lg-12 grid-margin">
@@ -83,7 +85,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">Alamat</label>:
                                     <div class="col-sm-9">
-                                        {{ $mitra->alamat }}
+                                        @if (Mitra::whereNotNull('jalan')->where(
+                                                    'id_mitra',
+                                                    auth()->guard('mitra')->user()->id_mitra)->exists())
+                                            {{ $mitra->jalan }}, {{ $mitra->kelurahan }}, {{ $mitra->kecamatan }},
+                                            {{ $mitra->{'kota/kab'} }}, {{ $mitra->provinsi }}, {{ $mitra->kodepos }}
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -93,8 +100,14 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">Koordinat</label>:
                                     <div class="col-sm-9">
-                                        {{ $mitra->latitude }}, {{ $mitra->longitude }} &nbsp;&nbsp;
-                                        <a class="btn btn-sm btn-primary" href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}" target="_blank">Lihat Lokasi</a>
+                                        @if (Mitra::whereNotNull('latitude')->where(
+                                                    'id_mitra',
+                                                    auth()->guard('mitra')->user()->id_mitra)->exists())
+                                            {{ $mitra->latitude }}, {{ $mitra->longitude }} &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-primary"
+                                                href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
+                                                target="_blank">Lihat Lokasi</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -108,8 +121,15 @@
                 <div class="card-body">
                     <p class="card-title">Logo Mitra</p>
                     <center>
-                        <img src="{{ asset('logo/' . $mitra->logo) }}" alt="image"
-                            style="max-width: 600px; max-heigth: 600px;" class="mx-auto">
+                        @if (Mitra::whereNotNull('logo')->where(
+                                    'id_mitra',
+                                    auth()->guard('mitra')->user()->id_mitra)->exists())
+                            <img src="{{ asset('logo/' . $mitra->logo) }}" alt="image"
+                                style="width: 300px; heigth: 300px;" class="mx-auto">
+                        @else
+                            <img src="{{ asset('assets/images/profil.jpg') }}" alt="image"
+                                style="width: 600px; heigth: 600px;" class="mx-auto">
+                        @endif
                     </center>
                 </div>
             </div>

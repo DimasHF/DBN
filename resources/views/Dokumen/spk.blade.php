@@ -18,13 +18,13 @@
                         <div style="text-align: center; line-height: 1.5;"><strong>ANTARA </strong></div>
                         <div style="text-align: center; line-height: 1.5;">PT. DATA BUANA NUSANTARA&nbsp;<strong><br>&nbsp;<br></strong></div>
                         <div style="text-align: center; line-height: 1.5;"><strong>DENGAN</strong></div>
-                        <div style="text-align: center; line-height: 1.5;"></div>
+                        <div style="text-align: center; line-height: 1.5;">@{{ nama }}</div>
                         <div style="text-align: center; line-height: 1.5;">&nbsp;</div>
-                        <div style="line-height: 1.5; text-align: justify;">Pada Hari ini <strong></strong>, tanggal <strong> bulan </strong> tahun <strong> </strong>bertempat di Blitar, PARA PIHAK yang&nbsp;bertanda tangan dibawah ini :</div>
+                        <div style="line-height: 1.5; text-align: justify;">Pada Hari ini <strong>@{{ day }}, @{{ tanggal }} tanggal @{{ bulan }} bulan @{{ tahun }} tahun </strong>bertempat di Blitar, PARA PIHAK yang&nbsp;bertanda tangan dibawah ini :</div>
                         <div style="line-height: 1.5;">
                         <ol style="text-align: justify;">
                         <li style="text-align: justify; line-height: 1.5;"><strong>Muhamad Khotib</strong>, Direktur Utama dalam hal ini bertindak untuk dan atas nama PT. Data Buana Nusantara, yang berkedudukan di Ds Tawangrejo, Kecamatan Wonodadi, Kabupaten Blitar, Jawa Timur, untuk selanjutnya disebut sebagai <strong>PIHAK PERTAMA</strong></li>
-                        <li style="text-align: justify; line-height: 1.5;"><strong></strong> dalam hal ini bertindak untuk dan atas nama AHMAD SO&rsquo;EM, yang berkedudukan di Dsn. Kunci Rt.006 Rw.002 Pamongan Kecamatan Mojo Kab.Kediri, pribadi untuk selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong>.</li>
+                        <li style="text-align: justify; line-height: 1.5;"><strong>@{{ nama }}</strong> dalam hal ini bertindak untuk dan atas nama @{{ nama }}, yang berkedudukan di @{{ alamat }}, pribadi untuk selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong>.</li>
                         </ol>
                         </div>
                         <div style="text-align: justify; line-height: 1.5;">PARA PIHAK tetap bertindak sebagaimana tersebut di atas dengan ini menerangkan terlebih dahulu hal-hal sebagai berikut :</div>
@@ -204,7 +204,7 @@
                         </tr>
                         <tr style="height: 24px;">
                         <td style="border-width: 0px; height: 24px; text-align: center;"><strong>MUHAMAD KHOTIB</strong></td>
-                        <td style="border-width: 0px; height: 24px; text-align: center;"><strong>AHMAD SO'EM</strong></td>
+                        <td style="border-width: 0px; height: 24px; text-align: center;"><strong>@{{ nama }}</strong></td>
                         </tr>
                         </tbody>
                         </table>

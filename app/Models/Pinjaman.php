@@ -13,6 +13,8 @@ class Pinjaman extends Model
         'id_pinjaman',
         'id_mitra',
         'tanggal',
+        'tenggat',
+        'total',
         'statuspinj',
     ];
 

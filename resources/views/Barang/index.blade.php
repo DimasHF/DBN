@@ -137,6 +137,16 @@
                                             placeholder="Stok Barang">
                                     </div>
                                     <div class="form-group">
+                                        <label for="harga">Harga</label>
+                                        <input type="number" class="form-control" id="harga" name="harga"
+                                            placeholder="Harga Barang">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deskripsi">Deskripsi</label>
+                                        <textarea class="form-control" id="deskripsi" name="deskripsi"
+                                            placeholder="Deskripsi Barang"></textarea>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Foto</label>
                                         <input type="file" name="foto" id="foto" class="file-upload-default"
                                             accept=".jpg, .jpeg, .png">

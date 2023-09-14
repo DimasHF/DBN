@@ -49,6 +49,9 @@ class OrderController extends Controller
         $order->latitude = $request->latitude;
         $order->bandwidth = $request->bandwidth;
         $order->harga = $request->harga;
+        $order->statusadmin = 0;
+        $order->statusmitra = 1;
+        $order->terakhir = $mitra->id_mitra;
         $order->statusorder = 0;
         //dd($order);
         $order->save();
@@ -67,20 +70,66 @@ class OrderController extends Controller
 
     public function nego(Request $request, $id_order)
     {
+        if (Auth::guard('mitra')->check()) {
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+            Order::where('id_order', $id_order)->update([
+                'harga' => $request->harga,
+                'pajak' => $request->pajak,
+                'total' => $request->total,
+                'statusmitra' => 1,
+                'statusadmin' => 0,
+                'terakhir' => $mitra,
+            ]);
+            return redirect('/mitra/order/list')->with('success', 'Data Order Berhasil Diperbarui!');
+        } elseif (Auth::guard('admin')->check()) {
+            $admin = Auth::guard('admin')->user()->id_admin;
+            Order::where('id_order', $id_order)->update([
+                'harga' => $request->harga,
+                'pajak' => $request->pajak,
+                'total' => $request->total,
+                'statusmitra' => 0,
+                'statusadmin' => 1,
+                'terakhir' => $admin,
+            ]);
+            return redirect('/admin/order/list')->with('success', 'Data Order Berhasil Diperbarui!');
+        } else {
+            $staff = Auth::guard('staff')->user()->id_staff;
+            Order::where('id_order', $id_order)->update([
+                'harga' => $request->harga,
+                'pajak' => $request->pajak,
+                'total' => $request->total,
+                'statusmitra' => 0,
+                'statusadmin' => 1,
+                'terakhir' => $staff,
+            ]);
+            return redirect('/staff/order/list')->with('success', 'Data Order Berhasil Diperbarui!');
+        }
         //dd($request->all());
-        Order::where('id_order', $id_order)->update([
-            'harga' => $request->harga,
-            'pajak' => $request->pajak,
-            'total' => $request->total,
-        ]);
-        return redirect('/mitra/order/list')->with('success', 'Data Order Berhasil Diperbarui!');
     }
 
-    public function konfirmasi($id_order)
+    public function status($id_order)
+    {
+        if (Auth::guard('mitra')->check()) {
+            Order::where('id_order', $id_order)->update([
+                'statusmitra' => 2,
+            ]);
+
+            return redirect('/mitra/order/list')->with('success', 'Data Order Berhasil Dikonfirmasi!');
+        } else {
+            Order::where('id_order', $id_order)->update([
+                'statusadmin' => 2,
+            ]);
+
+            return redirect('/admin/order/list')->with('success', 'Data Order Berhasil Dikonfirmasi!');
+        }
+    }
+
+    public function cetak($id_order)
     {
         Order::where('id_order', $id_order)->update([
             'statusorder' => 1,
         ]);
+
         return redirect('/mitra/order/list')->with('success', 'Data Order Berhasil Dikonfirmasi!');
     }
 
@@ -101,5 +150,29 @@ class OrderController extends Controller
     {
         $order = Order::where('id_order', $id_order)->first();
         return view('Order.detail', ['order' => $order]);
+    }
+
+    public function konfirmasi($id_order)
+    {
+        $order = Order::find($id_order);
+
+        return response()->json([
+            'status' => 200,
+            'order' => $order
+        ]);
+    }
+
+    public function form()
+    {
+        return view('Dokumen.form');
+    }
+
+    public function dokumen()
+    {
+        $order = Order::where('id_mitra', Auth::guard('mitra')->user()->id_mitra)
+            ->where('statusorder', 1)
+            ->get();
+
+        return view('Order.send', ['order' => $order]);
     }
 }

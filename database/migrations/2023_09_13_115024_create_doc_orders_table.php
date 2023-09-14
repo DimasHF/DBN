@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pinjamen', function (Blueprint $table) {
+        Schema::create('doc_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('id_pinjaman');
-            $table->string('id_mitra');
-            $table->date('tanggal');
-            $table->date('tenggat');
-            $table->string('total');
-            $table->string('sisa');
-            $table->tinyInteger('statuspinj')->default(0)->nullable();
+            $table->string('id_order');
+            $table->string('form')->nullable();
+            $table->string('ktp')->nullable();
+            $table->string('npwp')->nullable();
+            $table->string('akta')->nullable();
+            $table->string('izp')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pinjamen');
+        Schema::dropIfExists('doc_orders');
     }
 };

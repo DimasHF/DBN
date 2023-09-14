@@ -13,21 +13,7 @@ class Mitra extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = [
-        'id_mitra',
-        'nama',
-        'username',
-        'password',
-        'email',
-        'no_telp',
-        'nik',
-        'npwp',
-        'alamat',
-        'longitude',
-        'latitude',
-        'logo',
-        'statusmitra',
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $primaryKey = 'id_mitra';
     public $incrementing = false;

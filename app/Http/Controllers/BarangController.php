@@ -56,6 +56,8 @@ class BarangController extends Controller
         $barang->id_barang = $request->id_barang;
         $barang->nama_bar = $request->nama_bar;
         $barang->stok = $request->stok;
+        $barang->harga = $request->harga;
+        $barang->deskripsi = $request->deskripsi;
         $barang->statusbar = 1;
         $barang->foto = 'barang/' . $filename;
         $barang->save();
@@ -75,11 +77,8 @@ class BarangController extends Controller
         $data = $request->except(['_token', '_method']);
 
         if ($request->hasFile('foto')) {
-            // Get the uploaded image
             $foto = $request->file('foto');
-            // Generate a unique file name for the foto
             $filename = time() . '_' . uniqid() . '.' . $foto->getClientOriginalExtension();
-            // Move the uploaded foto to the desired location
             $foto->move(public_path('foto'), $filename);
             $data['foto'] = $filename;
         }
@@ -133,5 +132,11 @@ class BarangController extends Controller
             // Handle jika barang tidak ditemukan
             return redirect()->back()->with('error', 'Barang tidak ditemukan.');
         }
+    }
+
+    public function detail($id_barang)
+    {
+        $barang = Barang::whereIdBarang($id_barang)->first();
+        return view('Barang.detail', ['barang' => $barang]);
     }
 }

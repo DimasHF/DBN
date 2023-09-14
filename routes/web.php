@@ -93,6 +93,27 @@ Route::prefix('admin')->group(function () {
     Route::prefix('rekap')->group(function () {
         Route::get('/pinjaman', [App\Http\Controllers\RekapController::class, 'pinjaman'])->name('admin.rekap.pinjaman');
     });
+
+    Route::prefix('download')->group(function () {
+        Route::get('/form/{id_order}', [App\Http\Controllers\DocOrderController::class, 'downloadform'])->name('admin.downloadform');
+        Route::get('/ktp/{id_order}', [App\Http\Controllers\DocOrderController::class, 'downloadktp'])->name('admin.downloadktp');
+        Route::get('/npwp/{id_order}', [App\Http\Controllers\DocOrderController::class, 'downloadnpwp'])->name('admin.downloadnpwp');
+        Route::get('/akta/{id_order}', [App\Http\Controllers\DocOrderController::class, 'downloadakta'])->name('admin.downloadakta');
+        Route::get('/izp/{id_order}', [App\Http\Controllers\DocOrderController::class, 'downloadizp'])->name('admin.downloadizp');
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::get('/list', [App\Http\Controllers\OrderController::class, 'list'])->name('admin.order.list');
+        Route::get('/nego/{id_order}', [App\Http\Controllers\OrderController::class, 'modal'])->name('admin.order.modal');
+        Route::post('/nego/{id_order}', [App\Http\Controllers\OrderController::class, 'nego'])->name('admin.order.nego');
+        Route::get('/confirm/{id_order}', [App\Http\Controllers\OrderController::class, 'konfirmasi'])->name('admin.order.confirm');
+        Route::post('/status/{id_order}', [App\Http\Controllers\OrderController::class, 'status'])->name('admin.order.status');
+        Route::get('/form', [App\Http\Controllers\OrderController::class, 'form'])->name('admin.order.form');
+        Route::get('/send', [App\Http\Controllers\OrderController::class, 'dokumen'])->name('admin.order.dokumen');
+        Route::post('/send', [App\Http\Controllers\DocOrderController::class, 'send'])->name('admin.send.doc');
+        Route::get('/listdoc', [App\Http\Controllers\DocOrderController::class, 'list'])->name('admin.list.doc');
+        Route::post('/cetak/{id_order}', [App\Http\Controllers\OrderController::class, 'cetak'])->name('admin.order.cetak');
+    });
 });
 
 Route::prefix('mitra')->group(function () {
@@ -110,6 +131,8 @@ Route::prefix('mitra')->group(function () {
     Route::get('/reset/{token}', [App\Http\Controllers\ResetController::class, 'resetmitraemail'])->name('mitra.reset.email');
     Route::post('/reset/{token}', [App\Http\Controllers\ResetController::class, 'resetmitraprosesemail'])->name('mitra.reset.email.proses');
 
+    Route::get('tes/bulan', [App\Http\Controllers\MitraController::class, 'test'])->name('mitra.tes.bulan');
+
     Route::prefix('pelanggan')->group(function () {
         Route::get('', [App\Http\Controllers\PelangganController::class, 'index'])->name('mitra.pelanggan');
         Route::get('/aktif', [App\Http\Controllers\PelangganController::class, 'aktif'])->name('mitra.pelanggan.aktif');
@@ -121,6 +144,7 @@ Route::prefix('mitra')->group(function () {
         Route::get('/{status}/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'status'])->name('mitra.status.pelanggan');
         Route::get('/{id_pelanggan}', [App\Http\Controllers\PelangganController::class, 'modal'])->name('mitra.modal.pelanggan');
         Route::post('/search', [App\Http\Controllers\LaypelController::class, 'pelanggan'])->name('mitra.search.pelanggan');
+        Route::post('/import', [App\Http\Controllers\PelangganController::class, 'import'])->name('mitra.import.pelanggan');
     });
 
     Route::prefix('laypel')->group(function () {
@@ -133,8 +157,14 @@ Route::prefix('mitra')->group(function () {
 
     Route::prefix('pinjaman')->group(function () {
         Route::get('/', [App\Http\Controllers\PinjamanController::class, 'index'])->name('mitra.pinjaman');
+        Route::get('/list', [App\Http\Controllers\PinjamanController::class, 'list'])->name('mitra.pinjaman.list');
         Route::post('/add', [App\Http\Controllers\PinjamanController::class, 'search'])->name('mitra.pinjam');
         Route::post('/barang', [App\Http\Controllers\PinjamanController::class, 'pinjam'])->name('mitra.pinjam.barang');
+        Route::get('/keranjang/{id_barang}', [App\Http\Controllers\PinjamanController::class, 'keranjang'])->name('mitra.keranjang');
+        Route::get('/batal/cart', [\App\Http\Controllers\PinjamanController::class, 'batal'])->name('mitra.batal.cart');
+        Route::get('/checkout', [App\Http\Controllers\PinjamanController::class, 'checkout'])->name('mitra.checkout');
+        Route::get('/bayar/{id_pinjaman}', [App\Http\Controllers\PinjamanController::class, 'modal'])->name('mitra.modal');
+        Route::post('/bayar', [App\Http\Controllers\PinjamanController::class, 'bayar'])->name('mitra.bayar');
     });
 
     Route::prefix('layanan')->group(function () {
@@ -151,13 +181,19 @@ Route::prefix('mitra')->group(function () {
         Route::get('/detail/{id_transaksi}', [App\Http\Controllers\LaypelController::class, 'detailtrans'])->name('mitra.detail.transaksi');
     });
 
-    Route::prefix('order')->group(function(){
+    Route::prefix('order')->group(function () {
         Route::get('/', [App\Http\Controllers\OrderController::class, 'index'])->name('mitra.order');
         Route::get('/map/{id_mitra}', [App\Http\Controllers\OrderController::class, 'map'])->name('mitra.map.order');
         Route::post('/save', [App\Http\Controllers\OrderController::class, 'store'])->name('mitra.order.save');
         Route::get('/list', [App\Http\Controllers\OrderController::class, 'list'])->name('mitra.order.list');
         Route::get('/nego/{id_order}', [App\Http\Controllers\OrderController::class, 'modal'])->name('mitra.order.modal');
         Route::post('/nego/{id_order}', [App\Http\Controllers\OrderController::class, 'nego'])->name('mitra.order.nego');
+        Route::get('/confirm/{id_order}', [App\Http\Controllers\OrderController::class, 'konfirmasi'])->name('mitra.order.confirm');
+        Route::post('/status/{id_order}', [App\Http\Controllers\OrderController::class, 'status'])->name('mitra.order.status');
+        Route::get('/form', [App\Http\Controllers\OrderController::class, 'form'])->name('mitra.order.form');
+        Route::get('/send', [App\Http\Controllers\OrderController::class, 'dokumen'])->name('mitra.order.dokumen');
+        Route::post('/send', [App\Http\Controllers\DocOrderController::class, 'send'])->name('mitra.send.doc');
+        Route::get('/listdoc', [App\Http\Controllers\DocOrderController::class, 'list'])->name('mitra.list.doc');
     });
 
     Route::prefix('tagihan')->group(function () {
@@ -167,7 +203,7 @@ Route::prefix('mitra')->group(function () {
         Route::get('/cetakbulan/{tglAwal}', [App\Http\Controllers\TagihanController::class, 'cetakTagihan'])->name('mitra.cetak.perbulan.proses');
         // Route::post('/bayar/{id_laypel}', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.bayar');
         Route::get('/bayar/{id_laypel}', [App\Http\Controllers\TagihanController::class, 'detail'])->name('mitra.bayar.detail');
-        Route::put('/bayar/', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.tagihan.bayar');
+        Route::put('/bayar', [App\Http\Controllers\TagihanController::class, 'bayar'])->name('mitra.tagihan.bayar');
         Route::get('/updatetanggal/{id_bayar}', [App\Http\Controllers\TagihanController::class, 'updatetanggal'])->name('mitra.tagihan.updatetanggal');
         Route::get('/updatetelat/{id_bayar}', [App\Http\Controllers\TagihanController::class, 'updatetelat'])->name('mitra.tagihan.updatetelat');
         Route::get('/cetak', [App\Http\Controllers\TagihanController::class, 'cetakindex'])->name('mitra.cetak.tagihan.index');
@@ -181,13 +217,16 @@ Route::prefix('mitra')->group(function () {
         Route::get('/tagihan/export/{tgl_awal}/{tgl_akhir}', [App\Http\Controllers\RekapController::class, 'export'])->name('mitra.export');
     });
 
+    Route::prefix('barang')->group(function () {
+        Route::get('/barang', [App\Http\Controllers\BarangController::class, 'daftar'])->name('mitra.barang');
+        Route::get('/barang/detail/{id_barang}', [App\Http\Controllers\BarangController::class, 'detail'])->name('mitra.barang.detail');
+    });
+
     Route::get('/po', [App\Http\Controllers\PurchaseOrderController::class, 'po'])->name('mitra.po');
     Route::post('/send/po', [App\Http\Controllers\PurchaseOrderController::class, 'proses'])->name('mitra.send.po');
-    Route::get('/barang', [App\Http\Controllers\BarangController::class, 'daftar'])->name('mitra.barang');
     Route::get('/statuslay/{status}/{id_layanan}', [App\Http\Controllers\LayananController::class, 'status'])->name('mitra.status.layanan');
     Route::get('/spk', [App\Http\Controllers\PurchaseOrderController::class, 'spk'])->name('mitra.spk');
     Route::get('/map/{id_mitra}', [App\Http\Controllers\MitraController::class, 'map'])->name('mitra.map');
-
 });
 
 Route::prefix('staff')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\DetailPinjam;
+use App\Models\Mitra;
 use App\Models\Pinjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,10 @@ class PinjamanController extends Controller
     public function index()
     {
         $pinjam = Pinjaman::all();
-        return view('Pinjaman.index', ['pinjam' => $pinjam]);
+
+        $mitra = Auth::guard('mitra')->user()->id_mitra;
+        $mitra = Mitra::where('id_mitra', $mitra)->first();
+        return view('Pinjaman.checkout', ['pinjam' => $pinjam, 'mitra' => $mitra]);
     }
 
     //Search Barang
@@ -100,8 +104,15 @@ class PinjamanController extends Controller
     //View Pinjaman
     public function list()
     {
-        $pinjaman = Pinjaman::where('statuspinj', 0)->get();
-        return view('Pinjaman.daftar', ['pinjaman' => $pinjaman]);
+        if (Auth::guard('mitra')->check()) {
+            $mitra = Auth::guard('mitra')->user()->id_mitra;
+            $pinjaman = Pinjaman::where('id_mitra', $mitra)->get();
+
+            return view('Pinjaman.daftar', ['pinjaman' => $pinjaman]);
+        } else {
+            $pinjaman = Pinjaman::all();
+            return view('Pinjaman.daftar', ['pinjaman' => $pinjaman]);
+        }
     }
 
     public function detail($id_pinjaman)
@@ -127,10 +138,116 @@ class PinjamanController extends Controller
 
         return redirect()->back()->with('success', 'Data Berhasil Diubah');
     }
-    
+
     public function kembali()
     {
         $pinjaman = Pinjaman::where('status', 1)->get();
         return view('Pinjaman.kembali', ['pinjaman' => $pinjaman]);
+    }
+
+    public function keranjang($id_barang)
+    {
+        $barang = Barang::findOrFail($id_barang);
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id_barang])) {
+            $cart[$id_barang]['jumlah']++;
+        } else {
+            $cart[$id_barang] = [
+                'id_barang' => $barang->id_barang,
+                'nama_bar' => $barang->nama_bar,
+                'harga' => $barang->harga,
+                'jumlah' => 1
+            ];
+        }
+
+        // dd($cart);
+        session()->put('cart', $cart);
+
+        return redirect()->back()->with('success', 'Berhasil Ditambahkan Ke Keranjang.');
+    }
+
+    public function batal()
+    {
+        session()->get('cart');
+
+        session()->forget("cart");
+        return redirect()->back()->with('error', 'Berhasil Membatalkan Pesanan');
+    }
+
+    public function checkout(Request $request)
+    {
+
+        //dd($request);
+        $mitra = Auth::guard('mitra')->user()->id_mitra;
+
+        //id
+        $autoId = DB::table('pinjamen')->select(DB::raw('MAX(RIGHT(id_pinjaman,2)) as autoId'));
+        $kds = "";
+        if ($autoId->count() > 0) {
+            foreach ($autoId->get() as $a) {
+                $tmp = ((int)$a->autoId) + 1;
+                $kds = sprintf("%02s", $tmp);
+            }
+        } else {
+            $kds = "01";
+        }
+
+        $cart = session()->get('cart');
+
+        foreach ($cart as $key => $value) {
+            $pesanan = DetailPinjam::create([
+                'id_pinjaman' => ("PS-" . date("dmy") . $kds),
+                'id_barang' => $value['id_barang'],
+                'harga' => $value['harga'],
+                'jumlah' => $value['jumlah'],
+                'subtotal' => $value['jumlah'] * $value['harga'],
+            ]);
+
+            $find = $value['id_barang'];
+            $barang = Barang::where('id_barang', $find)->first();
+            $jumlahin = ((float)($barang->stok)) - ((float)($pesanan->jumlah));
+            $barang->stok = $jumlahin;
+            $barang->save();
+        }
+
+        $pesanan = new Pinjaman();
+        $pesanan->id_pinjaman = ("PS-" . date("dmy") . $kds);
+        $pesanan->id_mitra = $mitra;
+        $pesanan->tanggal = date("Y-m-d");
+        $pesanan->tenggat = $request->tenggat;
+        $pesanan->total = $request->total;
+        $pesanan->sisa = $request->total;
+        $pesanan->statuspinj = 0;
+        // dd($pesanan);
+        $pesanan->save();
+
+        session()->forget("cart");
+        return redirect('/mitra')->with('success', 'Berhasil Melakukan Checkout');
+    }
+
+    public function modal($id_peminjaman)
+    {
+        $pinjam = Pinjaman::find($id_peminjaman);
+
+        return response()->json([
+            'status' => 200,
+            'pinjam' => $pinjam
+        ]);
+    }
+
+    public function bayar(Request $request)
+    {
+        //dd(request()->all());
+        $pinjam = Pinjaman::where('id_pinjaman', $request->id_pinjaman)->first();
+        $pinjam->sisa = $request->sisa - $request->bayarform;
+        $pinjam->save();
+
+        if($pinjam->sisa == 0){
+            $pinjam->statuspinj = 1;
+            $pinjam->save();
+        }
+
+        return redirect()->back()->with('success', 'Berhasil Melakukan Pembayaran');
     }
 }

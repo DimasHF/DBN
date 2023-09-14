@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('tagihan_mitras', function (Blueprint $table) {
             $table->id();
             $table->string('id_tagmit');
-            $table->string('id_mitra');
+            $table->string('id_order');
+            $table->date('tgl_tagihan')->nullable();
+            $table->date('tgl_bayar')->nullable();
             $table->string('bayar')->nullable();
             $table->string('sisa')->nullable();
             $table->string('total')->nullable();
