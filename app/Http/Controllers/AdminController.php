@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Mitra;
+use App\Models\Order;
 use App\Models\Pelanggan;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
@@ -118,8 +119,7 @@ class AdminController extends Controller
     {
         $model = Mitra::findOrFail($id_mitra);
         $model->statusmitra = $status;
-
-        //dd($model);
+        $model->save();
 
         $apikey = "c334dfca6ce6e04338dc0a34f833ab10dea42f87";
         $tujuan = $model->no_telp; //atau $tujuan="Group Chat Name";
@@ -146,20 +146,15 @@ class AdminController extends Controller
         curl_close($curl);
         echo $response;
 
-        if ($model->save()) {
-
-            $notice = ['success' => 'Status Telah Diganti'];
-        }
-
-        return redirect()->back()->with($notice);
+        return redirect()->back()->with('success', 'Status Telah Diganti');
     }
 
     //Konfirmasi Mitra
-    public function aktif($status, $id_purchase_order)
+    public function aktif($status, $id_order)
     {
-        $model = PurchaseOrder::findOrFail($id_purchase_order);
-        $model->statuspo = $status;
-
+        $model = Order::findOrFail($id_order);
+        $model->statusorder = $status;
+        $model->save();
         //$model->dd();
         $mitra = Mitra::where('id_mitra', $model->id_mitra)->first();
 
@@ -188,13 +183,7 @@ class AdminController extends Controller
         curl_close($curl);
         echo $response;
 
-        if ($model->save()) {
-
-            $notice = ['success' => 'Status Telah Diganti'];
-        }
-
-
-        return redirect()->back()->with($notice);
+        return redirect()->back()->with('success', 'Status Telah Diganti');
     }
 
     //View Data Detail Mitra

@@ -85,15 +85,15 @@
                                     </td>
                                     <td>
                                         <center>
-                                            @if ($t->statuspo == 0)
-                                                <form action="/api/mitra/aktif/1/{{ $t->id_order }}" method="POST">
+                                            @if ($t->statusorder == 1)
+                                                <form action="/api/mitra/aktif/2/{{ $t->id_order }}" method="POST">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-danger btn-icon-text">Setuju
                                                         <i class="ti-alert btn-icon-append"></i>
                                                     </button>
                                                 </form>
-                                            @elseif ($t->statuspo == 1)
-                                                <form action="/api/mitra/aktif/0/{{ $t->id_order }}" method="POST">
+                                            @elseif ($t->statusorder == 2)
+                                                <form action="/api/mitra/aktif/1/{{ $t->id_order }}" method="POST">
                                                     <button type="submit"
                                                         class="btn btn-sm btn-success btn-icon-text">Menjadi Mitra
                                                         <i class="ti-check btn-icon-append"></i>

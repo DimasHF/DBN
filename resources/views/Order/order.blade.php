@@ -31,6 +31,58 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="provinsi">Provinsi<a class="penting">*</a></label>
+                                <select id="provinsi" name="provinsi" class="form-control" required>
+                                    <option value="">Pilih Provinsi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="kota/kab">Kabupaten/Kota<a class="penting">*</a></label>
+                                <select id="kota/kab" name="kota/kab" class="form-control" required>
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="kecamatan">Kecamatan<a class="penting">*</a></label>
+                                <select id="kecamatan" name="kecamatan" class="form-control" required>
+                                    <option value="">Pilih Kecamatan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="kelurahan">Kelurahan<a class="penting">*</a></label>
+                                <select id="kelurahan" name="kelurahan" class="form-control" required>
+                                    <option value="">Pilih Kelurahan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="jalan">Alamat<a class="penting">*</a></label>
+                                <input type="text" class="form-control" id="jalan" name="jalan"
+                                    placeholder="Jalan" value="" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="kodepos">Kode Pos<a class="penting">*</a></label>
+                                <input type="number" class="form-control" id="kodepos" name="kodepos"
+                                    placeholder="Kode Pos" value=" " required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Alamat</label>
@@ -111,16 +163,6 @@
 
             });
         </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const latitude = urlParams.get('latitude');
-                const longitude = urlParams.get('longitude');
-
-                // Isi input field dengan nilai yang diterima
-                document.getElementById("latitude").value = latitude || document.getElementById("latitude").value;
-                document.getElementById("longitude").value = longitude || document.getElementById("longitude").value;
-            });
-        </script>
     @endpush
+    @include('API.alamat')
 @endsection

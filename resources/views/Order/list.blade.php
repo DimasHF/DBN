@@ -39,6 +39,12 @@
                                 <th>
                                     <center>Harga</center>
                                 </th>
+                                <th>
+                                    <center>Pajak</center>
+                                </th>
+                                <th>
+                                    <center>Total</center>
+                                </th>
                                 <th width="200px">
                                     <center>Status</center>
                                 </th>
@@ -77,8 +83,26 @@
                                         <center>{{ $t->bandwidth }}</center>
                                     </td>
                                     <td>
-                                        <center>{{ $t->harga }}</center>
+                                        <center>{{ number_format($t->harga, 0, ',', '.') }}</center>
                                     </td>
+                                    @if ($t->pajak == null)
+                                        <td>
+                                            <center>Belum Dikonfirmasi</center>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <center>{{ number_format($t->pajak, 0, ',', '.') }}</center>
+                                        </td>
+                                    @endif
+                                    @if ($t->total == null)
+                                        <td>
+                                            <center>Belum Dikonfirmasi</center>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <center>{{ number_format($t->total, 0, ',', '.') }}</center>
+                                        </td>
+                                    @endif
                                     <td>
                                         <center>
                                             @if ($t->statusorder == 2)
@@ -99,7 +123,12 @@
                                     @if (Auth::guard('mitra')->check())
                                         <td>
                                             <center>
-                                                @if ($t->statusmitra == 0 && $t->statusadmin == 1)
+                                                @if ($t->statusorder == 2)
+                                                    <span class="btn btn-sm btn-success btn-icon-text">
+                                                        Order Dikonfirmasi
+                                                        <i class="ti-check btn-icon-append"></i>
+                                                    </span>
+                                                @elseif ($t->statusmitra == 0 && $t->statusadmin == 1)
                                                     <a class="btn btn-sm btn-info btn-icon-text nego" data-toggle="modal"
                                                         value="{{ $t->id_order }}" data-target="#modal">
                                                         Nego Harga
@@ -137,7 +166,12 @@
                                     @else
                                         <td>
                                             <center>
-                                                @if ($t->statusmitra == 1 && $t->statusadmin == 0)
+                                                @if ($t->statusorder == 2)
+                                                    <span class="btn btn-sm btn-success btn-icon-text">
+                                                        Order Dikonfirmasi
+                                                        <i class="ti-check btn-icon-append"></i>
+                                                    </span>
+                                                @elseif ($t->statusmitra == 1 && $t->statusadmin == 0)
                                                     <a class="btn btn-sm btn-info btn-icon-text nego" data-toggle="modal"
                                                         value="{{ $t->id_order }}" data-target="#modal">
                                                         Nego Harga
@@ -201,6 +235,14 @@
                                                 Cetak Form Berlangganan
                                                 <i class="ti-file btn-icon-append"></i>
                                                 </a>
+                                            </center>
+                                        </td>
+                                    @elseif ($t->statusorder == 2)
+                                        <td>
+                                            <center>
+                                                <span class="btn btn-sm btn-success btn-icon-text">
+                                                    Telah Konfirmasi
+                                                </span>
                                             </center>
                                         </td>
                                     @elseif ($t->statusmitra == 2 || $t->statusadmin == 2)
@@ -412,7 +454,7 @@
                             var harga = parseFloat(response.order.harga);
                             var pajak = harga * 0.11;
                             var total = harga + pajak;
-                            //console.log(response);
+
                             $('#harga').val(harga);
                             $('#pajak').val(pajak);
                             $('#total').val(total);
@@ -422,13 +464,13 @@
                                 var pajak = harga * 0.11;
                                 var total = harga + pajak;
 
-                                var formattedHarga = harga.toLocaleString('id-ID');
-                                var formattedPajak = pajak.toLocaleString('id-ID');
-                                var formattedTotal = total.toLocaleString('id-ID');
+                                // var formattedHarga = harga.toLocaleString('id-ID');
+                                // var formattedPajak = pajak.toLocaleString('id-ID');
+                                // var formattedTotal = total.toLocaleString('id-ID');
 
                                 // Memperbarui nilai input pajak dan total
-                                $('#pajak').val(formattedPajak);
-                                $('#total').val(formattedTotal);
+                                $('#pajak').val(pajak);
+                                $('#total').val(total);
 
                             });
                         }
@@ -538,7 +580,7 @@
                                     $(rows)
                                         .eq(i)
                                         .before(
-                                            '<tr class="group"><td colspan="7">' +
+                                            '<tr class="group"><td colspan="9">' +
                                             group +
                                             '</td></tr>'
                                         );

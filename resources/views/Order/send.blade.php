@@ -21,8 +21,7 @@
                     <div class="form-group">
                         <label>Formulir Berlangganan<a type="button" class="hint" data-target="#modal"
                                 data-toggle="modal">(?)</a></label>
-                        <input type="file" name="form" id="form" class="file-upload-default" accept=".pdf"
-                            required>
+                        <input type="file" name="form" id="form" class="file-upload-default" accept=".pdf">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled
                                 placeholder="Upload Formulir Berlangganan">
@@ -33,8 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label>Fotokopi KTP Penanggung Jawab</label>
-                        <input type="file" name="ktp" id="ktp" class="file-upload-default" accept=".pdf"
-                            required>
+                        <input type="file" name="ktp" id="ktp" class="file-upload-default" accept=".pdf">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled
                                 placeholder="Upload Fotokopi KTP Penanggung Jawab">
@@ -45,8 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label>Fotokopi NPWP Perusahaan</label>
-                        <input type="file" name="npwp" id="npwp" class="file-upload-default" accept=".pdf"
-                            required>
+                        <input type="file" name="npwp" id="npwp" class="file-upload-default" accept=".pdf">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled
                                 placeholder="Upload Fotokopi NPWP Perusahaan">
@@ -57,8 +54,7 @@
                     </div>
                     <div class="form-group">
                         <label>Fotokopi Formulir Akta Pendirian Perusahaan</label>
-                        <input type="file" name="akta" id="akta" class="file-upload-default" accept=".pdf"
-                            required>
+                        <input type="file" name="akta" id="akta" class="file-upload-default" accept=".pdf">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled
                                 placeholder="Upload Fotokopi Formulir Akta Pendirian Perusahaan">
@@ -69,8 +65,7 @@
                     </div>
                     <div class="form-group">
                         <label>Fotokopi Surat Izin Pengelola Gedung</label>
-                        <input type="file" name="izp" id="izp" class="file-upload-default" accept=".pdf"
-                            required>
+                        <input type="file" name="izp" id="izp" class="file-upload-default" accept=".pdf">
                         <div class="input-group col-xs-12">
                             <input type="text" class="form-control file-upload-info" disabled
                                 placeholder="Upload Fotokopi Surat Izin Pengelola Gedung">

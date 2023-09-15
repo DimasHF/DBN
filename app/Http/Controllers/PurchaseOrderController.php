@@ -150,7 +150,7 @@ class PurchaseOrderController extends Controller
 
                 $spkText = $spk->spk;
                 $nama = $po->nama;
-                $alamat = $po->alamat;
+                $alamat = $po->jalan. ', ' .$po->kelurahan. ', ' .$po->kecamatan. ', ' .$po->{'kota/kab'}. ', ' .$po->provinsi;
                 //dd($nama);
 
                 $today = Carbon::now();
@@ -161,12 +161,12 @@ class PurchaseOrderController extends Controller
                 $tahun = $today->year;  // Tahun
                 $jamSekarang = $today->format('H:i:s'); // Jam
                 // Menggantikan placeholder dengan nilai yang sesuai
-                $spkText = str_replace('{{nama}}', $nama, $spkText);
-                $spkText = str_replace('{{alamat}}', $alamat, $spkText);
-                $spkText = str_replace('{{day}}', $day, $spkText);
-                $spkText = str_replace('{{tanggal}}', $tanggal, $spkText);
-                $spkText = str_replace('{{bulan}}', $bulan, $spkText);
-                $spkText = str_replace('{{tahun}}', $tahun, $spkText);
+                $spkText = str_replace('{{ nama }}', $nama, $spkText);
+                $spkText = str_replace('{{ alamat }}', $alamat, $spkText);
+                $spkText = str_replace('{{ day }}', $day, $spkText);
+                $spkText = str_replace('{{ tanggal }}', $tanggal, $spkText);
+                $spkText = str_replace('{{ bulan }}', $bulan, $spkText);
+                $spkText = str_replace('{{ tahun }}', $tahun, $spkText);
 
                 // Sekarang, simpan teks SPK yang sudah diperbarui ke dalam model SPK
                 $spk->spk = $spkText;

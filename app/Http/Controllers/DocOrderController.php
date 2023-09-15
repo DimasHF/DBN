@@ -6,6 +6,7 @@ use App\Models\DocOrder;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class DocOrderController extends Controller
 {
@@ -16,32 +17,42 @@ class DocOrderController extends Controller
         $data = $request->except(['_token', '_method']);
 
         $allowedFields = ['ktp', 'npwp', 'form', 'akta', 'izp'];
+        $isValid = true;
 
         foreach ($allowedFields as $fieldName) {
-            if ($request->hasFile($fieldName)) {
-                $file = $request->file($fieldName);
-                $maxSize = 5 * 1024 * 1024;
-
-                if ($file->getSize() > $maxSize) {
-                    return redirect()->back()->with('error', 'Ukuran file ' . $fieldName . ' terlalu besar. Maksimum 5 MB.');
-                }
-
-                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path($fieldName), $filename);
-                $data[$fieldName] = $filename;
+            if (!$request->hasFile($fieldName)) {
+                $isValid = false;
+                break;
             }
+            $file = $request->file($fieldName);
+            $maxSize = 5 * 1024 * 1024;
+
+            if ($file->getSize() > $maxSize) {
+                return redirect()->back()->with('error', 'Ukuran file ' . $fieldName . ' terlalu besar. Maksimum 5 MB.');
+            }
+
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path($fieldName), $filename);
+            $data[$fieldName] = $filename;
         }
 
-        DocOrder::create($data);
+        if (!$isValid) {
+            return redirect()->back()->with('error', 'Semua Dokumen Harus Ada.');
+        }
 
-        return redirect()->back()->with('success', 'Dokumen Berhasil Diunggah. Silahkan Tunggu Konfirmasi Lebih Lanjut');
+        if (DocOrder::create($data)) {
+
+            return redirect()->back()->with('success', 'Dokumen Berhasil Diunggah. Silahkan Tunggu Konfirmasi Lebih Lanjut');
+        } else {
+            return redirect()->back()->with('error', 'Dokumen Gagal Diunggah. Silahkan Coba Lagi');
+        }
     }
 
     public function list()
     {
         $doc = DocOrder::join('orders', 'doc_orders.id_order', '=', 'orders.id_order')
             ->join('mitras', 'orders.id_mitra', '=', 'mitras.id_mitra')
-            ->select('doc_orders.*', 'mitras.nama', 'orders.id_order')
+            ->select('doc_orders.*', 'mitras.nama', 'orders.id_order', 'orders.statusorder')
             ->get();
 
         return view('Order.docorder', ['doc' => $doc]);

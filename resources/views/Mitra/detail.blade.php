@@ -85,11 +85,18 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">Alamat</label>:
                                     <div class="col-sm-9">
-                                        @if (Mitra::whereNotNull('jalan')->where(
-                                                    'id_mitra',
-                                                    auth()->guard('mitra')->user()->id_mitra)->exists())
-                                            {{ $mitra->jalan }}, {{ $mitra->kelurahan }}, {{ $mitra->kecamatan }},
-                                            {{ $mitra->{'kota/kab'} }}, {{ $mitra->provinsi }}, {{ $mitra->kodepos }}
+                                        @if (Auth::guard('mitra')->check())
+                                            @if (Mitra::whereNotNull('jalan')->where(
+                                                        'id_mitra',
+                                                        auth()->guard('mitra')->user()->id_mitra)->exists())
+                                                {{ $mitra->jalan }}, {{ $mitra->kelurahan }}, {{ $mitra->kecamatan }},
+                                                {{ $mitra->{'kota/kab'} }}, {{ $mitra->provinsi }}, {{ $mitra->kodepos }}
+                                            @endif
+                                        @else
+                                            @if (Mitra::whereNotNull('jalan')->where('id_mitra', $mitra->id_mitra)->exists())
+                                                {{ $mitra->jalan }}, {{ $mitra->kelurahan }}, {{ $mitra->kecamatan }},
+                                                {{ $mitra->{'kota/kab'} }}, {{ $mitra->provinsi }}, {{ $mitra->kodepos }}
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -100,13 +107,22 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2">Koordinat</label>:
                                     <div class="col-sm-9">
-                                        @if (Mitra::whereNotNull('latitude')->where(
-                                                    'id_mitra',
-                                                    auth()->guard('mitra')->user()->id_mitra)->exists())
-                                            {{ $mitra->latitude }}, {{ $mitra->longitude }} &nbsp;&nbsp;
-                                            <a class="btn btn-sm btn-primary"
-                                                href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
-                                                target="_blank">Lihat Lokasi</a>
+                                        @if (Auth::guard('mitra')->check())
+                                            @if (Mitra::whereNotNull('latitude')->where(
+                                                        'id_mitra',
+                                                        auth()->guard('mitra')->user()->id_mitra)->exists())
+                                                {{ $mitra->latitude }}, {{ $mitra->longitude }} &nbsp;&nbsp;
+                                                <a class="btn btn-sm btn-primary"
+                                                    href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
+                                                    target="_blank">Lihat Lokasi</a>
+                                            @endif
+                                        @else
+                                            @if (Mitra::whereNotNull('latitude')->where('id_mitra', $mitra->id_mitra)->exists())
+                                                {{ $mitra->latitude }}, {{ $mitra->longitude }} &nbsp;&nbsp;
+                                                <a class="btn btn-sm btn-primary"
+                                                    href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
+                                                    target="_blank">Lihat Lokasi</a>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -121,14 +137,26 @@
                 <div class="card-body">
                     <p class="card-title">Logo Mitra</p>
                     <center>
-                        @if (Mitra::whereNotNull('logo')->where(
-                                    'id_mitra',
-                                    auth()->guard('mitra')->user()->id_mitra)->exists())
-                            <img src="{{ asset('logo/' . $mitra->logo) }}" alt="image"
-                                style="width: 300px; heigth: 300px;" class="mx-auto">
+                        @if (Auth::guard('mitra')->check())
+                            @if (Mitra::whereNotNull('logo')->where(
+                                        'id_mitra',
+                                        auth()->guard('mitra')->user()->id_mitra)->exists())
+                                <img src="{{ asset('logo/' . $mitra->logo) }}" alt="image"
+                                    style="width: 300px; heigth: 300px;" class="mx-auto">
+                            @else
+                                <img src="{{ asset('assets/images/profil.jpg') }}" alt="image"
+                                    style="width: 300px; heigth: 300px;" class="mx-auto">
+                            @endif
                         @else
-                            <img src="{{ asset('assets/images/profil.jpg') }}" alt="image"
-                                style="width: 600px; heigth: 600px;" class="mx-auto">
+                            @if (Mitra::whereNotNull('logo')->where(
+                                        'id_mitra',
+                                        $mitra->id_mitra)->exists())
+                                <img src="{{ asset('logo/' . $mitra->logo) }}" alt="image"
+                                    style="width: 300px; heigth: 300px;" class="mx-auto">
+                            @else
+                                <img src="{{ asset('assets/images/profil.jpg') }}" alt="image"
+                                    style="width: 300px; heigth: 300px;" class="mx-auto">
+                            @endif
                         @endif
                     </center>
                 </div>
